@@ -70,7 +70,7 @@ function initialiseUI() {
       subscribeUser();
     }
   });
-  
+
 
   // Set the initial subscription value
   swRegistration.pushManager.getSubscription()
