@@ -17,11 +17,15 @@
   <meta name="apple-mobile-web-app-title" content="PWA Push Test App">
   <link rel="apple-touch-icon" href="images/152x.png">
 </head>
-
+<script>
+  var test = dete.now();
+  document.querySelector('.test').innerHTML(test);
+</script>
 <body>
 
   <header>
     <h1>Push Codelab</h1>
+    <span class='date'></span>
   </header>
 
   <main>
