@@ -21,6 +21,11 @@
 
 'use strict';
 
+// CODELAB: Update cache names any time any of the cached files change.
+const CACHE_NAME = 'static-cache-v2';
+const DATA_CACHE_NAME = 'data-cache-v1';
+
+
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
     console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
