@@ -26,11 +26,12 @@
 - 모바일 환경 전부, 피시 크롬 (https://caniuse.com/#search=serviceworker)
 
 
-## push api
+## push api 
 - 사파리 모바일/피시 안됨, 삼성 브라우저 됨 (https://caniuse.com/#search=push) *테스트 완료*
 
+
 ## notification api
-- 사파리 모바일 /삼성브라우저 안됨 (https://caniuse.com/#search=notification)
+- 사파리 모바일 /삼성브라우저 안됨 (https://caniuse.com/#search=notification) *테스트 완료*
 - push api 에 대한 notification은 삼성브라우저에서 됨
 
 ## cache api

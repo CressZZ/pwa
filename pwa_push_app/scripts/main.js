@@ -60,7 +60,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
   console.warn('Push messaging is not supported');
 
   // pushButton.textContent ='serviceWorker' in navigator && 'Push Not Supported!' || 'service worker Not Supported!';
-  pushButton.textContent = 'Notification' in window && 'Notification Supported' || 'Notification not supported';
+  pushButton.textContent = 'cache' in window && 'cache Supported' || 'cache not supported';
 
 }
 
