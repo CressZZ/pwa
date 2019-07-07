@@ -3,6 +3,48 @@
 - `beforeinstallprompt` : 앱 설치 조건이 만족 되면 (https://developers.google.com/web/fundamentals/app-install-banners/?hl=ko#criteria) `beforeinstallprompt` 이벤트 실행
 - `BeforeInstallPromptEvent.prompt()` : 앱을 설치 할건지 묻는 함수
 
+# Push & Notification 작동 원리 (프로레시브 웹 앱의 모든것 p.271)
+## Permission for Push Notifications
+## Subscriptions
+- push 등록은 각 `device` 와 `browser`별로 등록된다. 즉 같은 device의 다른 browser라면 다른 사용자로 인식한다. 
+- 기존에 등록된 `subscript`이 없다면 새로운 `subscrition`을 생성해야 하며, 이 `subscription`은 `backend server`로 전달 되어야 한다. 
+## Push server
+- Push notification은 별도의 external server(browsr vendor에서 제공하는 push server)를 필요로 한다. 
+- push마다 어떤 message를 app(아마도 web page)에 전달하기 위해서는 browser의 도움이 필요로 한다. 
+- 우리의 aPP(아마도 web page) 자체로는 message를 수신 할수 없기 때문이다. 
+- (web socket을 만들수도 있지만, 우리 app이 항상 오픈 되어 있어야 작동하기 때문에 적합하지 않다.)
+- Browser vendor(공급자)는 자사의 browser로 어떤 app을 이요하는 사용자에게 push를 발송하기 위한 'Push server'를 제공한다. 
+- Google, Mozilla 등 각각의 browser vendor가 push server를 가지고 있고, 해당 browese사용자에게 push를 발송하기 위해서는 vendor의 push server에 연계된 setting이 필요하다. 
+## End point
+- push server는 각 browser vendor의 소유 이므로 우리가 설정 할 수는 없다. 
+- 단, 우리가 javascript로 `new subscription`을 setup하면 (configurePushSub 함수를 정의하면) javascript는 자동으로 push server (browsder vendor 제공)에 접근해서 endpoint를 가져온다.
+- 새로 등록된 subscript은 push API endpoint 정보 `(push server의 url)` 을 가지게 되고, 각가의 등롣된 `device-browser`마다 자신만의 다른 endpoint를 가지게 된다. 
+- google의 endpoit 예시
+```json
+{
+    "endpoint": "https://fcm.googleapis.com/fcm/send/d2Qi49CN31o:APA91bE41fL9u_kXfOmGEb6sdafOvdKPcvoHswJpMaX29PKeYzrZC2eT_wJ0lPL2YfDuK888wTUd8kSPFFEsDqxWJZgzu_XluhuG8-ACgZuauKHHqL1KpbBLjQngYgR477H6Piw-RVUA",
+    "expirationTime": null,
+    "keys": {
+        "p256dh": "BECMKgghrm4EpyyCr2lQocH1KKWZTGVqbRf3QK8A0L2sYIQHgMczqrnxy6qTOFwZ3puyqGNbKmr0A3SQO_4dbl4",
+        "auth": "ZlmR3iS9NgvzgOsD8j6iDA"
+    }
+}
+
+```
+- mozila의 endpoit 예시
+```json
+{
+    "endpoint": "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABdIbR7rKOoWIlaR-dF3fszV4W2hQusl4HpWsOJlA8Dc5VleB4mpCnhD7Oi1qer--DSPbJTiurEjjTUbgjPQAkQmwjxvyifArIYhTPiqhB7G19A5q_NAVctKmgESy1Vakz8v2MM5ezL10bch0Id0It3sqtd0ug9wKAuypUsU5O9CkkPMnc",
+    "keys": {
+        "auth": "CeC6IOLjchl1p4aCneY2Tg",
+        "p256dh": "BNzA-UaiBZ_jw9nzg24AaEQEo_MhrILwj99roIAUE_11tgVyd62-NEk7WV4_pZYxYvhR56R3AjAXESby68HogXA"
+    }
+}
+```
+## push message
+- endpoint는 push server의 url이며 우리는 이 endpoint url로 new push message를 send하게 된다. 
+- browser vendor(push server)는 이 push message를 각 web app에 전달 한다. 
+- 
 
 
 # Notification Permission
