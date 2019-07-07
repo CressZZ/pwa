@@ -44,7 +44,26 @@
 ## push message
 - endpoint는 push server의 url이며 우리는 이 endpoint url로 new push message를 send하게 된다. 
 - browser vendor(push server)는 이 push message를 각 web app에 전달 한다. 
-- 
+
+## Authentication information
+- endpoint 유출 시 endpoint를 아는 누구나가 push message를 보낼 수 있다. 
+- 그래서 특별한 key rk vlfdygksek. 
+- 설정한 key에 의해서 subscription생성 시 authentication정보도 만들어 지는다. 이 인증 정보는 우리만이 우리의 web app 에 push 할수 있도록 분별해 준다. 
+## subsription과 backend server 
+- browser vendor의 push server와는 별개로 우리 app의 code가 구동 될 수 있는 backend server(firebase)도 필요하다. 
+- 사용자 app의 servidce worker는 new subscription을 생성하고
+- subscription은 endpoint등에 대한 정보를 가지고 있으면, 
+- backend 서버는 각각의 subscription을 가 보관한다. 
+
+
+
+# push가 동작하는 조건 
+## pc인 경우 
+- background에서 브라우저 앱이 돌고 있을때(맥 기준으로 브라우저를 닫더라도, 실행 아이코에 파란색 점이 찍혀 있을때)
+- 테스트 결과 완전히 종료된 이후 push를 보내면, 다시 브라우저 실행 시켰을때 메시지를 받는다.
+## mobile의 경우
+- 테스트 결과 브라우저 앱을 완전히 종료해도 메시지가 온다. (https://stackoverflow.com/questions/39034950/google-chrome-push-notifications-not-working-if-the-browser-is-closed)
+- 딱히 설치 하지 않아도 됨. 
 
 
 # Notification Permission
@@ -62,6 +81,28 @@
 # Cache API
 - `worker scope` 와 `window scope` 의 api 형태는 같지만 궁극적으로는 다른 거다. 
 > Do note that worker scope and standard window scope is not the same. There are some APIs missing (e.g. localStorage is not available). So self in the Service Worker is kind of like window in standard JS, but not exactly the same.  [https://enux.pl/article/en/2018-05-05/pwa-and-http-caching], [https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/caches]
+
+# Notification API
+- Cache와 마찬가지로 `worker scope` 와 `window scope` 의 api 형태는 같지만 궁극적으로는 다른 거다. 
+> In addition, the Notifications API spec specifies a number of additions to the ServiceWorker API, to allow service workers to fire notifications. [https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API#Service_worker_additions]
+
+> ...앞에서 notification을 보여주기 위해 사용했던 'new Notification()' 이 아니라 service worker의 method인 showNotification을 사용한다. navigator.serviceWorker.ready를 통해 install되고 activation된 상태의 service worker인 swreg를 얻으면, swreg.showNotification을 사용할 수 있다. (pwa 웹 앱의 모든것 p.282)
+
+
+# push service 
+>The term push service refers to a system that allows application servers(`우리 백엔드`) to send push messages to a webapp(`우리 프론트`). A push service serves the push endpoint or endpoints for the push subscriptions it serves.
+The user agent connects to the push service used to create push subscriptions(`subscription을 생성함으로서` / `ServiceWorkerRegistration.pushManager.subscript()`). User agents MAY limit the choice of push services available. Reasons for doing so include performance-related concerns such as service availability (including whether services are blocked by firewalls in specific countries, or networks at workplaces and the like), reliability, impact on battery lifetime, and agreements to steer metadata to, or away from, specific push services. [https://www.w3.org/TR/push-api/#dfn-push-services\]
+
+# end-point 
+> A push subscription has an associated push endpoint. It MUST be the absolute URL exposed by the push service where the application server can send push messages to. A push endpoint MUST uniquely identify the push subscription.
+
+> 밀어 넣기 구독에는 연결된 밀어 넣기 끝 점이 있습니다. 응용 프로그램 서버가 푸시 메시지를 보낼 수있는 푸시 서비스에 의해 노출 된 절대 URL이어야합니다. 밀어 넣기 끝점은 밀어 넣기 구독을 고유하게 식별해야합니다.
+[https://www.w3.org/TR/push-api/#dfn-push-endpoint]
+
+# pwa 웹 앱의 모든것 책 중에서...
+- p.273 부터 시작하는, 유저가 notification permission 을 허용했을때, `구독 되었습니다.` 라는 Notification은 `Normal javascript code` 또는 `service worker` 둘중 어디서든지 처리해도 상관 없다. 어자피 페이지가 있는 상태에서 유저가 permission 을 허용하고, 그에 대한 Notification 을 볼거니까
+
+- p.317 에서 하는 구독된 push에 대한 Notification 은 `service worker` 에서만 실행 되어야 한다. 당연히..
 
 
 
