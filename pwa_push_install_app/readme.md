@@ -2,6 +2,18 @@
 - 사파리 지원 안됨
 - `beforeinstallprompt` : 앱 설치 조건이 만족 되면 (https://developers.google.com/web/fundamentals/app-install-banners/?hl=ko#criteria) `beforeinstallprompt` 이벤트 실행
 - `BeforeInstallPromptEvent.prompt()` : 앱을 설치 할건지 묻는 함수
+## 설치 조건 
+- The web app is not already installed.
+    - and prefer_related_applications is not true.
+- Meets a user engagement heuristic (previously, the user had to interact with the domain for at least 30 seconds, this is not a requirement anymore)
+- Includes a web app manifest that includes:
+- short_name or name
+- icons must include a 192px and a 512px sized icons
+- start_url
+- display must be one of: fullscreen, standalone, or minimal-ui
+- Served over HTTPS (required for service workers)
+- Has registered a service worker with a fetch event handler
+
 
 # Push & Notification 작동 원리 (프로레시브 웹 앱의 모든것 p.271)
 ## Permission for Push Notifications
@@ -67,7 +79,7 @@
 
 
 # Notification Permission
-- >사용자가 Permision 에 동의 하지 않으면, 사용자에게 다시 Permision을 요청할 수 없습니다. (이 경우 permision 승인 결과를 반영 하려면 사용자가 browser의 설저에서 notification permission으 수동으로 변경해 주어야 합니다. ) 사용자가 permission을 결정하지 않은채로 tab을 닫으면, 나중에 다시 물을 수 있습니다. - 프로그레시브 웹 앱의 모든것 p.277 -
+- >사용자가 Permision 에 동의 하지 않으면, 사용자에게 다시 Permision을 요청할 수 없습니다. (이 경우 permision 승인 결과를 반영 하려면 사용자가 browser의 설정에서 notification permission으 수동으로 변경해 주어야 합니다. ) 사용자가 permission을 결정하지 않은채로 tab을 닫으면, 나중에 다시 물을 수 있습니다. - 프로그레시브 웹 앱의 모든것 p.277 -
 
 - 사용자가 x 버튼 3번 누르면 강제로 차단으로 변경 
 
@@ -130,6 +142,11 @@ The user agent connects to the push service used to create push subscriptions(`s
 # offline 환경 pwa 예시
 - https://maxwellito.github.io/breaklock/
 
+# pwa 예시
+## app.starbucks.com
+- 인스톨, 오프라인
+## https://housing.com/in/buy/real-estate-mumbai
+- 푸시
 
 # 단점
 - 정적 파일이 변경될 때, service worker에서 캐쉬이름을 변경해줘야 된다. 
