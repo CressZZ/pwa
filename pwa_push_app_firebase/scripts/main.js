@@ -180,6 +180,8 @@ function updateBtn() {
 
 function unsubscribeUser() {
   swRegistration.pushManager.getSubscription()
+  // 서버에서 지워야 하지 않을까?
+  
   // 구독 해지 (push service에 구독 안한다고 보냄)
   .then(function(subscription) {
     if (subscription) {
