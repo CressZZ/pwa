@@ -139,10 +139,19 @@ function subscribeUser() {
 
 // 서버로 보내야 함 
 function updateSubscriptionOnServer(subscription) {
+  console.log(subscription);
   // TODO: Send subscription to application server
   // server로 subscription정보 보내기!!!!!!!!!!!
   // null인 경우 subscription구독 해지해야 하는가?
-
+  fetch('http://localhost:8010/pushtest-c0b5a/us-central1/storeSubscription', {
+    'method': 'POST',
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+    'body': JSON.stringify({subscription: subscription})
+  }).then((res)=>{
+    res.json().then((t)=>{console.log('t',t)});
+    console.log('구독내용 서버로 전송 완료', subscription)
+  }).catch((err)=>{console.log('실패')})
   
   const subscriptionJson = document.querySelector('.js-subscription-json');
   const subscriptionDetails =
@@ -181,7 +190,7 @@ function updateBtn() {
 function unsubscribeUser() {
   swRegistration.pushManager.getSubscription()
   // 서버에서 지워야 하지 않을까?
-  
+
   // 구독 해지 (push service에 구독 안한다고 보냄)
   .then(function(subscription) {
     if (subscription) {
