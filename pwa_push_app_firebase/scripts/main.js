@@ -142,7 +142,7 @@ function addSubscriptionOnServer(subscription){
   // TODO: Send subscription to application server
   // server로 subscription정보 보내기!!!!!!!!!!!
   // null인 경우 subscription구독 해지해야 하는가?
-  fetch('http://localhost:8010/pushtest-c0b5a/us-central1/storeSubscription', {
+  fetch('https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net/storeSubscription', {
     'method': 'POST',
     'Content-type': 'application/json',
     'Accept': 'application/json',
@@ -155,7 +155,7 @@ function addSubscriptionOnServer(subscription){
 }
 
 function removeSubscriptionOnServer(subscription){
-  fetch('http://localhost:8010/pushtest-c0b5a/us-central1/removeSubscription', {
+  fetch('https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net/removeSubscription', {
     'method': 'POST',
     'Content-type': 'application/json',
     'Accept': 'application/json',
