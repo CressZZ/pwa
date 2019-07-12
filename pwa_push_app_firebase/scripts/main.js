@@ -103,7 +103,7 @@ function initialiseUI() {
   .then(function(subscription) {
     isSubscribed = !(subscription === null);
 
-    updateSubscriptionOnServer(subscription);
+    updateSubscriptionInfo(subscription);
 
     if (isSubscribed) {
       console.log('User IS subscribed.');
@@ -125,7 +125,8 @@ function subscribeUser() {
   .then(function(subscription) {
     console.log('User is subscribed:', subscription);
 
-    updateSubscriptionOnServer(subscription);
+    updateSubscriptionInfo(subscription);
+    addSubscriptionOnServer(subscription);
 
     isSubscribed = true;
 
@@ -137,9 +138,7 @@ function subscribeUser() {
   });
 }
 
-// 서버로 보내야 함 
-function updateSubscriptionOnServer(subscription) {
-  console.log(subscription);
+function addSubscriptionOnServer(subscription){
   // TODO: Send subscription to application server
   // server로 subscription정보 보내기!!!!!!!!!!!
   // null인 경우 subscription구독 해지해야 하는가?
@@ -149,13 +148,32 @@ function updateSubscriptionOnServer(subscription) {
     'Accept': 'application/json',
     'body': JSON.stringify({subscription: subscription})
   }).then((res)=>{
-    res.json().then((t)=>{console.log('t',t)});
-    console.log('구독내용 서버로 전송 완료', subscription)
+    res.json().then((data)=>{
+      console.log('구독내용 서버에 전송', data)
+    });
   }).catch((err)=>{console.log('실패')})
+}
+
+function removeSubscriptionOnServer(subscription){
+  fetch('http://localhost:8010/pushtest-c0b5a/us-central1/removeSubscription', {
+    'method': 'POST',
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+    'body': JSON.stringify({subscription: subscription})
+  }).then((res)=>{
+    res.json().then((data)=>{
+      console.log('구독내용 서버에서 삭제 완료', data)
+    });
+   
+  }).catch((err)=>{console.log('실패')})
+}
+
+// 서버로 보내야 함 
+function updateSubscriptionInfo(subscription) {  
   
   const subscriptionJson = document.querySelector('.js-subscription-json');
-  const subscriptionDetails =
-    document.querySelector('.js-subscription-details');
+  const subscriptionDetails = document.querySelector('.js-subscription-details');
+
 
   // subscription 정보 출력
   if (subscription) {
@@ -173,7 +191,7 @@ function updateBtn() {
   if (Notification.permission === 'denied') {
     pushButton.textContent = 'Push Messaging Blocked.';
     pushButton.disabled = true;
-    updateSubscriptionOnServer(null);
+    updateSubscriptionInfo(null);
     return;
   }
 
@@ -194,6 +212,7 @@ function unsubscribeUser() {
   // 구독 해지 (push service에 구독 안한다고 보냄)
   .then(function(subscription) {
     if (subscription) {
+      removeSubscriptionOnServer(subscription)
       return subscription.unsubscribe();
     }
   })
@@ -201,7 +220,7 @@ function unsubscribeUser() {
     console.log('Error unsubscribing', error);
   })
   .then(function() {
-    updateSubscriptionOnServer(null);
+    updateSubscriptionInfo(null);
 
     console.log('User is unsubscribed.');
     isSubscribed = false;

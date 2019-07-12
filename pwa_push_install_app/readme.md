@@ -90,6 +90,25 @@
 When it receives a message, the service worker wakes up just long enough to display the notification and then goes back to sleep. Because notifications are paired with a service worker, the service worker can listen for notification interactions in the background without using resources. When the user interacts with the notification, by clicking or closing it, the service worker wakes up for a brief time to handle the interaction before going back to sleep.  [https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#working_with_data_payloads]
 
 
+# TTL 푸시 서비스에서 메시지를 보관하는 기간
+- 0으로 지정해 주자
+
+## chrome
+- https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications
+Managing Notifications at the Server
+So far, we've been assuming the user is around to see our notifications. But consider the following scenario:
+
+The user's mobile device is offline
+Your site sends user's mobile device a message for something time sensitive, such as breaking news or a calendar reminder
+The user turns the mobile device on a day later. It now receives the push message.
+That scenario is a poor experience for the user. The notification is neither timely or relevant. Our site shouldn't display the notification because it's out of date.
+
+You can use the time_to_live (TTL) parameter, supported in both HTTP and XMPP requests, to specify the maximum lifespan of a message. The value of this parameter must be a duration from 0 to 2,419,200 seconds, corresponding to the maximum period of time for which FCM stores and tries to deliver the message. Requests that don't contain this field default to the maximum period of 4 weeks. If the message is not sent within the TTL, it is not delivered.
+
+Another advantage of specifying the lifespan of a message is that FCM never throttles messages with a time_to_live value of 0 seconds. In other words, FCM guarantees best effort for messages that must be delivered "now or never". Keep in mind that a time_to_live value of 0 means messages that can't be delivered immediately are discarded. However, because such messages are never stored, this provides the best latency for sending notifications.
+
+## mozila
+- https://blog.mozilla.org/services/2016/02/20/webpushs-new-requirement-ttl-header/
 # push가 동작하는 조건 
 ## pc인 경우 
 - background에서 브라우저 앱이 돌고 있을때(맥 기준으로 브라우저를 닫더라도, 실행 아이코에 파란색 점이 찍혀 있을때)
