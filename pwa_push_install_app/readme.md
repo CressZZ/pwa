@@ -91,7 +91,7 @@ When it receives a message, the service worker wakes up just long enough to disp
 
 
 # TTL 푸시 서비스에서 메시지를 보관하는 기간
-- 0으로 지정해 주자
+- 0 으로 지정해 주자 (크롬 디폴트는 4주)
 
 ## chrome
 - https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications
@@ -109,6 +109,17 @@ Another advantage of specifying the lifespan of a message is that FCM never thro
 
 ## mozila
 - https://blog.mozilla.org/services/2016/02/20/webpushs-new-requirement-ttl-header/
+
+# web-push library (백엔드에서 푸쉬 보낼때 사용 할 라이브러리)
+- https://developers.google.com/web/fundamentals/push-notifications/sending-messages-with-web-push-libraries
+
+# Notification 에 대한 정리 
+https://developers.google.com/web/fundamentals/push-notifications/display-a-notification
+## 화면 구성
+![](./notification-ui.png)
+## badge 아이콘
+- badge의 경우 모바일 크롬만 되는듯 하다. (삼성 브라우저는 안됬음)
+
 # push가 동작하는 조건 
 ## pc인 경우 
 - background에서 브라우저 앱이 돌고 있을때(맥 기준으로 브라우저를 닫더라도, 실행 아이코에 파란색 점이 찍혀 있을때)
