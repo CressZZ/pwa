@@ -62,7 +62,10 @@ self.addEventListener('notificationclick', function (event) {
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-        .then(cache => {return cache.addAll(CACHED_URLS)})
+        .then(cache => {
+            return cache.addAll(CACHED_URLS)
+                .catch((err)=>{console.log(err)})
+        })
         .catch(err => console.log(err))
     )
 })
