@@ -139,22 +139,31 @@ function subscribeUser() {
 }
 
 function addSubscriptionOnServer(subscription){
-  // TODO: Send subscription to application server
-  // server로 subscription정보 보내기!!!!!!!!!!!
-  // null인 경우 subscription구독 해지해야 하는가?
+  let sort = [];
+  document.querySelectorAll('input[name=sort]').forEach(checkbox=>{
+    if(checkbox.checked){
+      sort.push(checkbox.value)
+    }
+  })
+
   fetch('https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net/storeSubscription', {
     'method': 'POST',
     'Content-type': 'application/json',
     'Accept': 'application/json',
-    'body': JSON.stringify({subscription: subscription})
+    'body': JSON.stringify({subscription: subscription, sort: sort})
   }).then((res)=>{
     res.json().then((data)=>{
       console.log('구독내용 서버에 전송', data)
     });
+    document.querySelectorAll('input[name=sort]').forEach(checkbox => {
+      checkbox.setAttribute('disabled', 'true');
+    })
   }).catch((err)=>{console.log('실패')})
 }
 
 function removeSubscriptionOnServer(subscription){
+
+
   fetch('https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net/removeSubscription', {
     'method': 'POST',
     'Content-type': 'application/json',
@@ -164,6 +173,9 @@ function removeSubscriptionOnServer(subscription){
     res.json().then((data)=>{
       console.log('구독내용 서버에서 삭제 완료', data)
     });
+    document.querySelectorAll('input[name=sort]').forEach(checkbox => {
+      checkbox.removeAttribute('disabled');
+    })
    
   }).catch((err)=>{console.log('실패')})
 }

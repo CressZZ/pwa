@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <div class="header">
+    <h2>메시지 보내기</h2>
+  </div>
+  <div class="content">
+    <div class="option">
+      <label for="preorder">사전예약관련</label>
+      <input type="checkbox" name="sort" id="preorder" value='preorder'>
+      <label for="notice">공지 관련</label>
+      <input type="checkbox" name="sort" id="notice" value='notice'>
+    </div>
+    <div class="payload">
+      <input type="text" name="payload" id="payload">
+    </div>
+    <div class="btn_wrap">
+      <button id="send">메시지 전송</button>
+    </div>
+  </div>
+
+  <script>
+
+ 
+
+    document.querySelectorAll('input[name=sort]').forEach(checkbox=>{
+      if(checkbox.checked){
+        sort.push(checkbox.value)
+      }
+    })
+
+    $('#send').on('click', e=>{
+      e.preventDefault();
+      sendMessage();
+    })
+
+    function sendMessage() {
+      let sort = [];
+      let payload = $('input[name="payload"]').val();
+      $('input:checkbox[name=sort]').each(function (i, e) {
+      if ($(e).is(':checked'))
+        sort.push($(e).val())
+      });
+
+      let option = { payload, sort}
+
+      fetch('https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net/sendPushMessageAsSort', {
+        'method': 'POST',
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'body': JSON.stringify(option)
+      }).then((res) => {
+        res.json().then((data) => {
+          console.log('구독내용 서버에서 삭제 완료', data)
+        });
+
+      }).catch((err) => { console.log('실패') })
+    }
+
+
+  </script>
+</body>
+
+</html>

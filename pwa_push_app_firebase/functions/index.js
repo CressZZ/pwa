@@ -19,8 +19,10 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 // subscription 저장
 exports.storeSubscription = functions.region('asia-northeast1').https.onRequest(function(req, res){
     cors(req, res, function(){
-        let subscription = JSON.parse(req.body).subscription
-        admin.database().ref('subscription').push({subscription}).then(()=>{
+        let body = JSON.parse(req.body)
+        let subscription = body.subscription
+        let sort = body.sort
+        admin.database().ref('subscription').push({subscription, sort}).then(()=>{
             res.status(201).json({message:'Data stored', subscription: subscription})
         }).catch((err)=>{
             res.status(500).json({error: err})
@@ -83,6 +85,43 @@ exports.sendPushMessage = functions.region('asia-northeast1').https.onRequest(fu
         let promises = [];
         snapshot.forEach((e)=>{
             promises.push(webpush.sendNotification(e.val().subscription, payload, options))
+        })
+        Promise.all(promises)
+        .then(function(values) {
+            console.log(values);
+            res.status(201).json(values)
+        })
+        .catch(function(err){
+            console.log(err)
+            res.status(401).json(err)
+        })
+    })
+})
+
+
+exports.sendPushMessageAsSort = functions.region('asia-northeast1').https.onRequest(function(req, res){
+
+    const body = JSON.parse(req.body)
+    const payload = body.payload;
+    const sorts = body.sort;
+    const options = {
+        vapidDetails: {
+          subject: 'mailto:sender@example.com',
+          publicKey: applicationServerPublicKey,
+          privateKey: applicationServerPrivate
+        },
+        TTL: 10
+    }
+
+  
+    admin.database().ref('subscription').once('value').then((snapshot)=>{
+        let promises = [];
+        snapshot.forEach((e)=>{
+            console.log(sorts);
+            if(sorts.some(targetSort => e.val().sort.includes(targetSort))){
+                console.log(e.val().sort);
+                promises.push(webpush.sendNotification(e.val().subscription, payload, options))
+            }
         })
         Promise.all(promises)
         .then(function(values) {
