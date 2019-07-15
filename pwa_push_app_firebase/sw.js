@@ -20,7 +20,12 @@
 /* eslint-env browser, serviceworker, es6 */
 
 'use strict';
-
+let CACHE_NAME = 'test-cache-v1';
+let CACHED_URLS = [
+    '/index-offline.html',
+    'https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css',
+    'https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js'
+]
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
     console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
@@ -46,11 +51,31 @@ self.addEventListener('notificationclick', function (event) {
 });
 
 
-self.addEventListener('fetch', function(event){
-    if(event.request.url.includes("index.css")){
-        event.respondWith(
-            new Response("body {background: green}", {headers:{"Content-type": "text/css"}})
-        )
-    }
+// self.addEventListener('fetch', function(event){
+//     if(event.request.url.includes("index.css")){
+//         event.respondWith(
+//             new Response("body {background: green}", {headers:{"Content-type": "text/css"}})
+//         )
+//     }
+// })
+
+self.addEventListener('install', event => {
+    event.waitUntil(
+        caches.open(CACHE_NAME).then(cache => cache.addAll(CACHED_URLS))
+    )
 })
 
+self.addEventListener('fetch', function(event){
+    event.respondWith(
+        fetch(evnet.request).catch(function(){
+            return caches.match(evnet.request).then(response => {
+                if(response){
+                    return response;
+                }else if(event.request.headers.get("accept").includes("text/html")){
+                    return caches.match("/index-offline.html")
+                }
+            })
+        })
+    )
+   
+})
