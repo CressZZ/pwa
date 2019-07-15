@@ -35,8 +35,6 @@ var myRequest_main = new Request('https://cress00-pwa.s3.ap-northeast-2.amazonaw
 let CACHE_NAME = 'test-cache-v2';
 let CACHED_URLS = [
     './index-offline.html',
-    myRequest_css,
-    myRequest_main,
 ]
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
@@ -75,17 +73,10 @@ self.addEventListener('notificationclick', function (event) {
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-        // .then((cache)=> {
-        //     return cache.add('./index-offline.html')
-        //         .then(()=>cache.add(new Request()))
-        //         .then(()=>cache.add(new Request()))
-
-        //         // .then(()=>cache.add('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js'))
-
-                
-        // })
         .then(cache => {
             return cache.addAll(CACHED_URLS)
+                .then(()=>cache.add(myRequest_css))
+                .then(()=>cache.add(myRequest_main))
                 .catch((err)=>{console.log(err)})
         })
         .catch(err => console.log(err))
