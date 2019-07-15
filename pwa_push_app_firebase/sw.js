@@ -30,7 +30,7 @@ var myInit = {
   };
   
 var myRequest_css = new Request('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css', myInit);
-var myRequest_main = new Request('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js', myInit);
+var myRequest_main = new Request('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/scripts/main.js', myInit);
 
 let CACHE_NAME = 'test-cache-v2';
 let CACHED_URLS = [
