@@ -20,11 +20,23 @@
 /* eslint-env browser, serviceworker, es6 */
 
 'use strict';
+var myHeaders = new Headers();
+myHeaders.append('Origin', 'https://cresszz.github.io');
+var myInit = { 
+    method: 'GET',
+    headers: myHeaders,
+    mode: 'cors',
+    cache: 'no-cache' 
+  };
+  
+var myRequest_css = new Request('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css', myInit);
+var myRequest_main = new Request('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js', myInit);
+
 let CACHE_NAME = 'test-cache-v2';
 let CACHED_URLS = [
     './index-offline.html',
-    'https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js',
-    'https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css',
+    myRequest_css,
+    myRequest_main,
 ]
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
@@ -58,34 +70,24 @@ self.addEventListener('notificationclick', function (event) {
 //         )
 //     }
 // })
-var myHeaders = new Headers();
-myHeaders.append('Origin', 'https://cresszz.github.io');
-var myInit = { 
-    method: 'GET',
-    headers: myHeaders,
-    mode: 'cors',
-    cache: 'no-cache' 
-  };
-  
-var myRequest = new Request('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css', myInit);
-// fetch(myRequest)
-// var myRequest2 = new Request('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js', myInit);
+
 
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-        .then((cache)=> {
-            return cache.add('./index-offline.html')
-                .then(()=>cache.add('https://code.jquery.com/jquery-3.4.1.js'))
-                .then(()=>cache.add(myRequest))
-                // .then(()=>cache.add('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js'))
+        // .then((cache)=> {
+        //     return cache.add('./index-offline.html')
+        //         .then(()=>cache.add(new Request()))
+        //         .then(()=>cache.add(new Request()))
+
+        //         // .then(()=>cache.add('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js'))
 
                 
-        })
-        // .then(cache => {
-        //     return cache.addAll(CACHED_URLS)
-        //         .catch((err)=>{console.log(err)})
         // })
+        .then(cache => {
+            return cache.addAll(CACHED_URLS)
+                .catch((err)=>{console.log(err)})
+        })
         .catch(err => console.log(err))
     )
 })
