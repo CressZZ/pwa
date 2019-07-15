@@ -59,7 +59,7 @@ self.addEventListener('notificationclick', function (event) {
 //     }
 // })
 var myHeaders = new Headers();
-myHeaders.append('Origin', window.location.origin);
+myHeaders.append('Origin', 'https://cresszz.github.io');
 var myInit = { 
     method: 'GET',
     headers: myHeaders,
