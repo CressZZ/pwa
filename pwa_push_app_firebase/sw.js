@@ -23,8 +23,8 @@
 let CACHE_NAME = 'test-cache-v1';
 let CACHED_URLS = [
     '/index-offline.html',
+    'https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js',
     'https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css',
-    'https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js'
 ]
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
