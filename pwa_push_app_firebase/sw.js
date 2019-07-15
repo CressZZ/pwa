@@ -69,8 +69,8 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', function(event){
     event.respondWith(
-        fetch(evnet.request).catch(function(){
-            return caches.match(evnet.request).then(response => {
+        fetch(event.request).catch(function(){
+            return caches.match(event.request).then(response => {
                 if(response){
                     return response;
                 }else if(event.request.headers.get("accept").includes("text/html")){
