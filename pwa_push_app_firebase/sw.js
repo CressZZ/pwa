@@ -68,7 +68,7 @@ var myInit = {
   };
   
 var myRequest = new Request('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css', myInit);
-fetch(myRequest)
+// fetch(myRequest)
 // var myRequest2 = new Request('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js', myInit);
 
 self.addEventListener('install', event => {
@@ -90,17 +90,17 @@ self.addEventListener('install', event => {
     )
 })
 
-// self.addEventListener('fetch', function(event){
-//     event.respondWith(
-//         fetch(event.request).catch(function(){
-//             return caches.match(event.request).then(response => {
-//                 if(response){
-//                     return response;
-//                 }else if(event.request.headers.get("accept").includes("text/html")){
-//                     return caches.match("./index-offline.html")
-//                 }
-//             })
-//         })
-//     )
+self.addEventListener('fetch', function(event){
+    event.respondWith(
+        fetch(event.request).catch(function(){
+            return caches.match(event.request).then(response => {
+                if(response){
+                    return response;
+                }else if(event.request.headers.get("accept").includes("text/html")){
+                    return caches.match("./index-offline.html")
+                }
+            })
+        })
+    )
    
-// })
+})
