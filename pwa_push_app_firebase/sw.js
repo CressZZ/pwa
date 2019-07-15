@@ -46,4 +46,11 @@ self.addEventListener('notificationclick', function (event) {
 });
 
 
+self.addEventListener('fetch', function(event){
+    if(event.request.url.includes("index.css")){
+        event.respondWith(
+            new Response("body {background: green}", {headers:{"Content-type": "text/css"}})
+        )
+    }
+})
 
