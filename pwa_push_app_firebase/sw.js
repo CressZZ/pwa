@@ -58,6 +58,16 @@ self.addEventListener('notificationclick', function (event) {
 //         )
 //     }
 // })
+var myHeaders = new Headers();
+myHeaders.append('Origin', window.location.origin);
+var myInit = { 
+    method: 'GET',
+    headers: myHeaders,
+    mode: 'cors',
+    cache: 'default' 
+  };
+  
+var myRequest = new Request('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css', myInit);
 
 self.addEventListener('install', event => {
     event.waitUntil(
@@ -65,7 +75,7 @@ self.addEventListener('install', event => {
         .then((cache)=> {
             return cache.add('./index-offline.html')
                 .then(()=>cache.add('https://code.jquery.com/jquery-3.4.1.js'))
-                .then(()=>cache.add('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css'))
+                .then(()=>cache.add(myRequest))
                 
         })
         // .then(cache => {
