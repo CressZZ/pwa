@@ -83,17 +83,17 @@ self.addEventListener('install', event => {
     )
 })
 
-// self.addEventListener('fetch', function(event){
-//     event.respondWith(
-//         fetch(event.request).catch(function(){
-//             return caches.match(event.request).then(response => {
-//                 if(response){
-//                     return response;
-//                 }else if(event.request.headers.get("accept").includes("text/html")){
-//                     return caches.match("./index-offline.html")
-//                 }
-//             })
-//         })
-//     )
+self.addEventListener('fetch', function(event){
+    event.respondWith(
+        fetch(event.request).catch(function(){
+            return caches.match(event.request).then(response => {
+                if(response){
+                    return response;
+                }else if(event.request.headers.get("accept").includes("text/html")){
+                    return caches.match("./index-offline.html")
+                }
+            })
+        })
+    )
    
-// })
+})
