@@ -62,10 +62,15 @@ self.addEventListener('notificationclick', function (event) {
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-        .then(cache => {
-            return cache.addAll(CACHED_URLS)
-                .catch((err)=>{console.log(err)})
+        .then((cache)=> {
+            return cache.add('./index-offline.html')
+                .then(()=>cache.add('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js'))
+                .then(()=>cache.add('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css'))
         })
+        // .then(cache => {
+        //     return cache.addAll(CACHED_URLS)
+        //         .catch((err)=>{console.log(err)})
+        // })
         .catch(err => console.log(err))
     )
 })
