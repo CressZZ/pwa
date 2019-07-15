@@ -65,6 +65,8 @@ self.addEventListener('install', event => {
         .then((cache)=> {
             return cache.add('./index-offline.html')
                 .then(()=>cache.add('https://code.jquery.com/jquery-3.4.1.js'))
+                .then(()=>cache.add('https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css'))
+                
         })
         // .then(cache => {
         //     return cache.addAll(CACHED_URLS)
