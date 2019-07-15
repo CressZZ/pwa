@@ -22,7 +22,7 @@
 'use strict';
 let CACHE_NAME = 'test-cache-v2';
 let CACHED_URLS = [
-    '/index-offline.html',
+    './index-offline.html',
     // 'https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js',
     // 'https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css',
 ]
@@ -62,7 +62,7 @@ self.addEventListener('notificationclick', function (event) {
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-        .then(cache => cache.addAll(CACHED_URLS))
+        .then(cache => {return cache.addAll(CACHED_URLS)})
         .catch(err => console.log(err))
     )
 })
