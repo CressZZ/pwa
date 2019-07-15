@@ -20,7 +20,7 @@
 /* eslint-env browser, serviceworker, es6 */
 
 'use strict';
-let CACHE_NAME = 'test-cache-v1';
+let CACHE_NAME = 'test-cache-v2';
 let CACHED_URLS = [
     '/index-offline.html',
     'https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/script/main.js',
