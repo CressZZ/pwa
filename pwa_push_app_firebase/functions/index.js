@@ -100,7 +100,7 @@ exports.sendPushMessage = functions.region('asia-northeast1').https.onRequest(fu
 
 
 exports.sendPushMessageAsSort = functions.region('asia-northeast1').https.onRequest(function(req, res){
-
+    
     const body = JSON.parse(req.body)
     const payload = body.payload;
     const sorts = body.sort;
@@ -113,24 +113,25 @@ exports.sendPushMessageAsSort = functions.region('asia-northeast1').https.onRequ
         TTL: 10
     }
 
-  
-    admin.database().ref('subscription').once('value').then((snapshot)=>{
-        let promises = [];
-        snapshot.forEach((e)=>{
-            console.log(sorts);
-            if(sorts.some(targetSort => e.val().sort.includes(targetSort))){
-                console.log(e.val().sort);
-                promises.push(webpush.sendNotification(e.val().subscription, payload, options))
-            }
-        })
-        Promise.all(promises)
-        .then(function(values) {
-            console.log(values);
-            res.status(201).json(values)
-        })
-        .catch(function(err){
-            console.log(err)
-            res.status(401).json(err)
+    cors(req, res, function(){
+        admin.database().ref('subscription').once('value').then((snapshot)=>{
+            let promises = [];
+            snapshot.forEach((e)=>{
+                console.log(sorts);
+                if(sorts.some(targetSort => e.val().sort.includes(targetSort))){
+                    console.log(e.val().sort);
+                    promises.push(webpush.sendNotification(e.val().subscription, payload, options))
+                }
+            })
+            Promise.all(promises)
+            .then(function(values) {
+                console.log(values);
+                res.status(201).json(values)
+            })
+            .catch(function(err){
+                console.log(err)
+                res.status(401).json(err)
+            })
         })
     })
 })

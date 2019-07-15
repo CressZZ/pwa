@@ -62,7 +62,7 @@
         'body': JSON.stringify(option)
       }).then((res) => {
         res.json().then((data) => {
-          console.log('구독내용 서버에서 삭제 완료', data)
+          console.log('메시지 전송완료', data)
         });
 
       }).catch((err) => { console.log('실패') })
