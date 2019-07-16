@@ -6,6 +6,10 @@
     - Push, 
     - 카메라기능, 
     - 빠른 속도(오프라인환경에서 작동, 캐쉬등...) 등등...
+#  Service worker scope
+
+> Scope is linked with domain/origin. You can not create a service worker that intercepts request for other origins. If you try to register a service worker from origin which is different from origin of service worker file sw.js, then error will be thrown like The origin of the provided scriptURL ('https://cdn.example.com/sw.js') does not match the current origin. [https://itnext.io/service-workers-your-first-step-towards-progressive-web-apps-pwa-e4e11d1a2e85]
+
 
 # App 설치 
 - BeforeInstallPromptEvent ("install" a web site to a home screen.)

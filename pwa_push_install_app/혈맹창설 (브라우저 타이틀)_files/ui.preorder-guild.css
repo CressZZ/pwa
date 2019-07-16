@@ -1,0 +1,1869 @@
+@charset "UTF-8";
+/*! normalize-scss | MIT/GPLv2 License | bit.ly/normalize-scss */
+/* Document
+       ========================================================================== */
+/**
+     * 1. Correct the line height in all browsers.
+     * 2. Prevent adjustments of font size after orientation changes in
+     *    IE on Windows Phone and in iOS.
+     */
+html {
+  line-height: 1.15;
+  /* 1 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */ }
+
+/* Sections
+       ========================================================================== */
+/**
+     * Remove the margin in all browsers (opinionated).
+     */
+body {
+  margin: 0; }
+
+/**
+     * Add the correct display in IE 9-.
+     */
+article,
+aside,
+footer,
+header,
+nav,
+section {
+  display: block; }
+
+/**
+     * Correct the font size and margin on `h1` elements within `section` and
+     * `article` contexts in Chrome, Firefox, and Safari.
+     */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0; }
+
+/* Grouping content
+       ========================================================================== */
+/**
+     * Add the correct display in IE 9-.
+     */
+figcaption,
+figure {
+  display: block; }
+
+/**
+     * Add the correct margin in IE 8.
+     */
+figure {
+  margin: 1em 40px; }
+
+/**
+     * 1. Add the correct box sizing in Firefox.
+     * 2. Show the overflow in Edge and IE.
+     */
+hr {
+  box-sizing: content-box;
+  /* 1 */
+  height: 0;
+  /* 1 */
+  overflow: visible;
+  /* 2 */ }
+
+/**
+     * Add the correct display in IE.
+     */
+main {
+  display: block; }
+
+/**
+     * 1. Correct the inheritance and scaling of font size in all browsers.
+     * 2. Correct the odd `em` font sizing in all browsers.
+     */
+pre {
+  font-family: monospace, monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */ }
+
+/* Links
+       ========================================================================== */
+/**
+     * 1. Remove the gray background on active links in IE 10.
+     * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
+     */
+a {
+  background-color: transparent;
+  /* 1 */
+  -webkit-text-decoration-skip: objects;
+  /* 2 */ }
+
+/* Text-level semantics
+       ========================================================================== */
+/**
+     * 1. Remove the bottom border in Chrome 57- and Firefox 39-.
+     * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+     */
+abbr[title] {
+  border-bottom: none;
+  /* 1 */
+  text-decoration: underline;
+  /* 2 */
+  text-decoration: underline dotted;
+  /* 2 */ }
+
+/**
+     * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
+     */
+b,
+strong {
+  font-weight: inherit; }
+
+/**
+     * Add the correct font weight in Chrome, Edge, and Safari.
+     */
+b,
+strong {
+  font-weight: bolder; }
+
+/**
+     * 1. Correct the inheritance and scaling of font size in all browsers.
+     * 2. Correct the odd `em` font sizing in all browsers.
+     */
+code,
+kbd,
+samp {
+  font-family: monospace, monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */ }
+
+/**
+     * Add the correct font style in Android 4.3-.
+     */
+dfn {
+  font-style: italic; }
+
+/**
+     * Add the correct background and color in IE 9-.
+     */
+mark {
+  background-color: #ff0;
+  color: #000; }
+
+/**
+     * Add the correct font size in all browsers.
+     */
+small {
+  font-size: 80%; }
+
+/**
+     * Prevent `sub` and `sup` elements from affecting the line height in
+     * all browsers.
+     */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline; }
+
+sub {
+  bottom: -0.25em; }
+
+sup {
+  top: -0.5em; }
+
+/* Embedded content
+       ========================================================================== */
+/**
+     * Add the correct display in IE 9-.
+     */
+audio,
+video {
+  display: inline-block; }
+
+/**
+     * Add the correct display in iOS 4-7.
+     */
+audio:not([controls]) {
+  display: none;
+  height: 0; }
+
+/**
+     * Remove the border on images inside links in IE 10-.
+     */
+img {
+  border-style: none; }
+
+/**
+     * Hide the overflow in IE.
+     */
+svg:not(:root) {
+  overflow: hidden; }
+
+/* Forms
+       ========================================================================== */
+/**
+     * 1. Change the font styles in all browsers (opinionated).
+     * 2. Remove the margin in Firefox and Safari.
+     */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: sans-serif;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  line-height: 1.15;
+  /* 1 */
+  margin: 0;
+  /* 2 */ }
+
+/**
+     * Show the overflow in IE.
+     */
+button {
+  overflow: visible; }
+
+/**
+     * Remove the inheritance of text transform in Edge, Firefox, and IE.
+     * 1. Remove the inheritance of text transform in Firefox.
+     */
+button,
+select {
+  /* 1 */
+  text-transform: none; }
+
+/**
+     * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
+     *    controls in Android 4.
+     * 2. Correct the inability to style clickable types in iOS and Safari.
+     */
+button,
+html [type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+  /* 2 */ }
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  /**
+       * Remove the inner border and padding in Firefox.
+       */
+  /**
+       * Restore the focus styles unset by the previous rule.
+       */ }
+  button::-moz-focus-inner,
+  [type="button"]::-moz-focus-inner,
+  [type="reset"]::-moz-focus-inner,
+  [type="submit"]::-moz-focus-inner {
+    border-style: none;
+    padding: 0; }
+  button:-moz-focusring,
+  [type="button"]:-moz-focusring,
+  [type="reset"]:-moz-focusring,
+  [type="submit"]:-moz-focusring {
+    outline: 1px dotted ButtonText; }
+
+/**
+     * Show the overflow in Edge.
+     */
+input {
+  overflow: visible; }
+
+/**
+     * 1. Add the correct box sizing in IE 10-.
+     * 2. Remove the padding in IE 10-.
+     */
+[type="checkbox"],
+[type="radio"] {
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */ }
+
+/**
+     * Correct the cursor style of increment and decrement buttons in Chrome.
+     */
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto; }
+
+/**
+     * 1. Correct the odd appearance in Chrome and Safari.
+     * 2. Correct the outline style in Safari.
+     */
+[type="search"] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */
+  /**
+       * Remove the inner padding and cancel buttons in Chrome and Safari on macOS.
+       */ }
+  [type="search"]::-webkit-search-cancel-button, [type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none; }
+
+/**
+     * 1. Correct the inability to style clickable types in iOS and Safari.
+     * 2. Change font properties to `inherit` in Safari.
+     */
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  /* 1 */
+  font: inherit;
+  /* 2 */ }
+
+/**
+     * Correct the padding in Firefox.
+     */
+fieldset {
+  padding: 0.35em 0.75em 0.625em; }
+
+/**
+     * 1. Correct the text wrapping in Edge and IE.
+     * 2. Correct the color inheritance from `fieldset` elements in IE.
+     * 3. Remove the padding so developers are not caught out when they zero out
+     *    `fieldset` elements in all browsers.
+     */
+legend {
+  box-sizing: border-box;
+  /* 1 */
+  display: table;
+  /* 1 */
+  max-width: 100%;
+  /* 1 */
+  padding: 0;
+  /* 3 */
+  color: inherit;
+  /* 2 */
+  white-space: normal;
+  /* 1 */ }
+
+/**
+     * 1. Add the correct display in IE 9-.
+     * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
+     */
+progress {
+  display: inline-block;
+  /* 1 */
+  vertical-align: baseline;
+  /* 2 */ }
+
+/**
+     * Remove the default vertical scrollbar in IE.
+     */
+textarea {
+  overflow: auto; }
+
+/* Interactive
+       ========================================================================== */
+/*
+     * Add the correct display in Edge, IE, and Firefox.
+     */
+details {
+  display: block; }
+
+/*
+     * Add the correct display in all browsers.
+     */
+summary {
+  display: list-item; }
+
+/*
+     * Add the correct display in IE 9-.
+     */
+menu {
+  display: block; }
+
+/* Scripting
+       ========================================================================== */
+/**
+     * Add the correct display in IE 9-.
+     */
+canvas {
+  display: inline-block; }
+
+/**
+     * Add the correct display in IE.
+     */
+template {
+  display: none; }
+
+/* Hidden
+       ========================================================================== */
+/**
+     * Add the correct display in IE 10-.
+     */
+[hidden] {
+  display: none; }
+
+* {
+  box-sizing: border-box; }
+
+input, textarea, button {
+  outline: 0; }
+
+[class*=" is-show"] {
+  display: block; }
+
+html {
+  height: 100%; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, Verdana, "맑은 고딕", "Malgun Gothic", "Microsoft JhengHei", "meiryo", "MS PGothic", "돋움", Dotum, sans-serif; }
+
+a {
+  text-decoration: none; }
+
+img {
+  vertical-align: top; }
+
+.preorder-guild-wrap .guild-point-color-b1, .preorder-guild-wrap .guild-list-items .info-wrap, .guild-list-items .preorder-guild-wrap .info-wrap, .preorder-guild-wrap .guild-list-items .btn-wrap [class^=btn-]:disabled, .guild-list-items .btn-wrap .preorder-guild-wrap [class^=btn-]:disabled {
+  color: #af8056; }
+
+.preorder-guild-wrap .guild-point-bg-b1, .preorder-guild-wrap .guild-list-none .btn-search-none, .guild-list-none .preorder-guild-wrap .btn-search-none {
+  background-color: #926945; }
+
+.preorder-guild-wrap .guild-point-bg-s1 {
+  background-color: #29678b; }
+
+.preorder-guild-wrap .guild-point-bg-s2 {
+  background-color: rgba(41, 103, 139, 0.3); }
+
+.preorder-guild-wrap .guild-point-border-s1 {
+  border-color: #1f4d68; }
+
+.search-arrow-down {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  font: 0/1 Verdana;
+  overflow: hidden;
+  width: 12px;
+  height: 7px;
+  margin-left: 8px;
+  font-size: 12px; }
+  .search-arrow-down:before, .search-arrow-down:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 2em;
+    height: 1px;
+    background: #909090;
+    transform: translate(0, 20px);
+    transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1), transform-origin 1s cubic-bezier(0.86, 0, 0.07, 1); }
+  .search-arrow-down:before {
+    right: 50%;
+    transform-origin: 100% 100%;
+    transform: rotate(40deg); }
+  .search-arrow-down:after {
+    left: 50%;
+    transform-origin: 0% 0%;
+    transform: rotate(-40deg); }
+
+.guild-dropdown-wrap {
+  display: inline-block; }
+
+.guild-sort-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  padding: 0 10px 0 0;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: -1px;
+  text-align: left;
+  color: #909090; }
+  .guild-sort-dropdown .select {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+    align-items: baseline;
+    color: #666;
+    background-color: transparent;
+    cursor: pointer; }
+    .guild-sort-dropdown .select.disabled {
+      color: #8c919a;
+      background-color: transparent; }
+      .guild-sort-dropdown .select.disabled .fe-icon-arrow_down:before, .guild-sort-dropdown .select.disabled .fe-icon-arrow_down:after {
+        background: #8c919a; }
+    .guild-sort-dropdown .select span {
+      white-space: nowrap; }
+  .guild-sort-dropdown .option {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    top: 25px;
+    left: 0;
+    right: -1px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid #272a2e;
+    background-color: #0c0d0d; }
+    .guild-sort-dropdown .option:after {
+      content: "";
+      display: table;
+      clear: both; }
+    .guild-sort-dropdown .option li {
+      height: 36px;
+      padding-top: 8px;
+      padding-left: 8px;
+      background-color: #0c0d0d;
+      cursor: pointer; }
+      .guild-sort-dropdown .option li.is-selected, .guild-sort-dropdown .option li:hover {
+        background-color: rgba(153, 153, 153, 0.1); }
+  .guild-sort-dropdown.is-active .select {
+    color: #909090; }
+  .guild-sort-dropdown.is-active .option {
+    display: block; }
+  .guild-sort-dropdown .option-menu {
+    overflow-y: auto;
+    height: 216px;
+    float: left;
+    width: 50%;
+    border-left: 1px solid #272a2e; }
+  .guild-sort-dropdown .option-menu-1depth {
+    border-left: 0; }
+  .guild-sort-dropdown .option-2depth {
+    width: 300px;
+    font-size: 12px; }
+    @media (min-width: 640px) {
+      .guild-sort-dropdown .option-2depth {
+        width: 340px;
+        font-size: 13px; } }
+  .guild-sort-dropdown .option-list {
+    margin: 0;
+    padding: 0;
+    list-style: none; }
+    .guild-sort-dropdown .option-list li {
+      border-top: 1px solid #272a2e;
+      color: #909090; }
+      .guild-sort-dropdown .option-list li:hover {
+        background-color: #181819; }
+      .guild-sort-dropdown .option-list li:first-child {
+        border-top: 0; }
+  .guild-sort-dropdown .option-menu-1depth {
+    width: 50%; }
+    .guild-sort-dropdown .option-menu-1depth li.is-active {
+      background-color: #181819; }
+    .guild-sort-dropdown .option-menu-1depth li:last-child {
+      border-bottom: 0; }
+  .guild-sort-dropdown .option-menu-2depth {
+    background-color: #181819; }
+    .guild-sort-dropdown .option-menu-2depth:after {
+      content: "";
+      display: table;
+      clear: both; }
+    .guild-sort-dropdown .option-menu-2depth .option-list li {
+      background-color: #181819; }
+
+body {
+  overflow-x: hidden;
+  overflow-y: scroll; }
+  @media (min-width: 960px) {
+    body {
+      overflow-y: auto !important; } }
+
+.layer-open, .ly-active {
+  overflow-y: hidden !important; }
+  .layer-open .layer-module, .ly-active .layer-module, .layer-open .is-show, .ly-active .is-show {
+    -webkit-overflow-scrolling: auto !important;
+    overflow-y: auto;
+    overflow-x: auto; }
+  .layer-open .keep-dimmed, .ly-active .keep-dimmed {
+    cursor: default; }
+
+.mobile.layer-open, .mobile.ly-active {
+  position: fixed;
+  right: 0;
+  left: 0; }
+
+.layer-module, .is-show {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100; }
+
+.layer {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100; }
+  .layer br {
+    display: block; }
+  .layer-wrap {
+    position: absolute;
+    padding: 10px;
+    width: 100%;
+    min-width: 320px;
+    max-width: 640px; }
+  .layer-container {
+    position: relative;
+    z-index: 1;
+    background-color: #1b1d1e; }
+  .layer-contents {
+    position: relative;
+    padding: 15px 30px 30px;
+    color: #fff; }
+    .layer-contents.is-hide {
+      display: none; }
+  .layer-header {
+    padding: 31px 30px 0;
+    background-size: contain;
+    color: #fff;
+    text-align: left; }
+    .layer-header h1 {
+      position: relative;
+      margin: 0;
+      font-size: 25px;
+      font-weight: normal;
+      color: #fff; }
+      .layer-header h1 img {
+        height: 24px;
+        vertical-align: top; }
+      .layer-header h1 + .copy {
+        margin-top: 13px; }
+    .layer-header .copy {
+      margin: 0;
+      font-size: 16px; }
+  .layer-footer {
+    padding-bottom: 30px;
+    text-align: center; }
+  .layer .btn-wrap {
+    padding-top: 18px; }
+  .layer-btn-close {
+    text-align: left;
+    text-indent: -9999em;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 9;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    margin: 0;
+    -webkit-appearance: none;
+    border: none;
+    background: url(../img/btn_layer_close.png);
+    background-size: cover;
+    font-size: 1px;
+    cursor: pointer; }
+  @media (min-width: 960px) {
+    .layer br {
+      display: none; }
+    .layer .btn {
+      width: 290px;
+      height: 60px;
+      font-size: 25px; }
+    .layer-btn-close {
+      top: 15px;
+      right: 15px;
+      width: 30px;
+      height: 30px; } }
+
+.dimmed {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5); }
+
+.layer-preorder-guild-share .layer-wrap {
+  background-color: #fff; }
+
+.layer-preorder-guild-share .layer-container {
+  background-color: #fff; }
+
+.layer-preorder-guild-share .layer-header h1 {
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: #111; }
+
+.layer-preorder-guild-share .layer-contents {
+  color: #111; }
+
+.layer-preorder-guild-admin .layer-wrap {
+  max-width: 430px;
+  padding: 0;
+  background-color: #fff;
+  border: 1px solid #747880; }
+
+.layer-preorder-guild-admin .layer-container {
+  background-color: #fff; }
+
+.layer-preorder-guild-admin .layer-header {
+  display: none; }
+
+.layer-preorder-guild-admin .layer-contents {
+  padding: 0; }
+
+.pre-guild-admin-wrap {
+  padding: 0 0 60px 0; }
+  @media (min-width: 960px) {
+    .pre-guild-admin-wrap {
+      padding-top: 20px;
+      padding-bottom: 76px; } }
+  .pre-guild-admin-wrap button {
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    vertical-align: top;
+    outline: none;
+    cursor: pointer; }
+  .pre-guild-admin-wrap input[type=text], .pre-guild-admin-wrap textarea {
+    width: 100%;
+    height: 150px;
+    padding: 0 0 0 15px;
+    color: #1f1f1f;
+    vertical-align: top;
+    border: 1px solid #e3e3e3;
+    resize: none;
+    background-color: #fff; }
+    .pre-guild-admin-wrap input[type=text] ::-webkit-input-placeholder, .pre-guild-admin-wrap textarea ::-webkit-input-placeholder {
+      color: #747880; }
+    .pre-guild-admin-wrap input[type=text] :-ms-input-placeholder, .pre-guild-admin-wrap textarea :-ms-input-placeholder {
+      color: #747880; }
+  .pre-guild-admin-wrap .pre-guild-radio {
+    display: inline-block;
+    position: relative;
+    margin-right: 68px; }
+    .pre-guild-admin-wrap .pre-guild-radio:after {
+      content: "";
+      display: table;
+      clear: both; }
+    @media (min-width: 960px) {
+      .pre-guild-admin-wrap .pre-guild-radio {
+        margin-right: 116px; } }
+    .pre-guild-admin-wrap .pre-guild-radio:last-child {
+      margin-right: 0; }
+    .pre-guild-admin-wrap .pre-guild-radio input {
+      position: absolute;
+      left: -999em; }
+    .pre-guild-admin-wrap .pre-guild-radio label {
+      display: inline-block; }
+      .pre-guild-admin-wrap .pre-guild-radio label span {
+        vertical-align: middle; }
+    .pre-guild-admin-wrap .pre-guild-radio .label-text {
+      display: inline-block;
+      line-height: 1.64;
+      font-size: 16px; }
+    .pre-guild-admin-wrap .pre-guild-radio .custombox {
+      width: 18px;
+      height: 18px;
+      box-sizing: border-box;
+      position: relative;
+      display: inline-block;
+      margin: 0 6px 0 0;
+      line-height: 1; }
+      .pre-guild-admin-wrap .pre-guild-radio .custombox:before, .pre-guild-admin-wrap .pre-guild-radio .custombox:after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%; }
+      .pre-guild-admin-wrap .pre-guild-radio .custombox:before {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #bc8d5d; }
+      .pre-guild-admin-wrap .pre-guild-radio .custombox:after {
+        top: 22%;
+        left: 22%;
+        width: 56%;
+        height: 56%;
+        border: 1px solid #bc8d5d;
+        background-color: #bc8d5d;
+        opacity: 0;
+        transform: scale(0); }
+    .pre-guild-admin-wrap .pre-guild-radio .join-type {
+      font-size: 16px;
+      font-weight: normal;
+      font-style: normal;
+      line-height: normal;
+      color: #1f1f1f;
+      vertical-align: middle; }
+    .pre-guild-admin-wrap .pre-guild-radio .label-text {
+      height: 18px; }
+    .pre-guild-admin-wrap .pre-guild-radio input:checked + label .custombox:after {
+      opacity: 1;
+      transform: scale(1);
+      transition: all .2s ease-out; }
+    .pre-guild-admin-wrap .pre-guild-radio input::-ms-clear {
+      display: none !important; }
+  .pre-guild-admin-wrap .create-tr {
+    padding: 30px 20px 40px 20px;
+    font-size: 16px;
+    border-bottom: 1px solid #e3e3e3; }
+    @media (min-width: 960px) {
+      .pre-guild-admin-wrap .create-tr {
+        padding-left: 40px;
+        padding-right: 40px; } }
+  .pre-guild-admin-wrap .create-th {
+    display: block;
+    font-weight: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #747880; }
+  .pre-guild-admin-wrap .create-td {
+    display: block;
+    margin: 14px 0 0 0;
+    font-weight: normal;
+    font-style: normal;
+    line-height: normal;
+    color: #1f1f1f; }
+    .pre-guild-admin-wrap .create-td textarea {
+      padding-top: 23px;
+      padding-bottom: 23px; }
+  .pre-guild-admin-wrap .create-tr-server {
+    padding-bottom: 30px; }
+    .pre-guild-admin-wrap .create-tr-server .create-th,
+    .pre-guild-admin-wrap .create-tr-server .create-td {
+      display: inline-block; }
+    .pre-guild-admin-wrap .create-tr-server .create-td {
+      margin: 0; }
+  .pre-guild-admin-wrap .btn-wrap {
+    padding-top: 40px;
+    text-align: center; }
+  .pre-guild-admin-wrap .btn-guildinfo-modify {
+    display: inline-block;
+    width: 160px;
+    height: 60px;
+    font-size: 18px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1.1;
+    letter-spacing: 0.3px;
+    color: #fff;
+    background-color: #bc8d5d; }
+
+.share-list {
+  position: relative;
+  z-index: 2;
+  margin: 18px 0 0 0;
+  text-align: center; }
+  .share-list a,
+  .share-list button {
+    display: inline-block;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    margin: 0 4px;
+    background: url(../img/ic_share.png) no-repeat;
+    background-size: 56px auto;
+    background-position-x: 0;
+    border: 0 none;
+    vertical-align: top;
+    cursor: pointer;
+    text-align: left;
+    text-indent: -9999em;
+    white-space: nowrap;
+    overflow: hidden; }
+  .share-list .share-facebook {
+    background-position-y: 0; }
+  .share-list .share-twitter {
+    background-position-y: -56px; }
+  .share-list .share-kakaotalk {
+    background-position-y: -112px; }
+  .share-list .share-kakaostory {
+    background-position-y: -168px; }
+  .share-list .share-line {
+    background-position-y: -224px; }
+  .share-list .share-copy {
+    background-position-y: -280px; }
+  .share-list .share-close {
+    display: none; }
+
+body {
+  height: 100vh;
+  background-color: #000;
+  color: #666; }
+
+.pc * {
+  letter-spacing: -1px; }
+
+.hidden {
+  display: none; }
+
+#nc-cnb {
+  display: none; }
+
+.ANDROID [android-only] {
+  display: inline-block; }
+
+.ANDROID [ios-only] {
+  display: none; }
+
+.IOS [android-only] {
+  display: none; }
+
+.IOS [ios-only] {
+  display: inline-block; }
+
+.preorder-guild-wrap {
+  position: relative;
+  font-size: 16px;
+  min-height: 100vh; }
+  .preorder-guild-wrap::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    background: url(../img/@bg_m.jpg) no-repeat 50% 0;
+    background-size: 959px auto; }
+    @media (min-width: 1260px) {
+      .preorder-guild-wrap::after {
+        background-image: url(../img/@bg_pc.jpg);
+        background-size: cover; } }
+  .preorder-guild-wrap a {
+    color: #666; }
+  .preorder-guild-wrap button {
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    vertical-align: top;
+    outline: none;
+    cursor: pointer; }
+  .preorder-guild-wrap input[type=text], .preorder-guild-wrap textarea {
+    width: 100%;
+    height: 50px;
+    padding: 0 0 0 15px;
+    color: #fff;
+    vertical-align: top;
+    border: 0 none;
+    resize: none;
+    background-color: #222629; }
+    .preorder-guild-wrap input[type=text] ::-webkit-input-placeholder, .preorder-guild-wrap textarea ::-webkit-input-placeholder {
+      color: rgba(255, 255, 255, 0.3); }
+    .preorder-guild-wrap input[type=text] :-ms-input-placeholder, .preorder-guild-wrap textarea :-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.3); }
+    .preorder-guild-wrap input[type=text].is-invalid, .preorder-guild-wrap textarea.is-invalid {
+      border: 1px solid #64322d;
+      background-color: #311b19; }
+  .preorder-guild-wrap textarea {
+    padding-top: 17px; }
+
+.header {
+  position: relative;
+  z-index: 2;
+  height: 276px;
+  overflow: hidden; }
+  .header img {
+    vertical-align: top; }
+  @media (min-width: 1260px) {
+    .header {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 420px;
+      min-height: 100vh; } }
+  @media (min-width: 1920px) {
+    .header {
+      width: 50vw; } }
+  .header::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    height: 276px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%); }
+    @media (min-width: 1260px) {
+      .header::after {
+        display: none; } }
+
+.header-contents {
+  position: relative;
+  z-index: 2; }
+  @media (min-width: 1260px) {
+    .header-contents {
+      padding-top: 208px; } }
+
+.wrap-footer {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: 100px 0 30px 0; }
+  @media (min-width: 1260px) {
+    .wrap-footer {
+      width: 720px;
+      margin: 0 auto;
+      padding-top: 163px;
+      padding-bottom: 100px; } }
+  @media (min-width: 1920px) {
+    .wrap-footer {
+      margin-left: 130px; } }
+  .wrap-footer .copyright {
+    margin: 0;
+    padding: 0;
+    font-size: 12px; }
+  @media (min-width: 1260px) {
+    .wrap-footer .copyright-m {
+      display: none; } }
+  .wrap-footer .copyright-pc {
+    display: none; }
+    @media (min-width: 1260px) {
+      .wrap-footer .copyright-pc {
+        display: block; } }
+
+.wrap-contents-area {
+  position: relative;
+  z-index: 1;
+  min-height: 50vh;
+  padding: 0 24px;
+  background-color: rgba(0, 0, 0, 0.8);
+  text-align: center; }
+  @media (min-width: 1260px) {
+    .wrap-contents-area {
+      width: 100%;
+      padding-left: 420px;
+      padding-right: 0;
+      min-height: 100vh;
+      background-color: transparent; }
+      .wrap-contents-area::after {
+        display: block;
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 420px;
+        right: 0;
+        z-index: 0;
+        background-color: rgba(0, 0, 0, 0.8); } }
+  @media (min-width: 1920px) {
+    .wrap-contents-area {
+      padding-left: 50vw; }
+      .wrap-contents-area::after {
+        left: 50vw; } }
+  @media (min-width: 1260px) {
+    .wrap-contents-area.is-before {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      flex-flow: column; } }
+
+.section {
+  position: relative;
+  z-index: 1;
+  text-align: left;
+  margin: 0 auto;
+  max-width: 592px; }
+  @media (min-width: 1260px) {
+    .section {
+      width: 720px;
+      max-width: 720px; } }
+  @media (min-width: 1920px) {
+    .section {
+      margin: 0 0 0 130px; } }
+
+.btn-home {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 35px;
+  height: 35px;
+  background: url(../img/btn_home.png) no-repeat;
+  background-size: cover;
+  text-align: left;
+  text-indent: -9999em;
+  white-space: nowrap;
+  overflow: hidden; }
+  @media (min-width: 1260px) {
+    .btn-home {
+      top: 30px;
+      left: 30px;
+      width: 105px;
+      height: 39px;
+      background-image: url(../img/btn_home_pc.png); } }
+
+.bi-title {
+  text-align: center; }
+  .bi-title h1 {
+    display: none;
+    margin: 0;
+    padding: 0; }
+
+.bi-m {
+  display: inline-block;
+  width: 260px; }
+  @media (min-width: 1260px) {
+    .bi-m {
+      display: none; } }
+
+.bi-pc {
+  display: none; }
+  @media (min-width: 1260px) {
+    .bi-pc {
+      display: inline-block;
+      width: 270px; } }
+  @media (min-width: 1920px) {
+    .bi-pc {
+      width: auto; } }
+
+.is-sticky .preorder-guild-wrap::after {
+  z-index: 8;
+  height: 65px; }
+
+.is-sticky .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9;
+  min-height: auto;
+  height: 65px; }
+  .is-sticky .header .bi-title img {
+    display: none; }
+  .is-sticky .header .bi-title h1 {
+    display: block;
+    font-size: 18px;
+    font-weight: normal;
+    text-align: center;
+    line-height: 65px;
+    color: #fff; }
+
+.section-before {
+  padding: 85px 0 0 0;
+  text-align: center; }
+  @media (min-width: 1260px) {
+    .section-before {
+      padding: 0; } }
+  .section-before h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    font-weight: normal;
+    color: #ededed; }
+    @media (min-width: 1260px) {
+      .section-before h2 {
+        font-size: 24px; } }
+  .section-before .btn-wrap {
+    margin-top: 37px; }
+    @media (min-width: 1260px) {
+      .section-before .btn-wrap {
+        margin-top: 60px; } }
+  .section-before .btn-login,
+  .section-before .btn-create-character {
+    display: inline-block;
+    min-width: 177px;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    text-decoration: none; }
+    @media (min-width: 1260px) {
+      .section-before .btn-login,
+      .section-before .btn-create-character {
+        min-width: 230px;
+        height: 64px;
+        line-height: 64px;
+        font-size: 20px; } }
+  @media (min-width: 1260px) {
+    .section-before .state-guild-check {
+      width: 720px; } }
+
+.my-guild-wrap {
+  width: 100%;
+  margin-top: 44px; }
+  @media (min-width: 1260px) {
+    .my-guild-wrap {
+      margin-top: 51px; } }
+  .my-guild-wrap:first-child {
+    margin-top: 0; }
+  .my-guild-wrap h2 {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+    font-size: 16px;
+    color: #909090;
+    text-align: center; }
+    .my-guild-wrap h2::before, .my-guild-wrap h2::after {
+      position: relative;
+      top: 2px;
+      content: '';
+      display: inline-block;
+      width: 40px;
+      height: 18px;
+      margin: 0 15px;
+      background: url(../img/deco_left.png) no-repeat;
+      background-size: cover; }
+      @media (min-width: 1260px) {
+        .my-guild-wrap h2::before, .my-guild-wrap h2::after {
+          margin: 0 12px; } }
+    .my-guild-wrap h2::after {
+      background-image: url(../img/deco_right.png); }
+
+.guild-info-box {
+  position: relative;
+  margin-top: 14px;
+  padding: 22px 21px 20px 21px;
+  line-height: 1.2;
+  text-align: left;
+  border: 1px solid rgba(146, 105, 69, 0.4);
+  background-color: rgba(74, 57, 42, 0.8); }
+  @media (min-width: 1260px) {
+    .guild-info-box {
+      padding: 36px; } }
+  .guild-info-box .server-guild-wrap {
+    color: #ededed; }
+    .guild-info-box .server-guild-wrap .guild {
+      margin-left: 6px; }
+  .guild-info-box .info-wrap {
+    margin-top: 5px;
+    font-size: 14px; }
+    .guild-info-box .info-wrap strong {
+      font-weight: normal; }
+      .guild-info-box .info-wrap strong::after {
+        content: ':';
+        margin: 0 4px; }
+  .guild-info-box .monarch-wrap {
+    padding-right: 12px; }
+  .guild-info-box .person-wrap {
+    display: block;
+    margin-top: 4px; }
+    @media (min-width: 1260px) {
+      .guild-info-box .person-wrap {
+        display: inline-block;
+        position: relative;
+        padding-left: 12px;
+        margin-top: 0; }
+        .guild-info-box .person-wrap::before {
+          position: absolute;
+          left: 0;
+          top: 2px;
+          content: '';
+          display: inline-block;
+          height: 14px;
+          width: 1px;
+          background-color: rgba(175, 128, 86, 0.3); } }
+    .guild-info-box .person-wrap em {
+      font-style: normal; }
+  .guild-info-box .introduce {
+    margin-top: 18px;
+    font-size: 15px;
+    color: #909090;
+    line-height: 1.4; }
+  .guild-info-box .btn-wrap {
+    margin-top: 22px;
+    text-align: center;
+    padding-top: 21px;
+    border-top: 1px solid rgba(146, 105, 69, 0.15); }
+    @media (min-width: 1260px) {
+      .guild-info-box .btn-wrap {
+        position: absolute;
+        top: 37px;
+        right: 35px;
+        padding-top: 0;
+        margin-top: 0; } }
+    .guild-info-box .btn-wrap a, .guild-info-box .btn-wrap button {
+      display: inline-block;
+      min-width: 90px;
+      height: 30px;
+      padding: 0 9px;
+      line-height: 28px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.25); }
+      @media (min-width: 1260px) {
+        .guild-info-box .btn-wrap a, .guild-info-box .btn-wrap button {
+          height: 33px;
+          line-height: 31px; } }
+    .guild-info-box .btn-wrap button {
+      line-height: 30px; }
+    .guild-info-box .btn-wrap .btn-cancel-request {
+      background-color: transparent; }
+    .guild-info-box .btn-wrap .btn-join {
+      min-width: 99px;
+      height: 38px;
+      border: 0 none;
+      color: #fff;
+      background-image: url(../img/btn_pattern.png);
+      background-repeat: no-repeat;
+      background-position: 0 0;
+      background-size: auto 100%; }
+
+.invite-guild-wrap .guild-info-box {
+  background-color: rgba(59, 60, 62, 0.8);
+  border-color: rgba(255, 255, 255, 0.1); }
+
+.invite-guild-wrap .monarch-wrap {
+  display: none; }
+
+.invite-guild-wrap .person-wrap {
+  margin-top: 2px; }
+  @media (min-width: 1260px) {
+    .invite-guild-wrap .person-wrap {
+      margin-top: 0;
+      padding-left: 0; }
+      .invite-guild-wrap .person-wrap::before {
+        display: none; } }
+
+.invite-guild-wrap .btn-wrap {
+  position: static;
+  margin-top: 20px;
+  padding-top: 0;
+  border-top: 0 none; }
+  @media (min-width: 1260px) {
+    .invite-guild-wrap .btn-wrap {
+      text-align: right; } }
+
+.section-create {
+  max-width: 327px;
+  padding: 20px 0 0 0; }
+  @media (min-width: 1260px) {
+    .section-create {
+      max-width: 720px;
+      padding-top: 95px; } }
+  .section-create .create-guild-wrap {
+    max-width: 327px;
+    margin: 0 auto; }
+  .section-create .create-tr {
+    min-height: 63px;
+    padding: 21px 0 0 0;
+    line-height: 1.2;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+    @media (min-width: 1260px) {
+      .section-create .create-tr {
+        display: table;
+        width: 100%;
+        min-height: 65px;
+        padding-top: 23px;
+        border: 0 none; } }
+  .section-create .create-th {
+    float: left;
+    display: block;
+    width: 56px;
+    font-weight: normal; }
+    @media (min-width: 1260px) {
+      .section-create .create-th {
+        display: table-cell;
+        width: 134px;
+        vertical-align: middle; } }
+  .section-create .create-td {
+    position: relative; }
+    @media (min-width: 1260px) {
+      .section-create .create-td {
+        display: table-cell;
+        width: 586px;
+        padding-bottom: 24px;
+        vertical-align: top;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07); } }
+  .section-create .create-tr-guild-name .create-th {
+    float: none;
+    width: auto; }
+  .section-create .create-tr-guild-name .create-td {
+    margin-top: 11px; }
+    @media (min-width: 1260px) {
+      .section-create .create-tr-guild-name .create-td {
+        margin-top: 0;
+        padding-right: 134px; } }
+  .section-create .create-tr-guild-name .btn-check-duplicate {
+    width: 100%;
+    height: 50px;
+    margin-top: 6px;
+    color: #fff; }
+    @media (min-width: 1260px) {
+      .section-create .create-tr-guild-name .btn-check-duplicate {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 130px;
+        margin-top: 0; } }
+  .section-create .create-tr-guild-desc {
+    margin-top: 25px;
+    padding-bottom: 24px; }
+    @media (min-width: 1260px) {
+      .section-create .create-tr-guild-desc {
+        margin-top: 0;
+        padding-bottom: 0px; } }
+    .section-create .create-tr-guild-desc .create-th {
+      float: none;
+      width: auto; }
+    .section-create .create-tr-guild-desc textarea {
+      margin-top: 11px;
+      height: 181px; }
+      @media (min-width: 1260px) {
+        .section-create .create-tr-guild-desc textarea {
+          height: 107px;
+          margin-top: 0; } }
+  .section-create .create-tr-join-type {
+    padding-bottom: 24px; }
+    @media (min-width: 1260px) {
+      .section-create .create-tr-join-type {
+        padding-bottom: 0; }
+        .section-create .create-tr-join-type:after {
+          content: "";
+          display: table;
+          clear: both; } }
+    .section-create .create-tr-join-type .create-th {
+      float: none;
+      width: auto; }
+    .section-create .create-tr-join-type .create-td {
+      padding-top: 2px; }
+  .section-create .pre-guild-radio {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 76px;
+    margin-top: 10px; }
+    .section-create .pre-guild-radio:after {
+      content: "";
+      display: table;
+      clear: both; }
+    @media (min-width: 1260px) {
+      .section-create .pre-guild-radio {
+        width: 288px;
+        height: 108px;
+        margin-top: 0;
+        float: left; }
+        .section-create .pre-guild-radio:last-child {
+          float: right; } }
+    .section-create .pre-guild-radio input {
+      position: absolute;
+      left: -999em; }
+    .section-create .pre-guild-radio input::-ms-clear {
+      display: none !important; }
+    .section-create .pre-guild-radio label {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 18px 0 0 56px;
+      border: 1px solid rgba(255, 255, 255, 0.1); }
+      @media (min-width: 1260px) {
+        .section-create .pre-guild-radio label {
+          padding: 21px 0 0 70px; } }
+      .section-create .pre-guild-radio label span {
+        vertical-align: middle; }
+    .section-create .pre-guild-radio .custombox {
+      position: absolute;
+      top: 30px;
+      left: 21px;
+      width: 16px;
+      height: 16px;
+      box-sizing: border-box;
+      display: inline-block;
+      margin: 0 6px 0 0;
+      line-height: 1; }
+      @media (min-width: 1260px) {
+        .section-create .pre-guild-radio .custombox {
+          top: 40px;
+          left: 26px;
+          width: 20px;
+          height: 20px; } }
+      .section-create .pre-guild-radio .custombox:before, .section-create .pre-guild-radio .custombox:after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%; }
+      .section-create .pre-guild-radio .custombox:before {
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.2); }
+      .section-create .pre-guild-radio .custombox:after {
+        top: 6px;
+        left: 6px;
+        width: 6px;
+        height: 6px;
+        background-color: #000;
+        opacity: 0;
+        transform: scale(0); }
+        @media (min-width: 1260px) {
+          .section-create .pre-guild-radio .custombox:after {
+            top: 7px;
+            left: 7px;
+            width: 8px;
+            height: 8px; } }
+    .section-create .pre-guild-radio input:checked + label {
+      border: 1px solid #926945;
+      background-color: rgba(146, 105, 69, 0.3); }
+    .section-create .pre-guild-radio input:checked + label .custombox:before {
+      background: #fff; }
+    .section-create .pre-guild-radio input:checked + label .custombox:after {
+      opacity: 1;
+      transform: scale(1);
+      transition: all .2s ease-out; }
+    .section-create .pre-guild-radio .join-type {
+      font-weight: normal; }
+    .section-create .pre-guild-radio .desc {
+      display: block;
+      margin-top: 3px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.3); }
+      @media (min-width: 1260px) {
+        .section-create .pre-guild-radio .desc {
+          margin-top: 5px;
+          line-height: 1.4; } }
+      .section-create .pre-guild-radio .desc br {
+        display: none; }
+        @media (min-width: 1260px) {
+          .section-create .pre-guild-radio .desc br {
+            display: block; } }
+  .section-create .wrap-valid-msg {
+    display: none;
+    margin-top: 26px;
+    line-height: 1.2;
+    text-align: center;
+    color: #903c35; }
+    @media (min-width: 1260px) {
+      .section-create .wrap-valid-msg {
+        margin-top: 27px;
+        padding-left: 134px;
+        text-align: left; } }
+    .section-create .wrap-valid-msg .valid-msg {
+      display: inline-block;
+      margin: 0;
+      padding: 0; }
+      .section-create .wrap-valid-msg .valid-msg::before {
+        content: '';
+        display: inline-block;
+        margin-top: 1px;
+        margin-right: 4px;
+        width: 16px;
+        height: 16px;
+        vertical-align: top;
+        background: url(../img/ic_error.png) no-repeat;
+        background-size: cover; }
+  .section-create .create-tr-join-type input[type=radio] {
+    display: none; }
+  .section-create .btn-wrap {
+    margin-top: 25px;
+    text-align: center; }
+    @media (min-width: 1260px) {
+      .section-create .btn-wrap {
+        padding-left: 134px;
+        text-align: right; } }
+  .section-create .btn-create {
+    width: 100%;
+    height: 64px;
+    font-size: 20px;
+    color: #fff; }
+  .section-create .btn-cancel {
+    display: inline-block;
+    margin-top: 27px;
+    color: #666;
+    text-decoration: underline; }
+    @media (min-width: 1260px) {
+      .section-create .btn-cancel {
+        margin-top: 21px; } }
+
+.guild-search-wrap {
+  display: inline-block;
+  position: absolute;
+  bottom: 20px;
+  right: 0;
+  width: 100%;
+  text-align: right; }
+  @media (min-width: 1260px) {
+    .guild-search-wrap {
+      display: block;
+      top: 98px;
+      bottom: auto;
+      width: 240px; } }
+
+.btn-guild-search {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/btn_search.png) no-repeat;
+  background-size: cover;
+  text-align: left;
+  text-indent: -9999em;
+  white-space: nowrap;
+  overflow: hidden; }
+  @media (min-width: 1260px) {
+    .btn-guild-search {
+      display: none; } }
+
+.guild-search-result {
+  display: none;
+  padding: 30px 0;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+  .guild-search-result .keyword {
+    font-style: normal; }
+    .guild-search-result .keyword::before, .guild-search-result .keyword::after {
+      display: inline;
+      content: '‘'; }
+
+.btn-close-search {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url(../img/btn_close_search.png) no-repeat 50% 50%;
+  background-size: 16px auto;
+  text-align: left;
+  text-indent: -9999em;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: top; }
+
+.guild-search-form {
+  display: none; }
+  @media (min-width: 1260px) {
+    .guild-search-form {
+      display: block; } }
+  .guild-search-form.is-search {
+    display: block; }
+
+.guild-search-input-wrap {
+  position: absolute;
+  top: -11px;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 42px;
+  padding: 0 40px 0 32px;
+  background: #000 url(../img/btn_search.png) no-repeat 12px 50%;
+  background-size: 20px auto;
+  border: 1px solid #272a2e; }
+  @media (min-width: 1260px) {
+    .guild-search-input-wrap {
+      position: relative;
+      top: -14px;
+      padding: 0 65px 0 0;
+      background-color: transparent;
+      background-image: none;
+      border: 1px solid #2f373c; } }
+  .guild-search-input-wrap input[type="text"] {
+    height: 100%;
+    background-color: transparent; }
+  .guild-search-input-wrap .btn-search-reset {
+    position: absolute;
+    top: 50%;
+    right: 48px;
+    margin-top: -9px;
+    width: 18px;
+    height: 18px;
+    background: url(../img/btn_reset.png) no-repeat;
+    background-size: cover;
+    text-align: left;
+    text-indent: -9999em;
+    white-space: nowrap;
+    overflow: hidden; }
+    @media (min-width: 1260px) {
+      .guild-search-input-wrap .btn-search-reset {
+        right: 38px;
+        width: 15px;
+        height: 15px; } }
+  .guild-search-input-wrap .btn-search {
+    display: none; }
+    @media (min-width: 1260px) {
+      .guild-search-input-wrap .btn-search {
+        position: absolute;
+        top: 11px;
+        right: 10px;
+        z-index: 3;
+        display: block;
+        width: 16px;
+        height: 16px;
+        background: url(../img/btn_search.png) no-repeat;
+        background-size: 16px auto;
+        text-align: left;
+        text-indent: -9999em;
+        white-space: nowrap;
+        overflow: hidden; } }
+
+.btn-search-cancel {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  width: 47px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  background-color: transparent; }
+  @media (min-width: 1260px) {
+    .btn-search-cancel {
+      display: none; } }
+
+.guild-list-none {
+  padding: 70px 0;
+  color: #fff;
+  font-size: 18px;
+  text-align: center; }
+  @media (min-width: 1260px) {
+    .guild-list-none {
+      padding: 145px 0;
+      font-size: 20px; } }
+  .guild-list-none p {
+    margin: 0;
+    padding: 0; }
+  .guild-list-none .btn-search-none {
+    display: inline-block;
+    min-width: 130px;
+    height: 38px;
+    padding: 0 30px;
+    margin-top: 20px;
+    line-height: 38px;
+    color: #fff; }
+    @media (min-width: 1260px) {
+      .guild-list-none .btn-search-none {
+        margin-top: 35px;
+        font-size: 16px; } }
+
+.guild-search-none {
+  display: none; }
+
+.guild-list-my {
+  position: relative;
+  z-index: 2;
+  padding: 44px 0 20px 0; }
+  @media (min-width: 1260px) {
+    .guild-list-my {
+      width: 100%;
+      padding: 70px 0;
+      background-color: rgba(255, 255, 255, 0.06); } }
+  @media (min-width: 1920px) {
+    .guild-list-my {
+      padding-left: 120px; } }
+  .guild-list-my .my-guild-wrap {
+    max-width: 592px;
+    margin-left: auto;
+    margin-right: auto; }
+    @media (min-width: 1260px) {
+      .guild-list-my .my-guild-wrap {
+        max-width: 720px; } }
+    @media (min-width: 1920px) {
+      .guild-list-my .my-guild-wrap {
+        margin-left: 0; } }
+
+.guild-list-header {
+  position: relative;
+  padding: 43px 0 20px 0;
+  border-bottom: 4px solid rgba(255, 255, 255, 0.1); }
+  @media (min-width: 1260px) {
+    .guild-list-header {
+      padding-top: 98px; } }
+
+.guild-sort {
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+  color: #666; }
+
+.guild-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none; }
+
+.guild-list-items {
+  position: relative;
+  margin: 0;
+  padding: 24px 0 0 0;
+  margin-top: 29px;
+  list-style-type: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  @media (min-width: 1260px) {
+    .guild-list-items {
+      padding-top: 35px;
+      margin-top: 35px; } }
+  .guild-list-items:first-child {
+    padding-top: 0;
+    border-top: 0 none; }
+  .guild-list-items .server-guild-wrap {
+    color: #ededed; }
+    @media (min-width: 1260px) {
+      .guild-list-items .server-guild-wrap {
+        display: inline-block; } }
+    .guild-list-items .server-guild-wrap .guild {
+      margin-left: 6px; }
+  .guild-list-items .info-wrap {
+    margin-top: 5px;
+    font-size: 14px; }
+    @media (min-width: 1260px) {
+      .guild-list-items .info-wrap {
+        display: inline-block;
+        margin-top: 0;
+        margin-left: 6px;
+        padding-top: 1px;
+        vertical-align: top; } }
+    .guild-list-items .info-wrap strong {
+      font-weight: normal; }
+      .guild-list-items .info-wrap strong::after {
+        content: ':';
+        margin: 0 4px; }
+  .guild-list-items .person-wrap {
+    position: relative; }
+    .guild-list-items .person-wrap em {
+      font-style: normal; }
+  .guild-list-items .introduce {
+    margin-top: 13px;
+    line-height: 22px;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-size: 15px; }
+  .guild-list-items .btn-introduce-more {
+    height: auto;
+    font-size: 15px;
+    color: rgba(237, 237, 237, 0.7);
+    background-color: transparent; }
+  .guild-list-items .btn-wrap {
+    display: block;
+    text-align: right; }
+    @media (min-width: 1260px) {
+      .guild-list-items .btn-wrap {
+        margin-top: 16px; } }
+    .guild-list-items .btn-wrap [class^=btn-] {
+      min-width: 79px;
+      height: 38px;
+      padding: 0 13px;
+      font-size: 15px;
+      color: #fff; }
+      @media (min-width: 1260px) {
+        .guild-list-items .btn-wrap [class^=btn-] {
+          min-width: 140px;
+          height: 40px; } }
+      .guild-list-items .btn-wrap [class^=btn-]:disabled {
+        background-color: transparent;
+        border: 1px solid rgba(175, 128, 86, 0.25);
+        cursor: default; }
+
+.guild-list-more-wrap {
+  display: none;
+  height: 46px;
+  margin-top: 24px; }
+  @media (min-width: 1260px) {
+    .guild-list-more-wrap {
+      margin-top: 34px; } }
+
+.guild-list-more {
+  width: 100%;
+  height: 100%;
+  color: #909090;
+  background-color: rgba(54, 54, 54, 0.65); }
+
+
+/*# sourceMappingURL=ui.preorder-guild.css.map*/
