@@ -18,12 +18,21 @@
   <div class="content">
     <div class="option">
       <label for="preorder">사전예약관련</label>
-      <input type="checkbox" name="sort" id="preorder" value='preorder'>
+      <input type="checkbox" name="sort" id="preorder" value='preorder' checked>
       <label for="notice">공지 관련</label>
       <input type="checkbox" name="sort" id="notice" value='notice'>
     </div>
+    <div class="option">
+      <label for="teaser">서비스1_티저 (index)</label>
+      <input type="radio" name="service" id="teaser" value='teaser' checked>
+      <label for="preorderrecord">서비스2_사전예약 (index2) </label>
+      <input type="radio" name="service" id="preorderrecord" value='preorderrecord'>
+    </div>
     <div class="payload">
-      <input type="text" name="payload" id="payload">
+      <label for="message">메시지 문구</label>
+      <input type="text" name="message" id="message">
+      <label for="url">클릭시 이동할 url</label>
+      <input type="text" name="url" id="url">
     </div>
     <div class="btn_wrap">
       <button id="send">메시지 전송</button>
@@ -34,11 +43,7 @@
 
  
 
-    document.querySelectorAll('input[name=sort]').forEach(checkbox=>{
-      if(checkbox.checked){
-        sort.push(checkbox.value)
-      }
-    })
+
 
     $('#send').on('click', e=>{
       e.preventDefault();
@@ -47,15 +52,27 @@
 
     function sendMessage() {
       let sort = [];
-      let payload = $('input[name="payload"]').val();
+      let message = $('input[name="message"]').val();
+      let url = $('input[name="url"]').val();
+      let payload = JSON.stringify({message, url});
+      let sendPushMessageAsSortAPI;
       $('input:checkbox[name=sort]').each(function (i, e) {
       if ($(e).is(':checked'))
         sort.push($(e).val())
       });
 
-      let option = { payload, sort}
+      let service = $('input:radio[name=service]:checked').val()
+      if(service === "teaser"){
+        sendPushMessageAsSortAPI = 'sendPushMessageAsSort'
+      }else if(service === "preorderrecord"){
+        sendPushMessageAsSortAPI = 'sendPushMessageAsSort2'
+      }
+      const API_ORIGIN_LOCAL = 'http://localhost:8010/pushtest-c0b5a/us-central1';
+      const API_ORIGIN_ONSERVICE = 'https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net';
 
-      fetch('https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net/sendPushMessageAsSort', {
+      let option = { payload, sort}
+      fetch(`${API_ORIGIN_LOCAL}/${sendPushMessageAsSortAPI}`, {
+      // fetch('https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net/sendPushMessageAsSort', {
         'method': 'POST',
         'Content-type': 'application/json',
         'Accept': 'application/json',

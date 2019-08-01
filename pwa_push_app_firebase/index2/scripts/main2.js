@@ -21,8 +21,8 @@
 
 'use strict';
 
-const applicationServerPublicKey = 'BA4Zlii7aeJeIiDJvprBfv4FWmpL7KKaBwJDL6Nut4zwC-4y2LxVY30zRscv6cZwQYaGOEOHS8O0oiAoBCo4jCk';
-// private = tzv_L9neZGfzdK6o2hFs8Y9qbkSvB1xsie2ah9veKlo
+const applicationServerPublicKey = 'BF5BXWwl_mdN3VUJiGy_l98funGD9gg1klZI1d38P2EbCMjcIhz3LYGZeeEkXOxfL4REVz7s_Yhfj1G6Bogwx9k';
+// private = tMkJnpVKkhM9pBYVCaip1i27rU07YNuTVU19XQFQGnY
 
 const API_ORIGIN_LOCAL = 'http://localhost:8010/pushtest-c0b5a/us-central1';
 const API_ORIGIN_ONSERVICE = 'https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net';
@@ -68,7 +68,7 @@ function makeTmplNotSupportList(item){
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   console.log('Service Worker and Push is supported');
 
-  navigator.serviceWorker.register('sw.js')
+  navigator.serviceWorker.register('sw2.js')
   .then(function(swReg) {
     console.log('Service Worker is registered', swReg);
 
@@ -149,7 +149,7 @@ function addSubscriptionOnServer(subscription){
     }
   })
 
-  fetch(`${API_ORIGIN_LOCAL}/storeSubscription`, {
+  fetch(`${API_ORIGIN_LOCAL}/storeSubscription2`, {
     'method': 'POST',
     'Content-type': 'application/json',
     'Accept': 'application/json',
@@ -166,7 +166,7 @@ function addSubscriptionOnServer(subscription){
 
 function removeSubscriptionOnServer(subscription){
 
-  fetch(`${API_ORIGIN_LOCAL}/removeSubscription`, {
+  fetch(`${API_ORIGIN_LOCAL}/removeSubscription2`, {
     'method': 'POST',
     'Content-type': 'application/json',
     'Accept': 'application/json',

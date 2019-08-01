@@ -484,3 +484,60 @@ The user agent connects to the push service used to create push subscriptions(`s
 
 # 확인해야 할거 
 - html 페이지와 sw.js 파일의 위치가 달라도 되는가?
+
+# 추가
+## 파이어 폭스의 경우
+- firebase functions는 무료버전일 경우 다른 회사 서비스 API를 호출 하지 않는다. 
+- functions를 사용하면 파이어 폭스에 push가 오지 않는다. 
+- functions안쓰면 push가 정상적으로 작동한다. 확인 완료
+- functions-emulator 에서도 firfox push service 이용가능하다. 
+```js
+// node cli 모드에서 직접 실행한다. 
+const applicationServerPublicKey = 'BA4Zlii7aeJeIiDJvprBfv4FWmpL7KKaBwJDL6Nut4zwC-4y2LxVY30zRscv6cZwQYaGOEOHS8O0oiAoBCo4jCk';
+const applicationServerPrivate = 'tzv_L9neZGfzdK6o2hFs8Y9qbkSvB1xsie2ah9veKlo'
+const options = {
+    vapidDetails: {
+        subject: 'mailto:sender@example.com',
+        publicKey: applicationServerPublicKey,
+        privateKey: applicationServerPrivate
+    },
+    TTL: 10
+}
+var subscription = {"endpoint":"https://updates.push.services.mozilla.com/wpush/v2/gAAAAABdQnHZHxSlZqb_WbqXy0Uq1Ox1eUICde8oZUQsnOgC292uCoruPbMQjp2TBDanskxAzvEhWt56q74g0Im8ceKt4I0Fy6Tx9hrxyz3b2-n8rLXW87rij5TUjX7P6bpd5jcInIJPWXRnMnhgZDjVSKxvX4W-C7kJOJ4gy81su5HCzq1pfMs","keys":{"auth":"oskzKMcb14gfV_ECJW_ovQ","p256dh":"BJ0djwjBYWVqRAVIDjl2Y4p6PapsmaB3SuutFzmJCCvDtzjhT45H-y6QaHZRiF0UVkUCDXm4a35BAb7aQPuqABs"}}
+
+
+webpush.sendNotification(subscription, JSON.stringify({message:'me', url:''}), options) .then(function(values) {
+    console.log(values);
+})   .catch(function(err){
+    console.log(err)
+})
+
+```
+
+## 하나의 serviceworker에는 하나의 subscription만 존재 한다. 
+1. 다른 path에 같은 serviceworker를 가질경우
+- 어느 한쪽 path에서 subscription객체가 변경되면 다른 path의 subscription도 바뀐다. 
+- 이게 당연한게, subscribe()메서드가 serivceworkerregistration.pushManager 객체에 있는거니까, 등록되어 있는 serviceworker에 종속되는게 당연하다. 
+- 테스트 결과도 일치한다. 
+
+2. 위의 경우 각기 다른 path에서 다른 VAPID를 가질경우
+- 마지막으로 subscription객체를 생성할때 사용한 VAPID가 사용되고, 
+- 서버에서는 이 VAPID에 해당하는 Private 키를가지고 있어야 푸쉬를 보낼 수 있다. 
+- pushserver(백엔드)에서 잘못된 VAPID를 사용하여 메시지를 보내면 애러가 난다. 
+
+3. 다른 path (같은 depth) 에서 다른 serviceworker를 가질경우
+- 다른 service worker 를 가질 수 없다. 
+
+4. 다른 path (다른 depth) 에서 다른 serviceworker를 가질경우
+- 다른 service worker 를 가질 수 있다. 
+
+## subscription 구독시 VAPID 는 필수 이다. 
+- https://developer.mozilla.org/en-US/docs/Web/API/PushManager/subscribe#Browser_compatibility
+- VAPID 없이 생성하려고 하면 애러가 난다 .
+
+
+"https://fcm.googleapis.com/fcm/send/d_NxdJduu-Q:APA91bFM1dzQVP6v7n5wzQrHEiXydK3ggapvy-lFv7LBxHQMoHGnAferE6imcD6VHq4oiSHrvaVPoPLPtV4dZU1ATXvqsKw7T_bEnweBXKYxlff_NyK9r_YecEoRp-sxiePrl-gdgdFN"
+
+"https://updates.push.services.mozilla.com/wpush/v2/gAAAAABdQnHZHxSlZqb_WbqXy0Uq1Ox1eUICde8oZUQsnOgC292uCoruPbMQjp2TBDanskxAzvEhWt56q74g0Im8ceKt4I0Fy6Tx9hrxyz3b2-n8rLXW87rij5TUjX7P6bpd5jcInIJPWXRnMnhgZDjVSKxvX4W-C7kJOJ4gy81su5HCzq1pfMs"
+
+"https://fcm.googleapis.com/fcm/send/e55OgyFDk8A:APA91bEb_5HuuVoNPAvf_mtGNJWvOopxq8XyO0zo5F9kD4MFdf9f99Dc50NtwtnBupjSodO1NhV7pWX-j4a8NZu1TqCzVBIyVR9xEm8XWJkjBO-X8fFmhhnjn2trJAhb6vhsnpkRqyzd"
