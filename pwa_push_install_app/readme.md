@@ -6,10 +6,218 @@
     - Push, 
     - 카메라기능, 
     - 빠른 속도(오프라인환경에서 작동, 캐쉬등...) 등등...
-#  Service worker scope
 
+# caching strategy 캐싱 전략
+## 1. Cache only (캐시만 사용)
+- 모든 리소스에 대해 케시만 사용하여 불러옴
+```js
+self.addEventListener('fetch', event=>{
+    event.repondWith(
+        caches.match(event.request); // return A Promise that resolves to the matching Response.
+    )
+})
+```
+## 2. Cache, falling back to network (캐시, 실패하는 경우 네트워크)
+```js
+
+// Promise callback
+self.addEventListener('fetch', event=>{
+    event.respondWith(
+        caches.match(event.request).then(reponse => {
+            return response || fetch(event.request)
+        })
+    )
+})
+
+// async/await
+self.addEventListener('fetch', event =>{
+    event.respondWith(
+        async function(){
+            let result = await caches.match(event.request);
+            if(result) return result ;
+
+            return fetch(event.request)
+        }
+    )
+})
+
+```
+## 3. Network only (네트워크만 사용)
+```js
+self.addEventListener('fetch', function(event){
+    event.respondWith(
+        fetch(event.request)
+    )
+})
+```
+
+## 4. Network, falling back to cache (네트워크, 실패하는 경우 캐시)
+```js
+// Promise callback
+self.addEventListener('fetch', event =>{
+    event.respondWith(
+        fetch(event.request).catch(()=>{
+            return caches.match(event.request);
+        })
+    )
+})
+
+// async/await
+self.addEventListener('fetch', event =>{
+    event.respondWith(
+        async function(){
+            try{
+                return await fetch(event.request)
+            }catch(err){
+                return caches.match(event.request)
+            }
+        }
+    )
+})
+```
+## 5. Cache, then network (캐시 이후 네트워크)
+
+## 6. Generic fallback (기본 대체 리소스)
+```js
+// Promise callback
+self.addEventListener('fetch', event=>{
+    event.respondWith(
+        fetch(event.request).catch(()=>{
+            return caches.match(event.request).then(response=>{
+                    return response || caches.match('/generic.png')
+                )}
+            })
+        })
+    )
+})
+
+// async/await
+self.addEventListener('fetch', event=>{
+    event.respondWith(
+        async function(){
+            try{
+                let response = await fetch(event.request);
+                return response
+            }catch (err) {
+                let response = await caches.match(event.request);
+                return response || caches.match('/generic.png');
+            }
+        }
+    )
+})
+
+```
+## 7. Cache on demand (요청에 따라 캐시 -> 캐시, 실패하는 경우 네트워크, 이후 캐시 저장)
+```js
+
+// Promise callback
+self.addEventListener('fetch', event=>{
+    event.respondWith(
+        caches.open('cache-name').then(cache => {
+            return cache.match(event.request).then(cachedResponse => {
+                return cachedResponse || fetch(event.request).then(networkResponse => {
+                    cache.put(event.request, networkresponse.clone());
+                    return networkResponse;
+                })
+            })
+        })
+    )
+})
+
+// async/await
+self.addEventListener('fetch', event=>{
+    event.respondWith(
+        async function(){ // async function 은 Promise (async 함수에 의해 반환 된 값으로 해결되거나, async함수 내에서 발생하는 캐치되지 않는 예외로 거부되는 값)을 리턴한다. 
+            let cache = await caches.open('cache-name');
+            let cachedResponse = await cache.match(event.request);
+
+            if(cachedResponse) return cachedResponse;
+
+            let networkResponse = await fetch(event.request);
+            cache.put(event.request, networkResponse.clone());
+            return networkResponse;
+        }
+        
+    )
+})
+
+
+```
+## 8. Cache, falling back to network with frequent updates (캐시, 이후 네트워크 사용해 캐시 업데이트 -> 캐시, 성공하든 실패하든 네이트워크 이용하여 캐시 저장)
+```js
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        caches.open('cache-name').then(cache => {
+            return cache.match(evnet.request).then(cachedResponse => {
+                var fetchPromise = fetch(evnet.request).then(networkResponse =>{
+                    cache.put(event.request, networkResponse.clone())
+                    return networkResponse;
+                });
+                return cacheResponse || fetchPromise;
+            })
+        })
+    )
+})
+
+
+// async/await
+self.addEventListener('fetch', event=>{
+    event.respondWith(
+        async function(){ // async function 은 Promise (async 함수에 의해 반환 된 값으로 해결되거나, async함수 내에서 발생하는 캐치되지 않는 예외로 거부되는 값)을 리턴한다. 
+            let cache = await caches.open('cache-name');
+            let cachedResponse = await cache.match(event.request); // undefined 반환 가능
+
+            let networkResponse = await fetch(event.request);
+            cache.put(event.request, networkResponse.clone());
+
+            return cachedResponse || networkResponse;
+
+           
+        }
+        
+    )
+})
+
+```
+## 9. Network, falling back to cache with frequent updates (네트워크, 실패하는 경우 캐시 사용 및 비번한 캐시 업데이트)
+```js
+self.addEventListener('fetch',event => {
+    event.respondWith(
+        caches.open('cache-name').then(cache => {
+            return fetch(event.request).then(networkResponse => {
+                cache.put(event.request, networkResponse.clone())
+                return networkResponse;
+            }).catch((=>{
+                return caches.match(event.request)
+            }))
+        })
+    )
+})
+
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        async function(){
+            let cache = await caches.open('cache-name');
+            try{
+                let networkResponse = fetch(event.request);
+                cache.put(event.request, networkResponse.clone())
+                return networkResponse;
+            }catch{
+                let cachedResponse = await caches.match(event.request);
+                return cachedResponse;
+            }
+        }
+    )
+})
+
+```
+## 10. 앱 셸
+
+#  Service worker scope
 > Scope is linked with domain/origin. You can not create a service worker that intercepts request for other origins. If you try to register a service worker from origin which is different from origin of service worker file sw.js, then error will be thrown like The origin of the provided scriptURL ('https://cdn.example.com/sw.js') does not match the current origin. [https://itnext.io/service-workers-your-first-step-towards-progressive-web-apps-pwa-e4e11d1a2e85]
 
+# 서비스 워커
+- 서비스 워커는 자신이 제어하는 페이지에서 발생하는 이벤트를 수신합니다.웹에서 파일을 요청하는 것과 같은 이벤트를 가로채거나 수정하고 다시 페이지로 돌려보낼 수 있습니다. 
 
 # App 설치 
 - BeforeInstallPromptEvent ("install" a web site to a home screen.)
@@ -27,6 +235,11 @@
 - display must be one of: fullscreen, standalone, or minimal-ui
 - Served over HTTPS (required for service workers)
 - Has registered a service worker with a fetch event handler
+# registration.showNotification
+## tag
+- 알림을 나타내는 고유 식별자 입니다. 만약 현재 표시되 ㄴ태그와 동일한 태그를 가진 알림이 도착하면, 예전 알림은 조용히 새 알림으로 대체됩니다. 
+- 알림을 여러개 생성해 사용자를 귀찮게 하는 것보다 이 방법이 더 좋은 경우가 많스니다. 예를 들어, 메시징 앱에 안 읽은 메시지가 하나 있는 경우, 알림에 그 메시지 내용을 포함하고 싶을 것입니다. 그런데 기존 알림이 사라지기 전에 다섯개의 신규 메시지가 도착해다면, 여섯개의 별도 알림을 보여주는 것보다 6개의 새로운 메시지가 있습니다. 와 같이 기존 알림 내용을 업데이트 하는 것이 더 좋습니다. 
+- [만들면서 배우는 프로그래시브 웹 p.284]
 
 
 # Push & Notification 작동 원리 
@@ -93,6 +306,12 @@
 > There are several pieces that come together to make push notifications work. Browsers that support web push each implement their own push service, which is a system for processing messages and routing them to the correct clients. Push messages destined to become notifications are sent from a server directly to the push service, and contain the information necessary for the push service to send it to the right client and wake up the correct service worker. The section on the Push API describes this process in detail.  
 When it receives a message, the service worker wakes up just long enough to display the notification and then goes back to sleep. Because notifications are paired with a service worker, the service worker can listen for notification interactions in the background without using resources. When the user interacts with the notification, by clicking or closing it, the service worker wakes up for a brief time to handle the interaction before going back to sleep.  [https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#working_with_data_payloads]
 
+# unsubscription
+- 구독은 서비스 워커 하나에 유일하다. 
+- 구독 된 상태에서 구독 하면 같은 subscription을 반환 한다. 
+- 구독 해지 하고 재 구독 하면 다른 subscription을 반환 한다. 
+- **구독 된 상태에서 오프라인 상태에서 구독 해지 후 온라인에서 구독 하면 새로운 구독이 된다** => **데이터베이스에는 예전 구독이 남아 있다**
+
 
 # TTL 푸시 서비스에서 메시지를 보관하는 기간
 - 0 으로 지정해 주자 (크롬 디폴트는 4주)
@@ -116,6 +335,13 @@ Another advantage of specifying the lifespan of a message is that FCM never thro
 
 # web-push library (백엔드에서 푸쉬 보낼때 사용 할 라이브러리)
 - https://developers.google.com/web/fundamentals/push-notifications/sending-messages-with-web-push-libraries
+
+# webpush.sendNotification(pushSubscription, payload, options)
+## payload
+- argument 중 payload 값은 text 또는 node buffer 값으로 들어가야 한다. 
+>The payload is optional, but if set, will be the data sent with a push message. This must be either a string or a node Buffer. [https://www.npmjs.com/package/web-push]
+
+
 
 # Notification 에 대한 정리 
 https://developers.google.com/web/fundamentals/push-notifications/display-a-notification

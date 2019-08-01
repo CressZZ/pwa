@@ -1,0 +1,41 @@
+{
+    "name": "Push_Test",
+    "short_name": "Push_Test",
+    "icons": [
+      {
+        "src": "./images/icons/128x.png",
+        "sizes": "128x128",
+        "type": "image/png"
+      },
+      {
+        "src": "./images/icons/144x.png",
+        "sizes": "144x144",
+        "type": "image/png"
+      },
+      {
+        "src": "./images/icons/152x.png",
+        "sizes": "152x152",
+        "type": "image/png"
+      },
+      {
+        "src": "./images/icons/192x.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "./images/icons/256x.png",
+        "sizes": "256x256",
+        "type": "image/png"
+      },
+      {
+        "src": "./images/icons/512x.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "//opdev.bns2.plaync.com/UiDev/pwa_test/index.html",
+    "display": "standalone",
+    "background_color": "#3E4EB8",
+    "theme_color": "#2F3BA2"
+  }
+  
