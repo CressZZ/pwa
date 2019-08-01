@@ -26,6 +26,7 @@ const applicationServerPublicKey = 'BF5BXWwl_mdN3VUJiGy_l98funGD9gg1klZI1d38P2Eb
 
 const API_ORIGIN_LOCAL = 'http://localhost:8010/pushtest-c0b5a/us-central1';
 const API_ORIGIN_ONSERVICE = 'https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net';
+const API_ORIGIN = location.origin.indexOf('local') > 0 && API_ORIGIN_LOCAL || API_ORIGIN_ONSERVICE
 
 
 const pushButton = document.querySelector('.js-push-btn');
@@ -149,7 +150,7 @@ function addSubscriptionOnServer(subscription){
     }
   })
 
-  fetch(`${API_ORIGIN_LOCAL}/storeSubscription2`, {
+  fetch(`${API_ORIGIN}/storeSubscription2`, {
     'method': 'POST',
     'Content-type': 'application/json',
     'Accept': 'application/json',
@@ -166,7 +167,7 @@ function addSubscriptionOnServer(subscription){
 
 function removeSubscriptionOnServer(subscription){
 
-  fetch(`${API_ORIGIN_LOCAL}/removeSubscription2`, {
+  fetch(`${API_ORIGIN}/removeSubscription2`, {
     'method': 'POST',
     'Content-type': 'application/json',
     'Accept': 'application/json',

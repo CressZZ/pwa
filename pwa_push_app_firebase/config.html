@@ -67,11 +67,14 @@
       }else if(service === "preorderrecord"){
         sendPushMessageAsSortAPI = 'sendPushMessageAsSort2'
       }
+
       const API_ORIGIN_LOCAL = 'http://localhost:8010/pushtest-c0b5a/us-central1';
       const API_ORIGIN_ONSERVICE = 'https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net';
+      const API_ORIGIN = location.origin.indexOf('local') > 0 && API_ORIGIN_LOCAL || API_ORIGIN_ONSERVICE
+
 
       let option = { payload, sort}
-      fetch(`${API_ORIGIN_LOCAL}/${sendPushMessageAsSortAPI}`, {
+      fetch(`${API_ORIGIN}/${sendPushMessageAsSortAPI}`, {
       // fetch('https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net/sendPushMessageAsSort', {
         'method': 'POST',
         'Content-type': 'application/json',
