@@ -34,6 +34,8 @@ const pushButton = document.querySelector('.js-push-btn');
 
 let isSubscribed = false;
 let swRegistration = null;
+let messaging = null;
+
 
 function urlB64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -73,7 +75,9 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
   navigator.serviceWorker.register('sw.js')
   .then(function(swReg) {
     console.log('Service Worker is registered', swReg);
-    firebase.messaging().useServiceWorker(swReg)
+    // firebase sdk
+    messaging = firebase.messaging()
+    messaging.useServiceWorker(swReg)
     swRegistration = swReg;
     initialiseUI();
   })
@@ -101,47 +105,58 @@ function initialiseUI() {
     }
   });
 
+  messaging.getToken().then((currentToken) => {
+    isSubscribed = !!currentToken;
+    updateSubscriptionInfo(currentToken);
 
-  // Set the initial subscription value
-  // notification 받을 건지 물어봄
-  swRegistration.pushManager.getSubscription()
-  .then(function(subscription) {
-    isSubscribed = !(subscription === null);
-
-    updateSubscriptionInfo(subscription);
-
-    if (isSubscribed) {
+    if (currentToken) {
       console.log('User IS subscribed.');
     } else {
-      console.log('User is NOT subscribed.');
+      console.log('User IS subscribed.');
     }
-
     updateBtn();
+
+  }).catch((err) => {
+    console.err(err);
   });
+
 }
 
 function subscribeUser() {
-  const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
-  // 이시점에서 subscription정보를 service에서 갖옴
-  swRegistration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: applicationServerKey
-  })
-  .then(function(subscription) {
-    console.log('User is subscribed:', subscription);
+  messaging.getToken().then((currentToken) => {
+    console.log('User is subscribed:', currentToken);
 
-    updateSubscriptionInfo(subscription);
-    addSubscriptionOnServer(subscription);
+    updateSubscriptionInfo(currentToken);
+    // addSubscriptionOnServer(currentToken); // 임시 삭제
 
     isSubscribed = true;
 
     updateBtn();
-  })
-  .catch(function(err) {
+  }).catch((err) => {
     console.log('Failed to subscribe the user: ', err);
     updateBtn();
   });
 }
+
+function unsubscribeUser() {
+  messaging.getToken().then((currentToken) => {
+    if (currentToken) {
+      // removeSubscriptionOnServer(currentToken) // 임시 삭제
+      return message.deleteToken();
+    }
+  }).catch((err) => {
+    console.log('Error unsubscribing', err);
+
+  }).then(function() {
+    updateSubscriptionInfo(null);
+
+    console.log('User is unsubscribed.');
+    isSubscribed = false;
+
+    updateBtn();
+  });
+ }
+
 
 function addSubscriptionOnServer(subscription){
   let sort = [];
@@ -221,26 +236,3 @@ function updateBtn() {
   pushButton.disabled = false;
 }
 
-function unsubscribeUser() {
-  swRegistration.pushManager.getSubscription()
-  // 서버에서 지워야 하지 않을까?
-
-  // 구독 해지 (push service에 구독 안한다고 보냄)
-  .then(function(subscription) {
-    if (subscription) {
-      removeSubscriptionOnServer(subscription)
-      return subscription.unsubscribe();
-    }
-  })
-  .catch(function(error) {
-    console.log('Error unsubscribing', error);
-  })
-  .then(function() {
-    updateSubscriptionInfo(null);
-
-    console.log('User is unsubscribed.');
-    isSubscribed = false;
-
-    updateBtn();
-  });
-}

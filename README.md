@@ -536,6 +536,91 @@ webpush.sendNotification(subscription, JSON.stringify({message:'me', url:''}), o
 - VAPID 없이 생성하려고 하면 애러가 난다 .
 
 
+## https://developers.google.com/web/fundamentals/push-notifications/faq => 완전중요
+
+## Why doesn't push work when the browser is closed?
+- 왜 푸쉬는 브라우저가 클로즈 되면 실행되지 않나요?!!!!?!!
+
+This question crops up quite a bit, largely because there are a few scenarios that make it difficult to reason with and understand.
+- 이 문제는 복잡합니다.
+
+Let's start with Android. The Android OS is designed to listen for push messages and upon receiving one, wake up the appropriate Android app to handle the push message, regardless of whether the app is closed or not.
+- 안드로이드를 생각해 보면, 안드로이드 os는 push message가 들어오면, 해당 어플리케이션을 깨우도록 설계되어 있습니다. 해당 어플리케이션이 닫혀있든 그렇지 않든 말이죠.
+
+This is exactly the same with any browser on Android, the browser will be woken up when a push message is received and the browser will then wake up your service worker and dispatch the push event.
+- 안드로이드의 브라우저 역시 정확히 같은 동작을 합니다. 푸쉬 메시지가 오면 (특정)브라우저는 깨어 날 것이고, (특정)브라우저는 해당 service worker를 깨우고 service worker에 push event를 dispatch 할 것입니다.
+
+On desktop OS's, it's more nuanced and it's easiest to explain on Mac OS X because there is a visual indicator to help explain the different scenarios.
+- 데스트탑 OS의 경우에는 좀더 미묘합니다. 맥 OS X의 경우가 설명하기 쉬울 것 같은데, 맥 OS X의 경우에는 시각적인 설명이 가능하기 때문입니다. 
+
+On Mac OS X, you can tell if a program is running or not by a marking under the app icon in the dock.
+- 맥 OS X의 경우 dock의 프로그램 아이콘아래에 표시되는 marking에 의하여 프로그램이 구동중인지 아닌지를 알 수 있습니다. 
+
+If you compare the two Chrome icons in the following dock, the one on the left is running, as illustrated by the marking under the icon, whereas the Chrome on the right is not running, hence the lack of the marking underneath.
+- 두개의 크롬 아이콘이 dock에 있다고 칩시다. 하나는 아이콘 아래에 marking 표시가 있고, 이것은 running 중이라는 것을 보여 줍니다. 다른 하나는 marking 표시가 없고 이것은 running중이 아님을 보여 줍니다. 
+
+Example of OS X 
+- 예시
+
+In the context of receiving push messages on desktop, you will receive messages when the browser is running, i.e. has the marking underneath the icon.
+- 푸쉬 메시지가 데탑에 전송된 상화에서, 브라우저가 running중이라면 우리는 푸쉬 메시지를 받을 수 있을 것 입니다. 즉, 아이콘 아래에 marking 표시가 있는 경우 입니다.  
+
+This means the browser can have no windows open, and you'll still receive the push message in your service worker, because the browser in running in the background.
+- 이것은 윈도우가 열려 있지 않는 브라우저가 가능 하다는 이야기 이며, 우리는 우리의 서비스 워커가 푸쉬 메시지를 받을 것 이라는 이야기 입니다. 왜냐하면 브라우저가 백그라운드 상에서 구동 중이기 때문입ㄴ디ㅏ.
+
+The only time a push won't be received is when the browser is completely closed, i.e. not running at all (no marking). The same applies for Windows, although it's a little trickier to determine whether or not Chrome is running in the background.
+- 브라우저가 완전히 닫혀 있는경우 우리는 푸쉬를 받을 수 없습니다. 즉. marking 표시가 없을 때입니다. 위도우도 마찬가지 입니다. 
+
+## What is the deal with GCM, FCM, Web Push and Chrome?
+This question has a number of facets to it and the easiest way to explain is to step through the history of web push and Chrome. (Don't worry, it's short.)
+
+December 2014
+When Chrome first implemented web push, Chrome used Google Cloud Messaging (GCM) to power the sending of push messages from the server to the browser.
+
+This was not web push. There are a few reasons this early set-up of Chrome and GCM wasn't "real" web push.
+
+GCM requires developers to set up an account on the Google Developers Console.
+Chrome and GCM needed a special sender ID to be shared by a web app to be able to set up messaging correctly.
+GCM's servers accepted a custom API request that wasn't a web standard.
+July 2016
+In July a new feature in web push landed - Application Server Keys (or VAPID, as the spec is known). When Chrome added support for this new API, it used Firebase Cloud Messaging (also known as FCM) instead of GCM as a messaging service. This is important for a few reasons:
+
+Chrome and Application Sever Keys do not need any kind of project to be set up with Google or Firebase. It'll just work.
+FCM supports the web push protocol, which is the API that all web push services will support. This means that regardless of what push service a browser uses, you just make the same kind of request and it'll send the message.
+Why is it confusing today?
+There is a large amount of confusion now that content has been written on the topic of web push, much of which references GCM or FCM. If content references GCM, you should probably treat it as a sign that it's either old content OR it's focusing too much on Chrome. (I'm guilty of doing this in a number of old posts.)
+
+Instead, think of web push as consisting of a browser, which uses a push service to manage sending and receiving messages, where the push service will accept a "web push protocol" request. If you think in these terms, you can ignore which browser and which push service it's using and get to work.
+
+This guide has been written to focus on the standards approach of web push and purposefully ignores anything else.
+
+Firebase has a JavaScript SDK. What and Why?
+For those of you who have found the Firebase web SDK and noticed it has a messaging API for JavaScript, you may be wondering how it differs from web push.
+
+The messaging SDK (known as Firebase Cloud Messaging JS SDK) does a few tricks behind the scenes to make it easier to implement web push.
+
+Instead of worrying about a PushSubscription and its various fields, you only need to worry about an FCM Token (a string).
+Using the tokens for each user, you can use the proprietary FCM API to trigger push messages. This API doesn't require encrypting payloads. You can send a plain text payload in a POST request body.
+FCM's proprietary API supports custom features, for example FCM Topics (It works on the web too, though it's poorly documented).
+Finally, FCM supports Android, iOS and web, so for some teams it is easier to work with in existing projects.
+This uses web push behind the scenes, but its goal is to abstract it away.
+
+Like I said in the previous question, if you consider web push as just a browser and a push service, then you can consider the Messaging SDK in Firebase as a library to simplify implementing web push.
+
+
+```
+By default firebase will be looking for /firebase-messaging-sw.js which should contain the firebase libraries and listeners. More details here: https://firebase.google.com/docs/cloud-messaging/js/receive
+
+If you would like to use an existing service worker, you can use https://firebase.google.com/docs/reference/js/firebase.messaging.Messaging#useServiceWorker
+
+like this...
+
+```
+https://stackoverflow.com/questions/42455658/what-is-the-use-of-firebase-messaging-sw-js-in-firebase-web-notifications
+
+
+
+
 "https://fcm.googleapis.com/fcm/send/d_NxdJduu-Q:APA91bFM1dzQVP6v7n5wzQrHEiXydK3ggapvy-lFv7LBxHQMoHGnAferE6imcD6VHq4oiSHrvaVPoPLPtV4dZU1ATXvqsKw7T_bEnweBXKYxlff_NyK9r_YecEoRp-sxiePrl-gdgdFN"
 
 "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABdQnHZHxSlZqb_WbqXy0Uq1Ox1eUICde8oZUQsnOgC292uCoruPbMQjp2TBDanskxAzvEhWt56q74g0Im8ceKt4I0Fy6Tx9hrxyz3b2-n8rLXW87rij5TUjX7P6bpd5jcInIJPWXRnMnhgZDjVSKxvX4W-C7kJOJ4gy81su5HCzq1pfMs"
