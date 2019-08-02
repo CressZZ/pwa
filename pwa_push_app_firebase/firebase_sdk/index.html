@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Push Codelab</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+  <link rel="stylesheet" href="styles/index.css">
+  <!-- <link rel="stylesheet" href="https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css"> -->
+
+  <!-- CODELAB: Add link rel manifest -->
+  <link rel="manifest" href="manifest-localhost_5500.json">
+  <!-- <link rel="manifest" href="https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/manifest.json"> -->
+
+  
+  <!-- CODELAB: Add iOS meta tags and icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="PWA Push Test App">
+  <link rel="apple-touch-icon" href="images/icons/152x.png">
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-messaging.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#config-web-app -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDJ94ynvT1wSK-UG7EK8_woqi1fqavktIg",
+      authDomain: "pushtest-c0b5a.firebaseapp.com",
+      databaseURL: "https://pushtest-c0b5a.firebaseio.com",
+      projectId: "pushtest-c0b5a",
+      storageBucket: "pushtest-c0b5a.appspot.com",
+      messagingSenderId: "182855395143",
+      appId: "1:182855395143:web:c46c8be8004a210e"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+
+<body>
+
+  <header>
+    <h1>Push Codelab</h1>
+    <span class='date'></span>
+  </header>
+  
+  <main>
+    <p>Welcome to the push messaging codelab. The button below needs to be
+    fixed to support subscribing to push.</p>
+    <div style="margin-bottom: 30px">
+        <a href="https://m.naver.com">네이버로 이동(테스트)</a>
+      </div>
+    <div class="option">
+        <label for="preorder">사전예약관련</label>
+        <input type="checkbox" name="sort" id="preorder" value='preorder' checked>
+        <label for="notice">공지 관련</label>
+        <input type="checkbox" name="sort" id="notice" value='notice'>
+      </div>
+    <p>
+   
+      <button disabled class="js-push-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        Enable Push Messaging
+      </button>
+    </p>
+    <p>지원되는 항목</p>
+    <ul class="support-list">    </ul>
+    
+    <p>지원 안되는 항목</p>
+    <ul class="not-support-list">    </ul>
+
+    <section class="subscription-details js-subscription-details is-invisible">
+      <p>Once you've subscribed your user, you'd send their subscription to your
+      server to store in a database so that when you want to send a message
+      you can lookup the subscription and send a message to it.</p>
+      <p>To simplify things for this code lab copy the following details
+      into the <a href="https://web-push-codelab.glitch.me//">Push Companion
+      Site</a> and it'll send a push message for you, using the application
+      server keys on the site - so make sure they match.</p>
+      <pre><code class="js-subscription-json"></code></pre>
+    </section>
+  </main>
+
+  <script src="scripts/main.js?10"></script>
+  <!-- <script src="https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/scripts/main.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+  <script>
+      var test = Date.now();
+      document.querySelector('.date').innerHTML = test;
+    </script>
+</body>
+</html>
