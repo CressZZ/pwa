@@ -142,7 +142,7 @@ function unsubscribeUser() {
   messaging.getToken().then((currentToken) => {
     if (currentToken) {
       // removeSubscriptionOnServer(currentToken) // 임시 삭제
-      return message.deleteToken();
+      return messaging.deleteToken(currentToken);
     }
   }).catch((err) => {
     console.log('Error unsubscribing', err);
