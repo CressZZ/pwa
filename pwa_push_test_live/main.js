@@ -1,4 +1,4 @@
-export default class PushManager {
+class PushManager {
   constructor() {
     this.init();
     this.firebase;
@@ -120,7 +120,7 @@ export default class PushManager {
   }
 
   // 포그라운드 알림 수신
-  
-
 
 };
+
+let pushManager = new PushManager();

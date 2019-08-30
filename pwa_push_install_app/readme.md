@@ -254,7 +254,11 @@ self.addEventListener('fetch', event => {
 
 ## 결론
 - web 서버에 넣고, `icon`이미지도 web server에 저장 하면 하나의 manifest.json과 icon 파일로 해결 가능 하다.??
-- 
+
+
+# FCM (firebase-messaging-sw.js)
+
+
 
 
 
@@ -500,3 +504,5 @@ The user agent connects to the push service used to create push subscriptions(`s
 
 # 확인해야 할거 
 - html 페이지와 sw.js 파일의 위치가 달라도 되는가?
+
+

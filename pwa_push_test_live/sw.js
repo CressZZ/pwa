@@ -86,4 +86,4 @@ self.addEventListener('notificationclick', function (event) {
 
 
 
-// test.js
+// test.jsdd
