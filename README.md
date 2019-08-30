@@ -241,6 +241,16 @@ self.addEventListener('fetch', event => {
 - 알림을 여러개 생성해 사용자를 귀찮게 하는 것보다 이 방법이 더 좋은 경우가 많스니다. 예를 들어, 메시징 앱에 안 읽은 메시지가 하나 있는 경우, 알림에 그 메시지 내용을 포함하고 싶을 것입니다. 그런데 기존 알림이 사라지기 전에 다섯개의 신규 메시지가 도착해다면, 여섯개의 별도 알림을 보여주는 것보다 6개의 새로운 메시지가 있습니다. 와 같이 기존 알림 내용을 업데이트 하는 것이 더 좋습니다. 
 - [만들면서 배우는 프로그래시브 웹 p.284]
 
+# Notification icon & badge image size (알림 아이콘 및 뱃지 이미지 사이즈에 대해)
+## icon
+- `192px`
+- Sadly there aren't any solid guidelines for what size image to use for an icon. Android seems to want a 64dp image (which is 64px multiples by the device pixel ratio). `If we assume the highest pixel ratio for a device will be 3, an icon size of 192px or more is a safe be` (https://developers.google.com/web/fundamentals/push-notifications/display-a-notification)
+
+## badge
+- `72px`
+- As with the icon option, there are no real guidelines on what size to use. Digging through Android guidelines the recommended size is 24px multiplied by the device pixel ratio. `Meaning an image of 72px or more should be good (assuming a max device pixel ratio of 3).`
+
+
 
 # Push & Notification 작동 원리 
 [https://w3c.github.io/push-api/#widl-PushSubscription-unsubscribe-Promise-boolean]  
@@ -520,16 +530,66 @@ webpush.sendNotification(subscription, JSON.stringify({message:'me', url:''}), o
 - 이게 당연한게, subscribe()메서드가 serivceworkerregistration.pushManager 객체에 있는거니까, 등록되어 있는 serviceworker에 종속되는게 당연하다. 
 - 테스트 결과도 일치한다. 
 
+
 2. 위의 경우 각기 다른 path에서 다른 VAPID를 가질경우
 - 마지막으로 subscription객체를 생성할때 사용한 VAPID가 사용되고, 
 - 서버에서는 이 VAPID에 해당하는 Private 키를가지고 있어야 푸쉬를 보낼 수 있다. 
 - pushserver(백엔드)에서 잘못된 VAPID를 사용하여 메시지를 보내면 애러가 난다. 
-
+npm
 3. 다른 path (같은 depth) 에서 다른 serviceworker를 가질경우
 - 다른 service worker 를 가질 수 없다. 
 
 4. 다른 path (다른 depth) 에서 다른 serviceworker를 가질경우
 - 다른 service worker 를 가질 수 있다. 
+
+5. 그럼 다른 path (다른 depth) 에서 다른 serviceworker를 가질경우에 다른 subscribe()을 가지며, push를 발송한 경우 두개의 push를 수신 받는가?
+- 그렇다
+
+
+## service worker 등록 로직
+- `navigator.serviceWorker.register('sw.js')` 에서 `navigator` 는 브라우저의 종류와 버전 등 웹브라우저 전반에 대한 정보를 제공하는 객체로 즉 `해당 브라우저`에 `service worker`를 등록 시키겠다는 뜻이다. 
+- 이때, `navigator.serviceWorker.register('sw.js')` 는 기본적으로 서비스 워커 등록의 범위 값은 서비스 워커 스크립트가있는 디렉토리로 설정됩니다. 즉,  `navigator.serviceWorker.register('sw.js', {scope: './'})` 의 줄임 말이다. 
+(https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register#Examples)
+- `register('sw.js')` 에서 `service worker` 파일의 상대경로 기준은 해당 `html`페이지가 있는 곳을 기준으로 한다.
+- 예를 들면 `/test/index.html` 에서  `navigator.serviceWorker.register('sw.js')` 메서드를 호출하면, `/test/sw.js` 를 `navigator`에 등록시키 겠다는 이야기 이다. 
+
+- 절대경로로 들어갈 경우 `register('/sw.js')` `root` 페스가 된다. 
+- 지금까지 간과하고 있던 게 바로 `scope`의 중요성 인데, 그 이유는 `service worker`는 `브라우저에` 설치 되는 것이고 (`path`나 `domain`에 등록되는 것이 아니다.)
+- 하나의 `scope` (`도메인`을 포함한 `path`) 는 하나의 `service worker`에 의해 제어 될 수 있으며,
+- 그렇기 때문에 다른 path (같은 depth) 에서 다른 serviceworker를 가질수 없는 것이다.
+- 즉, `service worker`는 `service worker`를 등록한 페이지(`path`) 에 자동으로 종속 되는 것이 아니라, (종속 된다고 생각되는 이유는 `service worker` 등록시 `scope` 설정을 안해 주면, 그 `service worker` 파일이 있는 곳이 `scope`로 지정되기 때문이다. )
+- `scop`를 설정 할 수 있는 것이다. 
+- 아래의 예시처럼 하나의 페이지에서 두개의 서비스 워커 등록이 가능하고 (`service worker`는 `navigator`에 등록 되는 것이므로 몇 개든 등록 가능하다)
+- 각 등록된 `service worker`의 `scope`를 정의 해줘야 한다.
+
+```js
+// /test/index.html
+
+/*
+ * 상대경로로 지정된 sw6.js는 /test/ 에 있으며
+ * service worker scope는 default 이므로  /test/ 로 지정된다.
+ */
+navigator.serviceWorker.register('sw6.js') 
+
+/*
+ * 상대경로로 지정된 sw6.js는 /test/ 에 있으며
+ * service worker scope는 test/ 이므로  /foo/ 로 지정된다.
+ */
+navigator.serviceWorker.register('sw6.js', {scope: '/foo/'})
+
+```
+
+
+
+
+## 랜선 뽑은상태에서 구독 생성 (subscribe) 하면 어떻게 되는가
+- 구독 되지 않는다. 
+- 단 크롬 devtool에서 오프라인 상태로 설정하고 subscribe 하면 구독 된다. (완전한 offline 상태가 아니여서 인것 같다.)
+
+## 구독정보가 미리 생성되어 있는 경우 랜선 뽑으면 어떻게 되는가
+- 구독 정보 가져 온다. 
+- swRegistration.pushmanager.getSubscription 에 정보가 있는 것으로, swRegistration이 가지고 있을 것이다. 
+
 
 ## subscription 구독시 VAPID 는 필수 이다. 
 - https://developer.mozilla.org/en-US/docs/Web/API/PushManager/subscribe#Browser_compatibility
@@ -646,6 +706,52 @@ like this...
 
 ```
 
+# 서비스 워커를 unregister 시킬때, subscription은 어떻게 되는가?
+- 결론은 구독 취소 된다. 
+## Clarify when to unsubscribe if the service worker is unregistered 
+- https://github.com/w3c/push-api/issues/190
+> As @wanderview points out in https://bugzilla.mozilla.org/show_bug.cgi?id=1185716#c20, it's possible for a client to be using a service worker registration when it's removed. In that case, the registration is flagged, and can be restored or removed later.
+It's unclear what to do with the push subscription in this case. Should it be removed unconditionally, even when the service worker still has clients? Or should it only be removed once all clients have gone away?  
+
+>This is all frightfully obtuse, but if we consider subscriptions to be bound to or owned by registrations, then unregister() already includes steps that would remove the subscription. It's transitive, but I interpret the last step of https://slightlyoff.github.io/ServiceWorker/spec/service_worker/#clear-registration-algorithm to cover this. Well, it's all down to garbage collection, but that shouldn't be observable by script.
+Am I missing something? I have to admit, it looks like the service work spec is designed to be maximally incomprehensible.  
+
+> This is all frightfully obtuse, but if we consider subscriptions to be bound to or owned by registrations, then unregister() already includes steps that would remove the subscription. It's transitive, but I interpret the last step of https://slightlyoff.github.io/ServiceWorker/spec/service_worker/#clear-registration-algorithm to cover this. Well, it's all down to garbage collection, but that shouldn't be observable by script.
+Am I missing something? I have to admit, it looks like the service work spec is designed to be maximally incomprehensible.
+
+
+## https://love2dev.com/blog/how-to-uninstall-a-service-worker/
+Also, if you have a push notification subscription registered with the service worker, that subscription is revoked. The next time the service worker checks for the subscription it will prompt you to subscribe.
+
+# Subscription
+- https://w3c.github.io/push-api/#widl-PushSubscription-endpoint
+
+A push subscription is a message delivery context established between the user agent and the push service on behalf of a web application. Each push subscription is associated with a service worker registration and a service worker registration has at most one push subscription.
+> `push subscription`은 `user agent(브라우저등)`와 `push service`사이에서(`web application(웹서버)` 대신에)  설정정된 메시지 전송 컨텍스트 입니다.   
+> `각각의 push subscription은 하나의 service worker registration과 관련되어 있고, 하나의 service worker registration은 최대 하나의 push subscription을 가집니다.` -> `중요`
+
+A push subscription has an associated push endpoint. It MUST be the absolute URL exposed by the push service where the application server can send push messages to. A push endpoint MUST uniquely identify the push subscription.
+> `push subscripotion`은 하나의 `push endpoint`를 가지고 있습니다. `push endpoint`는 반드시 푸시 서비스에 의해 만들어진 절대경로의 URL로서 `application server`가 푸시 메시지를 보낼수 있는 URL이어야 합니다. `push endpoint` 는 만드시 `push subscription`을 유니크하게 식별 해야 합니다.
+
+A push subscription MAY have an associated subscription expiration time. When set, it MUST be the time, in milliseconds since 00:00:00 UTC on 1 January 1970, at which the subscription will be deactivated. The user agent SHOULD attempt to refresh the push subscription before the subscription expires.
+> 하나의 구독은 하나의 `expiratin time`을 가질수 있습니다. `expriation time`은 subscription이 비활성화 될 시간을 1970년 1월 1일 00시 기준으로 그 이후의 시간을 밀리 세컨드로 표현한 시간으로 설정되어야 합니다. `user agent`는 구독이 만료되기전에 구독을 갱신해야 합니다.
+
+A push subscription has internal slots for a P-256 ECDH key pair and an authentication secret in accordance with [RFC8291]. These slots MUST be populated when creating the push subscription.
+> 구독은 `P-256 ECDH key pair`와 `[RFC8291]`과 관련된 `authentication secret`을 위한 내부 슬롯을 가집니다. 이 슬롯들은 구독이 생성될때 반드시 채워져야 합니다.
+
+If the user agent has to change the keys for any reason, it MUST fire the "pushsubscriptionchange" event with the service worker registration associated with the push subscription as registration, a PushSubscription instance representing the push subscription having the old keys as oldSubscription and a PushSubscription instance representing the push subscription having the new keys as newSubscription.
+> 만약 `user agent` 가 어떤 이유로든 키를 변경 해야 하는 경우 `service worker registration`에서 `pushsubscriptionchange` 이벤트를 발생 시켜야 합니다. 이전 키를 가지는 oldSubscription과 새로운 키를 가지는 newSubscription이 있습니다. 
+
+
+
+# Firebase_sdk에서 index.html 에 넣는 firebaseConfig 변경될 경우
+1. 한번 생성된 토큰은 변함이 없다. 
+2. 단 messaging 객체를 보면 messagingSenderId 가 변경되어 있다. 
+3. 한번 생성된 subscription 도 변경이 없다. 
+
+# Firebase_sdk에서 usePublicVapidKey 사용 여부에 따른 차이
+1. usePublicVapidKey을 사용 안하면, firebaseConfig가 바껴도 subscription 객체의 applicationServerkey값은 동일하다. 
+2. usePublicVapidKey을 사용 하면 applicationServerkey값이 바뀐다.
 
 
 https://stackoverflow.com/questions/42455658/what-is-the-use-of-firebase-messaging-sw-js-in-firebase-web-notifications

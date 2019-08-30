@@ -10,11 +10,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
   <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-  <link rel="stylesheet" href="styles/index.css">
+  <link rel="stylesheet" href="./styles/index.css">
   <!-- <link rel="stylesheet" href="https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css"> -->
 
   <!-- CODELAB: Add link rel manifest -->
-  <link rel="manifest" href="manifest-localhost_sdk.json">
+  <link rel="manifest" href="./manifest-localhost_sdk.json">
   <!-- <link rel="manifest" href="https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/manifest.json"> -->
 
   
@@ -22,9 +22,28 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="PWA Push Test App">
-  <link rel="apple-touch-icon" href="images/icons/152x.png">
+  <link rel="apple-touch-icon" href="./images/icons/152x.png">
 
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-messaging.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#config-web-app -->
 
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDJ94ynvT1wSK-UG7EK8_woqi1fqavktIg",
+      authDomain: "pushtest-c0b5a.firebaseapp.com",
+      databaseURL: "https://pushtest-c0b5a.firebaseio.com",
+      projectId: "pushtest-c0b5a",
+      storageBucket: "pushtest-c0b5a.appspot.com",
+      messagingSenderId: "182855395143",
+      appId: "1:182855395143:web:c46c8be8004a210e"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 
 <body>
@@ -70,7 +89,7 @@
     </section>
   </main>
 
-  <script src="./scripts/main.js?10"></script>
+  <script src="./scripts/main2.js?10"></script>
   <!-- <script src="https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/scripts/main.js"></script> -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>

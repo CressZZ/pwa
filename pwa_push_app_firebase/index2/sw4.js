@@ -24,23 +24,21 @@
 let CACHE_NAME = 'test-cache-v2';
 let CACHED_URLS = [
     './index-offline.html',
-    `./scripts/main.js`,
-    `./styles/index.css`,
+    `./promo/test/pwa/main.js`,
+    `./promo/test/pwa/index.css`,
 ]
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
-    // console.log(`[Service Worker] Push had this data:`, event.data.json());
+    console.log(`[Service Worker] Push had this data:`, event.data.json());
 
-    // console.log(`[Service Worker] Push had this data:`, event.data.json());
-
-    console.log(`[Service Worker] Push had this data: ${event.data.text()}`);
+    console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
     const data = event.data.json();
     const title = 'Push Codelab';
     const options = {
-        body: `depth1`,
-        icon: `./images/icon.png`,
-        badge: `./images/badge.png`,
-        image: `./images/bg.jpg`,
+        body: `depth2`,
+        icon: `./promo/test/pwa/images/icon.png`,
+        badge: `./promo/test/pwa/images/badge.png`,
+        image: `./promo/test/pwa/images/bg.jpg`,
         data: data,
         actions: [
             {

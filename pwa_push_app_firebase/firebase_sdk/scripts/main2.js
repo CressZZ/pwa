@@ -21,8 +21,9 @@
 
 'use strict';
 
-const applicationServerPublicKey = 'BA4Zlii7aeJeIiDJvprBfv4FWmpL7KKaBwJDL6Nut4zwC-4y2LxVY30zRscv6cZwQYaGOEOHS8O0oiAoBCo4jCk';
-// private = tzv_L9neZGfzdK6o2hFs8Y9qbkSvB1xsie2ah9veKlo
+// fcm 에서 생성한  VAPID
+const applicationServerPublicKey = 'BOCHoU_Ym8vKG5mjwIVzNTThP_rpcjrI7C2liL3sYhGpAt-leD9V3-ggUaItj5guFW5m5JEwremfCnt_pt2JIrE ';
+// private = vS5NkdSrlnucWS_hT2I8qqW2MYNvqdlLyCLjeUBvapk
 
 const API_ORIGIN_LOCAL = 'http://localhost:8010/pushtest-c0b5a/us-central1';
 const API_ORIGIN_ONSERVICE = 'https://asia-northeast1-pushtest-c0b5a.cloudfunctions.net';
@@ -33,6 +34,8 @@ const pushButton = document.querySelector('.js-push-btn');
 
 let isSubscribed = false;
 let swRegistration = null;
+let messaging = null;
+
 
 function urlB64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -68,11 +71,14 @@ function makeTmplNotSupportList(item){
 
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   console.log('Service Worker and Push is supported');
+  messaging = firebase.messaging()
 
-  navigator.serviceWorker.register('sw7.js')
+  navigator.serviceWorker.register('sw2.js')
   .then(function(swReg) {
     console.log('Service Worker is registered', swReg);
-
+    // firebase sdk
+    // messaging = firebase.messaging()
+    // messaging.useServiceWorker(swReg)
     swRegistration = swReg;
     initialiseUI();
   })
@@ -100,47 +106,67 @@ function initialiseUI() {
     }
   });
 
+  messaging.getToken().then((currentToken) => {
+    isSubscribed = !!currentToken;
+    updateSubscriptionInfo(currentToken);
 
-  // Set the initial subscription value
-  // notification 받을 건지 물어봄
-  swRegistration.pushManager.getSubscription()
-  .then(function(subscription) {
-    isSubscribed = !(subscription === null);
-
-    updateSubscriptionInfo(subscription);
-
-    if (isSubscribed) {
+    if (currentToken) {
       console.log('User IS subscribed.');
     } else {
-      console.log('User is NOT subscribed.');
+      console.log('User IS subscribed.');
     }
-
     updateBtn();
+
+  }).catch((err) => {
+    console.err(err);
   });
+
 }
 
 function subscribeUser() {
-  const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
-  // 이시점에서 subscription정보를 service에서 갖옴
-  swRegistration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: applicationServerKey
-  })
-  .then(function(subscription) {
-    console.log('User is subscribed:', subscription);
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      console.log('Notification permission granted.');
+      
+      messaging.getToken().then((currentToken) => {
+        console.log('User is subscribed:', currentToken);
 
-    updateSubscriptionInfo(subscription);
-    addSubscriptionOnServer(subscription);
+        updateSubscriptionInfo(currentToken);
+        // addSubscriptionOnServer(currentToken); // 임시 삭제
 
-    isSubscribed = true;
+        isSubscribed = true;
 
-    updateBtn();
-  })
-  .catch(function(err) {
-    console.log('Failed to subscribe the user: ', err);
+        updateBtn();
+      }).catch((err) => {
+        console.log('Failed to subscribe the user: ', err);
+        updateBtn();
+      });
+    } else {
+      console.log('Unable to get permission to notify.');
+    }
+  });
+
+}
+
+function unsubscribeUser() {
+  messaging.getToken().then((currentToken) => {
+    if (currentToken) {
+      // removeSubscriptionOnServer(currentToken) // 임시 삭제
+      return messaging.deleteToken(currentToken);
+    }
+  }).catch((err) => {
+    console.log('Error unsubscribing', err);
+
+  }).then(function() {
+    updateSubscriptionInfo(null);
+
+    console.log('User is unsubscribed.');
+    isSubscribed = false;
+
     updateBtn();
   });
-}
+ }
+
 
 function addSubscriptionOnServer(subscription){
   let sort = [];
@@ -220,26 +246,3 @@ function updateBtn() {
   pushButton.disabled = false;
 }
 
-function unsubscribeUser() {
-  swRegistration.pushManager.getSubscription()
-  // 서버에서 지워야 하지 않을까?
-
-  // 구독 해지 (push service에 구독 안한다고 보냄)
-  .then(function(subscription) {
-    if (subscription) {
-      removeSubscriptionOnServer(subscription)
-      return subscription.unsubscribe();
-    }
-  })
-  .catch(function(error) {
-    console.log('Error unsubscribing', error);
-  })
-  .then(function() {
-    updateSubscriptionInfo(null);
-
-    console.log('User is unsubscribed.');
-    isSubscribed = false;
-
-    updateBtn();
-  });
-}

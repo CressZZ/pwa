@@ -24,8 +24,8 @@
 let CACHE_NAME = 'test-cache-v2';
 let CACHED_URLS = [
     './index-offline.html',
-    `./promo/test/pwa/main.js`,
-    `./promo/test/pwa/index.css`,
+    `./scripts/main.js`,
+    `./styles/index.css`,
 ]
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
@@ -36,9 +36,9 @@ self.addEventListener('push', function (event) {
     const title = 'Push Codelab';
     const options = {
         body: `${data.message}`,
-        icon: `./promo/test/pwa/images/icon.png`,
-        badge: `./promo/test/pwa/images/badge.png`,
-        image: `./promo/test/pwa/images/bg.jpg`,
+        icon: `./images/icon.png`,
+        badge: `./images/badge.png`,
+        image: `./images/bg.jpg`,
         data: data,
         actions: [
             {
@@ -91,7 +91,7 @@ self.addEventListener('install', event => {
                 // .then(()=>cache.add(myRequest_css))
                 // .then(()=>cache.add(myRequest_main))
                 .then(()=>{console.log('service worker is installed!')})
-                .then(()=>{  self.skipWaiting();})
+                .then(()=>{  self.skipWaiting().then(()=>console.log('skip!!!!!!!!!!!!!'))})
                 .catch((err)=>{console.log(err)})
         })
         .catch(err => console.log(err))

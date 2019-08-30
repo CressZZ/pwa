@@ -21,6 +21,7 @@
 
 'use strict';
 
+
 let CACHE_NAME = 'test-cache-v2';
 let CACHED_URLS = [
     './index-offline.html',
@@ -29,15 +30,13 @@ let CACHED_URLS = [
 ]
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
-    // console.log(`[Service Worker] Push had this data:`, event.data.json());
+    console.log(`[Service Worker] Push had this data:`, event.data.json());
 
-    // console.log(`[Service Worker] Push had this data:`, event.data.json());
-
-    console.log(`[Service Worker] Push had this data: ${event.data.text()}`);
+    console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
     const data = event.data.json();
     const title = 'Push Codelab';
     const options = {
-        body: `depth1`,
+        body: `${data.message}`,
         icon: `./images/icon.png`,
         badge: `./images/badge.png`,
         image: `./images/bg.jpg`,
@@ -93,7 +92,7 @@ self.addEventListener('install', event => {
                 // .then(()=>cache.add(myRequest_css))
                 // .then(()=>cache.add(myRequest_main))
                 .then(()=>{console.log('service worker is installed!')})
-                .then(()=>{  self.skipWaiting();})
+                .then(()=>{  self.skipWaiting().then(()=>console.log('skip!!!!!!!!!!!!!'))})
                 .catch((err)=>{console.log(err)})
         })
         .catch(err => console.log(err))

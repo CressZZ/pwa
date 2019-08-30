@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,32 +6,49 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Push Codelab</title>
+  <title>Push Codelab[INDEX2.HTML]</title>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
   <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-  <!-- <link rel="stylesheet" href="styles/index.css"> -->
-  <link rel="stylesheet" href="https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css">
+  <link rel="stylesheet" href="./styles/index.css">
+  <!-- <link rel="stylesheet" href="https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/styles/index.css"> -->
 
+  <!-- CODELAB: Add link rel manifest -->
+  <link rel="manifest" href="manifest-localhost_5500.json">
+  <!-- <link rel="manifest" href="https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/manifest.json"> -->
 
+  
+  <!-- CODELAB: Add iOS meta tags and icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="PWA Push Test App">
-  <link rel="apple-touch-icon" href="images/152x.png">
+  <link rel="apple-touch-icon" href="images/icons/152x.png">
+
+
 </head>
 
 <body>
 
   <header>
-    <h1>Push Codelab [OFFLINE!!!!!!!!!]</h1>
+    <h1>Push Codelab[INDEX2.HTML-OFFLINE]</h1>
     <span class='date'></span>
   </header>
-
+  
   <main>
     <p>Welcome to the push messaging codelab. The button below needs to be
     fixed to support subscribing to push.</p>
+    <div style="margin-bottom: 30px">
+        <a href="https://m.naver.com">네이버로 이동(테스트)</a>
+      </div>
+    <div class="option">
+        <label for="preorder">사전예약관련</label>
+        <input type="checkbox" name="sort" id="preorder" value='preorder' checked>
+        <label for="notice">공지 관련</label>
+        <input type="checkbox" name="sort" id="notice" value='notice'>
+      </div>
     <p>
+   
       <button disabled class="js-push-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
         Enable Push Messaging
       </button>
@@ -53,11 +71,10 @@
     </section>
   </main>
 
-  <!-- <script src="scripts/main.js?10"></script> -->
-  <script src="https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/scripts/main.js"></script>
-  <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-
+  <script src="./scripts/main2.js"></script>
+  <!-- <script src="https://cress00-pwa.s3.ap-northeast-2.amazonaws.com/pwa/scripts/main.js"></script> -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
   <script>
       var test = Date.now();
       document.querySelector('.date').innerHTML = test;

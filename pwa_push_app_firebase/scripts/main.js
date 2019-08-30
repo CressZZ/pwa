@@ -68,7 +68,7 @@ function makeTmplNotSupportList(item){
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   console.log('Service Worker and Push is supported');
 
-  navigator.serviceWorker.register('sw.js')
+  navigator.serviceWorker.register('/sw6.js', {scope: 'test/'})
   .then(function(swReg) {
     console.log('Service Worker is registered', swReg);
 
@@ -77,13 +77,36 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
   })
   .catch(function(error) {
     console.error('Service Worker Error', error);
-  });
+  })
 } else {
   console.warn('Push messaging is not supported');
 
   pushButton.textContent ='serviceWorker' in navigator && 'Push Not Supported!' || 'service worker Not Supported!';
 
 }
+
+
+// if ('serviceWorker' in navigator && 'PushManager' in window) {
+//   console.log('Service Worker and Push is supported');
+
+//   navigator.serviceWorker.register('sw3.js', { scope: './' })
+//   .then(function(swReg) {
+//     console.log('Service Worker is registered', swReg);
+
+//     swRegistration = swReg;
+//     initialiseUI();
+//   })
+//   .catch(function(error) {
+//     console.error('Service Worker Error', error);
+//   });
+// } else {
+//   console.warn('Push messaging is not supported');
+
+//   pushButton.textContent ='serviceWorker' in navigator && 'Push Not Supported!' || 'service worker Not Supported!';
+
+// }
+
+
 
 // UI 세팅
 function initialiseUI() {

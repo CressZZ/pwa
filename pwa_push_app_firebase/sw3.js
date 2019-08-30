@@ -21,11 +21,14 @@
 
 'use strict';
 
+
+
+
 let CACHE_NAME = 'test-cache-v2';
 let CACHED_URLS = [
-    './index-offline.html',
-    `./promo/test/pwa/main.js`,
-    `./promo/test/pwa/index.css`,
+    './index-offline2.html',
+    `./scriptss/main2.js`,
+    `./styles/index.css`,
 ]
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
@@ -80,6 +83,7 @@ self.addEventListener('notificationclick', function (event) {
 });
 
 
+
 self.addEventListener('install', event => {
     console.log('io');
     event.waitUntil(
@@ -90,11 +94,11 @@ self.addEventListener('install', event => {
             return cache.addAll(CACHED_URLS)
                 // .then(()=>cache.add(myRequest_css))
                 // .then(()=>cache.add(myRequest_main))
-                .then(()=>{console.log('service worker is installed!')})
+                .then(()=>{console.log('service worker is installed!')}) 
                 .then(()=>{  self.skipWaiting();})
-                .catch((err)=>{console.log(err)})
+                // .catch((err)=>{console.log(err)})
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err)) // 프로미스에 catch가 있으므로 이 프로미스는 resolve 된것 이고, 결과적으로  event.waitUntil()의 인자는 resolve이므로, install 이벤트가 완료 된다.
     )
 })
 
@@ -107,7 +111,7 @@ self.addEventListener('fetch', function(event){
                     console.log(response)
                     return response;
                 }else if(event.request.headers.get("accept").includes("text/html")){
-                    return caches.match("./index-offline.html")
+                    return caches.match("./index-offline2.html")
                 }
             })
         })

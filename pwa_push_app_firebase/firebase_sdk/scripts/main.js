@@ -22,7 +22,7 @@
 'use strict';
 
 // fcm 에서 생성한  VAPID
-const applicationServerPublicKey = 'BOCHoU_Ym8vKG5mjwIVzNTThP_rpcjrI7C2liL3sYhGpAt-leD9V3-ggUaItj5guFW5m5JEwremfCnt_pt2JIrE ';
+const applicationServerPublicKey = 'BOCHoU_Ym8vKG5mjwIVzNTThP_rpcjrI7C2liL3sYhGpAt-leD9V3-ggUaItj5guFW5m5JEwremfCnt_pt2JIrE';
 // private = vS5NkdSrlnucWS_hT2I8qqW2MYNvqdlLyCLjeUBvapk
 
 const API_ORIGIN_LOCAL = 'http://localhost:8010/pushtest-c0b5a/us-central1';
@@ -71,13 +71,15 @@ function makeTmplNotSupportList(item){
 
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   console.log('Service Worker and Push is supported');
+  messaging = firebase.messaging()
+  messaging.usePublicVapidKey(applicationServerPublicKey);
 
   navigator.serviceWorker.register('sw.js')
   .then(function(swReg) {
     console.log('Service Worker is registered', swReg);
     // firebase sdk
-    messaging = firebase.messaging()
-    messaging.useServiceWorker(swReg)
+    // messaging = firebase.messaging()
+    // messaging.useServiceWorker(swReg)
     swRegistration = swReg;
     initialiseUI();
   })
@@ -117,25 +119,34 @@ function initialiseUI() {
     updateBtn();
 
   }).catch((err) => {
-    console.err(err);
+    console.error(err);
   });
 
 }
 
 function subscribeUser() {
-  messaging.getToken().then((currentToken) => {
-    console.log('User is subscribed:', currentToken);
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      console.log('Notification permission granted.');
+      
+      messaging.getToken().then((currentToken) => {
+        console.log('User is subscribed:', currentToken);
 
-    updateSubscriptionInfo(currentToken);
-    // addSubscriptionOnServer(currentToken); // 임시 삭제
+        updateSubscriptionInfo(currentToken);
+        // addSubscriptionOnServer(currentToken); // 임시 삭제
 
-    isSubscribed = true;
+        isSubscribed = true;
 
-    updateBtn();
-  }).catch((err) => {
-    console.log('Failed to subscribe the user: ', err);
-    updateBtn();
+        updateBtn();
+      }).catch((err) => {
+        console.log('Failed to subscribe the user: ', err);
+        updateBtn();
+      });
+    } else {
+      console.log('Unable to get permission to notify.');
+    }
   });
+
 }
 
 function unsubscribeUser() {

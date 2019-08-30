@@ -21,26 +21,27 @@
 
 'use strict';
 
+
+
+
 let CACHE_NAME = 'test-cache-v2';
 let CACHED_URLS = [
-    './index-offline.html',
-    `./scripts/main.js`,
+    './index-offline2.html',
+    `./scriptss/main2.js`,
     `./styles/index.css`,
 ]
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
-    // console.log(`[Service Worker] Push had this data:`, event.data.json());
+    console.log(`[Service Worker] Push had this data:`, event.data.json());
 
-    // console.log(`[Service Worker] Push had this data:`, event.data.json());
-
-    console.log(`[Service Worker] Push had this data: ${event.data.text()}`);
+    console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
     const data = event.data.json();
     const title = 'Push Codelab';
     const options = {
-        body: `depth1`,
-        icon: `./images/icon.png`,
-        badge: `./images/badge.png`,
-        image: `./images/bg.jpg`,
+        body: `${data.message}`,
+        icon: `./promo/test/pwa/images/icon.png`,
+        badge: `./promo/test/pwa/images/badge.png`,
+        image: `./promo/test/pwa/images/bg.jpg`,
         data: data,
         actions: [
             {
@@ -82,22 +83,27 @@ self.addEventListener('notificationclick', function (event) {
 });
 
 
+
 self.addEventListener('install', event => {
     console.log('io');
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-        .then(cache => {
-            console.log('install origin!', self.location.origin);
+    console.log('service worker is installed!')
+    self.skipWaiting();
+    // event.waitUntil(
 
-            return cache.addAll(CACHED_URLS)
-                // .then(()=>cache.add(myRequest_css))
-                // .then(()=>cache.add(myRequest_main))
-                .then(()=>{console.log('service worker is installed!')})
-                .then(()=>{  self.skipWaiting();})
-                .catch((err)=>{console.log(err)})
-        })
-        .catch(err => console.log(err))
-    )
+
+    //     caches.open(CACHE_NAME)
+    //     .then(cache => {
+    //         console.log('install origin!', self.location.origin);
+
+    //         return cache.addAll(CACHED_URLS)
+    //             // .then(()=>cache.add(myRequest_css))
+    //             // .then(()=>cache.add(myRequest_main))
+    //             .then(()=>{console.log('service worker is installed!')}) 
+    //             .then(()=>{  self.skipWaiting();})
+    //             // .catch((err)=>{console.log(err)})
+    //     })
+    //     .catch(err => console.log(err)) // 프로미스에 catch가 있으므로 이 프로미스는 resolve 된것 이고, 결과적으로  event.waitUntil()의 인자는 resolve이므로, install 이벤트가 완료 된다.
+    // )
 })
 
 self.addEventListener('fetch', function(event){
@@ -109,7 +115,7 @@ self.addEventListener('fetch', function(event){
                     console.log(response)
                     return response;
                 }else if(event.request.headers.get("accept").includes("text/html")){
-                    return caches.match("./index-offline.html")
+                    return caches.match("./index-offline2.html")
                 }
             })
         })

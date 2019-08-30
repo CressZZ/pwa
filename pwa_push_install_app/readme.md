@@ -241,6 +241,22 @@ self.addEventListener('fetch', event => {
 - 알림을 여러개 생성해 사용자를 귀찮게 하는 것보다 이 방법이 더 좋은 경우가 많스니다. 예를 들어, 메시징 앱에 안 읽은 메시지가 하나 있는 경우, 알림에 그 메시지 내용을 포함하고 싶을 것입니다. 그런데 기존 알림이 사라지기 전에 다섯개의 신규 메시지가 도착해다면, 여섯개의 별도 알림을 보여주는 것보다 6개의 새로운 메시지가 있습니다. 와 같이 기존 알림 내용을 업데이트 하는 것이 더 좋습니다. 
 - [만들면서 배우는 프로그래시브 웹 p.284]
 
+# manifest.json 이 있어야할 위치
+## static 서버에 있을 경우
+- `start_url` 의 경로가 도메인을 포함한 절대 경로로 지정해야 하므로, 각 망별로 다른 manifest.json을 생성 해야 한다.
+- `icon` 이미지 경로가 통일 되나, 어자피, 위의 이유로 manifest.json 을 여러개 만들어야 한다. 
+
+## web 서버에 있을 경우
+- `start_url` 의 경로가 상재 경로로 지정할 수 있어 manifest.json파일이 하나면 된다.
+- `icon` 이미지를 web server에 저장 하거나 
+- `icon` 이미지를 static server에 저장하려면 망별로 다른 static 서버에 저장해야 하며, manifest.json 파일도 망별로 다른 것을 준비 해야 한다. 
+- 그런데 이미지를 web server에 저장해도 되나!?
+
+## 결론
+- web 서버에 넣고, `icon`이미지도 web server에 저장 하면 하나의 manifest.json과 icon 파일로 해결 가능 하다.??
+- 
+
+
 
 # Push & Notification 작동 원리 
 [https://w3c.github.io/push-api/#widl-PushSubscription-unsubscribe-Promise-boolean]  

@@ -21,11 +21,14 @@
 
 'use strict';
 
+
+
+
 let CACHE_NAME = 'test-cache-v2';
 let CACHED_URLS = [
-    './index-offline.html',
-    `./promo/test/pwa/main.js`,
-    `./promo/test/pwa/index.css`,
+    './index-offline2.html',
+    `./scripts/main2.js`,
+    `./styles/index.css`,
 ]
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
@@ -80,6 +83,7 @@ self.addEventListener('notificationclick', function (event) {
 });
 
 
+
 self.addEventListener('install', event => {
     console.log('io');
     event.waitUntil(
@@ -107,7 +111,7 @@ self.addEventListener('fetch', function(event){
                     console.log(response)
                     return response;
                 }else if(event.request.headers.get("accept").includes("text/html")){
-                    return caches.match("./index-offline.html")
+                    return caches.match("./index-offline2.html")
                 }
             })
         })

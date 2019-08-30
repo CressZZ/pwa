@@ -69,7 +69,7 @@ function makeTmplNotSupportList(item){
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   console.log('Service Worker and Push is supported');
 
-  navigator.serviceWorker.register('sw2.js')
+  navigator.serviceWorker.register('sw3.js')
   .then(function(swReg) {
     console.log('Service Worker is registered', swReg);
 
