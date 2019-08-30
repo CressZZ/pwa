@@ -11,7 +11,7 @@ class PushManager {
 
     this.createMessaging();
     this.bindingEvent();
-    // this.registerSw();
+    this.registerSw();
     console.log(this.test);
   }
 
@@ -42,10 +42,10 @@ class PushManager {
   }
 
   registerSw(){
-    navigator.serviceWorker.register('/sw.js', {scope:'/push'})
+    navigator.serviceWorker.register('sw.js', {scope:'/push'})
       .then((registration) => {
         // registration.update();
-        this.messaging.getToken();
+        // this.messaging.getToken();
         this.messaging.useServiceWorker(registration);
       });
   }
