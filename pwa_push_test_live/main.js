@@ -42,7 +42,7 @@ class PushManager {
   }
 
   registerSw(){
-    navigator.serviceWorker.register('sw.js',{scope: '/push'})
+    navigator.serviceWorker.register('sw.js')
       .then((registration) => {
         this.messaging.useServiceWorker(registration);
       });
