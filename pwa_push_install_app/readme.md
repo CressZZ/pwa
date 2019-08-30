@@ -257,10 +257,19 @@ self.addEventListener('fetch', event => {
 
 
 # FCM (firebase-messaging-sw.js)
+- firebase-messaging-sw.js  의 업데이트는 gettoken() 등을 실행 했을때 이다. 
+- 안쓰는게 좋아 보인다. 업데이트 시점을 제어 하기 힘들다. 
+- 필요 없어질 경우 unregester 시키는 방법도 애매하다. 
+- `최상위에 push_sw.js 만들고 scope를 '/push' 등으로 하는게 좋아 보인다.`
+- 푸쉬를 위한 토큰을 저장하는 곳은 최상위 한곳에 있으면 될거 같다. 
+- 푸쉬가 왔을때 제어 하는 곳도 
+- setBackgroundMessageHandler을 사용하면 포그라운드에서 노티 띄우는게 복잡해 진다. 
+- 복잡해 진다는 것은 각 js 파일에 포그라운드 이벤트 수신시 노티를 띄우는 로직을 추가 해야 한다. 
+- 
 
 
-
-
+# tip
+- `Navigator.serviceWorker.register('sw.js')` 가 없어도, 한번등록된 serviceworker는 내용이 변경되면 업데이트 하려고 한다.
 
 # Push & Notification 작동 원리 
 [https://w3c.github.io/push-api/#widl-PushSubscription-unsubscribe-Promise-boolean]  
