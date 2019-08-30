@@ -11,7 +11,7 @@ class PushManager {
 
     this.createMessaging();
     this.bindingEvent();
-    this.registerSw();
+    // this.registerSw();
     console.log(this.test);
   }
 
