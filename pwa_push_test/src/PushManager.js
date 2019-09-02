@@ -1,4 +1,4 @@
-export default class PushManager {
+class PushManager {
   constructor() {
     this.init();
     this.firebase;

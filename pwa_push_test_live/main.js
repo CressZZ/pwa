@@ -11,7 +11,8 @@ class PushManager {
 
     this.createMessaging();
     this.bindingEvent();
-    this.registerSw();
+    
+    // this.registerSw();
     console.log(this.test);
   }
 
@@ -38,14 +39,18 @@ class PushManager {
 
   // 파이어 페이스 메시지 인스턴스 생성
   createMessaging(){
-    this.messaging = firebase.messaging();
+    this.messaging = this.firebase.messaging();
   }
 
   registerSw(){
-    navigator.serviceWorker.register('sw.js', {scope:'/push'})
+    navigator.serviceWorker.register('/sw.js', {scope:'/firebase-cloud-messaging-push-scope'})
       .then((registration) => {
         // registration.update();
         // this.messaging.getToken();
+        console.log(registration);
+        registration.onupdatefound = ()=>{
+          console.log('need update');
+        }
         this.messaging.useServiceWorker(registration);
       });
   }

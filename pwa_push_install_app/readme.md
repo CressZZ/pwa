@@ -241,31 +241,38 @@ self.addEventListener('fetch', event => {
 - 알림을 여러개 생성해 사용자를 귀찮게 하는 것보다 이 방법이 더 좋은 경우가 많스니다. 예를 들어, 메시징 앱에 안 읽은 메시지가 하나 있는 경우, 알림에 그 메시지 내용을 포함하고 싶을 것입니다. 그런데 기존 알림이 사라지기 전에 다섯개의 신규 메시지가 도착해다면, 여섯개의 별도 알림을 보여주는 것보다 6개의 새로운 메시지가 있습니다. 와 같이 기존 알림 내용을 업데이트 하는 것이 더 좋습니다. 
 - [만들면서 배우는 프로그래시브 웹 p.284]
 
-# manifest.json 이 있어야할 위치
-## static 서버에 있을 경우
+
+
+
+
+# FCM 관련 잠정 결정 
+## 전역 service-worker.js 파일을 사용한다. 
+- 별도의 scope를 가진 serviceworker(`firebase-messaging-sw.js` 포함)을 사용하지 않는다. 
+- 다른 scope를 가진 service-worker는 자동으로 파일 업데이트를 확인 하지 않는다. (테스트 결과)
+- 해당 scope의 페이지에 진입하거나 강제로 servicewoker를 업데이트 해줘야 한다. 
+- `firebase-messaging-sw.js`의 경우에는 `messaging.getToken();` 메서드 실행시 강제 업데이트가 된다. 
+- 필요 없어질 경우 해당 serviceworker를 unregester 시키는 방법도 애매하다. 
+- 위의 경우처럼 업데이트 시점을 위해, 루트 패스 하위 페이지는 적절한 servicewoker파일의 업데이트를 위하여 업데이트를 위한 js파일이 별도로 필요해진다. 
+
+## service-worker.js 파일에서 push를 위한 firebase 라이브러리를 사용하지 않는다. 
+- setBackgroundMessageHandler을 사용하면 포그라운드에서 노티 띄우는게 복잡해 진다. 
+- 복잡해 진다는 것은 각 js 파일에 포그라운드 이벤트 수신시 노티를 띄우는 로직을 추가 해야 한다. 
+- firebase 라이브러리가 없어도 디폴트 push API로 잘 동작 한다. 
+
+## manifest.json의 위치
+### static 서버에 있을 경우
 - `start_url` 의 경로가 도메인을 포함한 절대 경로로 지정해야 하므로, 각 망별로 다른 manifest.json을 생성 해야 한다.
 - `icon` 이미지 경로가 통일 되나, 어자피, 위의 이유로 manifest.json 을 여러개 만들어야 한다. 
-
-## web 서버에 있을 경우
+### web 서버에 있을 경우
 - `start_url` 의 경로가 상재 경로로 지정할 수 있어 manifest.json파일이 하나면 된다.
 - `icon` 이미지를 web server에 저장 하거나 
 - `icon` 이미지를 static server에 저장하려면 망별로 다른 static 서버에 저장해야 하며, manifest.json 파일도 망별로 다른 것을 준비 해야 한다. 
 - 그런데 이미지를 web server에 저장해도 되나!?
+### 결론
+- 일단 web 서버에 넣고, `icon`이미지도 web server에 저장 하면 하나의 manifest.json과 icon 파일로 해결 가능 하다.??
 
-## 결론
-- web 서버에 넣고, `icon`이미지도 web server에 저장 하면 하나의 manifest.json과 icon 파일로 해결 가능 하다.??
 
 
-# FCM (firebase-messaging-sw.js)
-- firebase-messaging-sw.js  의 업데이트는 gettoken() 등을 실행 했을때 이다. 
-- 안쓰는게 좋아 보인다. 업데이트 시점을 제어 하기 힘들다. 
-- 필요 없어질 경우 unregester 시키는 방법도 애매하다. 
-- `최상위에 push_sw.js 만들고 scope를 '/push' 등으로 하는게 좋아 보인다.`
-- 푸쉬를 위한 토큰을 저장하는 곳은 최상위 한곳에 있으면 될거 같다. 
-- 푸쉬가 왔을때 제어 하는 곳도 
-- setBackgroundMessageHandler을 사용하면 포그라운드에서 노티 띄우는게 복잡해 진다. 
-- 복잡해 진다는 것은 각 js 파일에 포그라운드 이벤트 수신시 노티를 띄우는 로직을 추가 해야 한다. 
-- 
 
 
 # tip

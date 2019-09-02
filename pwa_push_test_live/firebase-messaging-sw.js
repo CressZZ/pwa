@@ -22,13 +22,16 @@ messaging.setBackgroundMessageHandler(function(payload) {
   const notificationTitle = payload.data.title;
 
   const notificationOptions = {
-    body: 'fcs Background Message body.',
+    body: 'fcss1sssss2 Background Message body.',
     icon: '/firebase-logo.png',
     data:{
       url: payload.data.url
 
     }
   };
+
+
+  
 
   return self.registration.showNotification(notificationTitle, notificationOptions);
 });
@@ -42,6 +45,8 @@ self.addEventListener('notificationclick', function(event) {
     clients.openWindow(event.notification.data.url)
   );
 });
+
+
 
 
 
