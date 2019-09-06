@@ -213,6 +213,29 @@ self.addEventListener('fetch', event => {
 ```
 ## 10. 앱 셸
 
+# install
+- https://stackoverflow.com/questions/50332119/is-it-possible-to-make-an-in-app-button-that-triggers-the-pwa-add-to-home-scree/50356149#50356149
+Chrome(or any PWA supporting browser) triggers the beforeinstallprompt event for Web app install banner, which you can catch and re-trigger in more appropriate time when you think user wont miss it/convinced about adding your site to home page. Starting Chrome version 68, catching beforeinstallprompt and handling the install prompt programmatically is mandatory and no banners will be shown automatically.
+
+In case the user have missed the prompt/declined to add to home screen, the event can't be manually triggered by our code. This is intentionally left that way to avoid web pages annoying the users to repeatedly prompt the user for adding to home screen. Thinking of users perspective, this makes complete sense.
+
+Yes, there are cases when user miss the option accidentally and he may not know of the browser menu option to "Add to home screen" and it would be nice for us to trigger the same again. But unfortunately, that's not an option. At lest for now and I personally don't see that changing much considering how developers can abuse if its left to the developers to prompt.
+
+Alternate option: If the user have missed the install prompt or even chosen not to install it to home screen, give some time and when you think he is starting to like your site(based on conversions) you can show him a full page or half page Div popup kind of install instructions to add your site to home screen from browsers menu. It can have some images or Gif animation showing user how to add to home screen from the menu. With that, it should be self explanatory to most users, if not all.
+
+Here is some code example for the same, which is iOS specific(look under #PROTIP 3).
+
+As a bonus, you can show some promotions like discounts or added features when user add to home screen, which will convince user to do so. PWA has a way to find if the site is accessed form the home screen or browser.
+
+For Development/testing: If you need this banner to come multiple times for dev/testing purpose, you can set the below flow in your Chrome for the same,
+
+# install
+- 다른 path의 multiple 설치 ok
+- pc 에서 설치된 앱 지우는 곳 `chrome://apps/`
+
+- `chrome://flags/#bypass-app-banner-engagement-checks`
+
+
 #  Service worker scope
 > Scope is linked with domain/origin. You can not create a service worker that intercepts request for other origins. If you try to register a service worker from origin which is different from origin of service worker file sw.js, then error will be thrown like The origin of the provided scriptURL ('https://cdn.example.com/sw.js') does not match the current origin. [https://itnext.io/service-workers-your-first-step-towards-progressive-web-apps-pwa-e4e11d1a2e85]
 
