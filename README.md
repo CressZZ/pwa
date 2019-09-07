@@ -306,6 +306,27 @@ For Development/testing: If you need this banner to come multiple times for dev/
 - `72px`
 - As with the icon option, there are no real guidelines on what size to use. Digging through Android guidelines the recommended size is 24px multiplied by the device pixel ratio. `Meaning an image of 72px or more should be good (assuming a max device pixel ratio of 3).`
 
+# fcm 과 push api
+## usePublicVapidKey
+### 1. 개요
+- `firebase-messaging.js` 을 사용할 경우에 fcm 사용법 만으로 firefox등에 메시지를 보낼 수 있다. 
+- fcm 은 `messaging.usePublicVapidKey` 메서드라는 것을 제공 하는데 문서에는 아래와 같이 나와 있다. (https://firebase.google.com/docs/cloud-messaging/js/client?hl=ko#configure_web_credentials_in_your_app)
+
+```
+FCM에서 다른 푸시 서비스로 메시지 요청을 보낼 때 usePublicVapidKey 메소드를 통해 VAPID 키 사용자 인증 정보를 사용할 수 있습니다. FCM에서 웹 사용자 인증 정보 구성의 안내에 따라 생성하거나 가져온 키를 사용하여 메시지 객체를 검색한 후 코드에 추가할 수 있습니다.
+
+// Add the public key generated from the console here.
+messaging.usePublicVapidKey("BKagOny0KF_2pCJQ3m....moL0ewzQ8rZu");
+```
+
+### 2. 내용
+- fcm을 사용하여 firefox에 메시지를 보낼때, fcm에서는 messaging의 Token값을 필요로 한다. 
+- 정확히 fcm이 fireforx에 메시지를 어떻게 보내는지 모르겠으나, 내부에서 mozila push service에 push를 보내든지 할 것 같다. 
+- `usePublicVapidKey` 을 사용하면 fcm을 통하지 않고 직접 mozila push service에 메시지를 보내라고 전달 할수 있다. 
+- `messaging.getToken()`을 사용하면 fcm 토큰 값이 생성됩과 동시에 subscription 정보도 같이 생성된다. 
+- `usePublicVapidKey`이 없어도 subscription은 생성되며, fcm 프로토콜을 사용하여 메시지를 보내게 될때, vapid의 pusblic 및 private 값은 필요 없다. 아마도 내부적으로 키/벨류 값을 가지고 있는 것 같다. 
+- 단 
+
 
 
 # Push & Notification 작동 원리 

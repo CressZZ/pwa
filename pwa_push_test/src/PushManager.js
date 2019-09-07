@@ -38,7 +38,7 @@ class PushManager {
 
   // 파이어 페이스 메시지 인스턴스 생성
   createMessaging(){
-    this.messaging = firebase.messaging();
+    this.messaging = app.messaging();
   }
 
   registerSw(){
