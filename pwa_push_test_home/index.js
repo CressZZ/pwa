@@ -35,10 +35,10 @@ webpush.setVapidDetails(
  
 // This is the same output of calling JSON.stringify on a PushSubscription
 const pushSubscription = {
-  endpoint: 'https://updates.push.services.mozilla.com/wpush/v2/gAAAAABda5B_YuTJ7zxF1lLEzJv9nTmG48FO1Dcg6_dBEE8zVhA2TjXMj_SggCVaVNFiOhkXWWM48bVEM2NesxjURo9PoCVEGbzWvH8YVqh4wlC7qMHeTgnqWVA1tRLe8fVO8uwVBm49KCTUn30LC-KihFQB0LBBUMT-C1Xc4rQejdWjoAzG5ls',
+  endpoint: "https://fcm.googleapis.com/fcm/send/fJMn7F-TNJw:APA91bHpCaadn24d-bRwEOnWtaIGVPY7UIzkUeCUtpcWud6NuXa_0KF7hTVfcQiiy8SHUiyXqrcKwYlkFtiMvhXAty0Ndb4coLK_R34uY8oILPBL7BBmXc0G-df2UNJuZZfI56IuKunv",
   keys: {
-    auth: 'IFfREmLp-xSl-soJV_dP1A',
-    p256dh: 'BPNzIg8JACwDGP89us0KYRXe3So1yAF0j-Zh212zQfwym-TntJWEHEuYv3B_DLZKHAUpQ2JMAV-wb3P8Wlzv2gM'
+    auth: "b7uN_Yqysu1hlubh2DUMuw",
+    p256dh: "BDeR2uHu4NHnR26YHaLrRiB1nu79aNJ9P4vI9nfYYsyoqTXx7N_iaLO3dMrPJVCoJWzL_-JI6RftukvRIdTc66o"
   }
 };
  

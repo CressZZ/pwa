@@ -258,11 +258,15 @@ For Development/testing: If you need this banner to come multiple times for dev/
 - display must be one of: fullscreen, standalone, or minimal-ui
 - Served over HTTPS (required for service workers)
 - Has registered a service worker with a fetch event handler
+
 # registration.showNotification
 ## tag
 - 알림을 나타내는 고유 식별자 입니다. 만약 현재 표시되 ㄴ태그와 동일한 태그를 가진 알림이 도착하면, 예전 알림은 조용히 새 알림으로 대체됩니다. 
 - 알림을 여러개 생성해 사용자를 귀찮게 하는 것보다 이 방법이 더 좋은 경우가 많스니다. 예를 들어, 메시징 앱에 안 읽은 메시지가 하나 있는 경우, 알림에 그 메시지 내용을 포함하고 싶을 것입니다. 그런데 기존 알림이 사라지기 전에 다섯개의 신규 메시지가 도착해다면, 여섯개의 별도 알림을 보여주는 것보다 6개의 새로운 메시지가 있습니다. 와 같이 기존 알림 내용을 업데이트 하는 것이 더 좋습니다. 
 - [만들면서 배우는 프로그래시브 웹 p.284]
+## renotify (boolean)
+- 같은 태그로 보내면 조용히 대체 되나, 태그 값을 주면서 renotify를 주면, 교체 될때  알림이 왔다고 표시한다. 
+- renotify가 true인데 tag가 빈값이면, TypeError가 전달된다.(https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification)
 
 
 # FCM 관련 잠정 결정 
@@ -328,6 +332,108 @@ messaging.usePublicVapidKey("BKagOny0KF_2pCJQ3m....moL0ewzQ8rZu");
 - 단 
 
 
+# firebase message TIP & TEST
+## usePublicVapidKey 변화에 따른 - getPublicVapidKey_()
+- usePublicVapidKey 사용 안한것과, 사용 한것의 PublickKey는 다르다. (당연한 이야기)
+```js
+// 사용 안했을 경우 
+messaging.getPublicVapidKey_().then(e=>console.log(e))
+// Uint8Array(65) [4, 51, 148, 247, 223, 161, 235, 177, 220, 3, 162, 94, 21, 113, 219, 72, 211, 46, 237, 237, 178, 52, 219, 183, 71, 58, 12, 143, 196, 204, 225, 111, 60, 140, 132, 223, 171, 182, 102, 62, 242, 12, 212, 139, 254, 227, 249, 118, 47, 20, 28, 99, 8, 106, 111, 45, 177, 26, 149, 176, 206, 55, 192, 156, 110]
+
+
+// 사용 했을 경우 (fcm 관리자 페이지에서 제공하는 VAPID)
+messaging.getPublicVapidKey_().then(e=>console.log(e))
+//Uint8Array(65) [4, 224, 135, 161, 79, 216, 155, 203, 202, 27, 153, 163, 192, 133, 115, 53, 52, 225, 63, 250, 233, 114, 58, 200, 236, 45, 165, 136, 189, 236, 98, 17, 169, 2, 223, 165, 120, 63, 85, 223, 232, 32, 81, 162, 45, 143, 152, 46, 21, 110, 102, 228, 145, 48, 173, 233, 159, 10, 123, 127, 166, 221, 137, 34, 177]
+
+
+// 사용 했을 경우 (별도로 생성된 VAPID) 
+//  "publicKey": "BOb7YRPDUwv_i3Hbeccn7Pv7IQ_Rt7t18R6wQ1IvIV1iH0-Cj8lAI2a7Jls6xOzFbdXluL5nrmS-QVwKSK_o9T4",
+//  "privateKey": "ZuJ_7RUpSMZSMp62VV1zDJtZ8mggo_QlTnNBQGWHJQA"
+messaging.getPublicVapidKey_().then(e=>console.log(e))
+// Uint8Array(65) [4, 230, 251, 97, 19, 195, 83, 11, 255, 139, 113, 219, 121, 199, 39, 236, 251, 251, 33, 15, 209, 183, 187, 117, 241, 30, 176, 67, 82, 47, 33, 93, 98, 31, 79, 130, 143, 201, 64, 35, 102, 187, 38, 91, 58, 196, 236, 197, 109, 213, 229, 184, 190, 103, 174, 100, 190, 65, 92, 10, 72, 175, 232, 245, 62]
+```
+
+- usePublicVapidKey 사용 안한것과, 사용 한것의 messaging Token값이 항상 다르다. 
+- 매번 새로 생성하기때문에
+
+## usePublicVapidKey 변화에 따른 - FCM 프로토콜 & webpush 프로토콜  전송
+-  usePublicVapidKey 바꿀때 subscription은 변경되지 않기때문에 
+- `usePublicVapidKey 바꿀때 마다, service-worker 재등록 필요`
+- 해당 내용은 (https://github.com/web-push-libs/web-push-php/issues/58), (https://github.com/w3c/push-api/issues/291) 에서 살펴 볼수 있다.
+- 참조 (https://w3c.github.io/push-api/)
+If the Service Worker is already subscribed, run the following substeps:
+Retrieve the push subscription associated with the Service Worker.
+If there is an error, reject promise with a DOMException whose name is "AbortError" and terminate these steps.
+Let subscription be the retrieved subscription.
+Compare the options argument with the options attribute of subscription. If any attribute on options contains a different value to that stored for subscription, then reject promise with an InvalidStateError and terminate these steps. The contents of BufferSource values are compared for equality rather than references.
+When the request has been completed, resolve promise with subscription.
+- appid가 변경된다고 token이 재생성 되지는 않늗다.
+- 
+- 단, usePublicVapidKey가 변경 되면 getToken은 변경된다. 
+- firefox 브라우저의 경우 subscription의 endpoint는 항상 `mozila` 이다.
+
+## PUSH API를 사용할때, (FCM x) ApplicationServerKey(VAPID) 가변경 될 경우에도, Subscription은 자동으로 변경되지 않는다. 
+- 해당 내용은 (https://github.com/web-push-libs/web-push-php/issues/58), (https://github.com/w3c/push-api/issues/291) 에서 살펴 볼수 있다.
+- 참조 (https://w3c.github.io/push-api/)
+- Subscription을 변경 하려면, 기존의 Subscription의 ApplicationServerKey와 변경될 ApplicationServerKey를 비교해야 하는데, 비교하는 법에 대해 자세히 나온게 없다. 
+- 임의로 찾아낸 방법은 아래와 같다. 
+```js
+// main.js
+// 1. 기존 subscripltion ApplicationServerKey
+var test;
+registration.pushManager.getSubscription().then(e=>test = e.options.applicationServerKey) // ArrayBuffer(65);
+var test2 = new Uint8Array(test); // Uint8Array(65) 
+var test3 = test2.join(','); // string
+
+// 2. 변경할 ApplicationServerKey
+var test4 = urlB64ToUint8Array('BHudr6Q2-mMVjpfXiu3fvQ6OSjl_iOmSQd4kTqN7hc8R8RjpQUsjPHhGvFvZd6n7oFriB3vPFNl_XrQIHOeiHjo').join(',') //string
+
+// 3. 비교
+test3 === test4 //
+
+```
+
+### 1. 프론트 스크립트에서 usePublicVapidKey 사용 안했을 경우 
+- `webpush 프로토콜 전송` :  전송 안됨 (VAPID가 다를 것으로 생각됨)
+- `fcm 프로토콜 전송` : 전송 됨
+
+### 2. 프론트 스크립트에서 usePublicVapidKey 사용 했을 경우 (fcm 관리자 페이지에서 제공하는 VAPID)
+- `webpush 프로토콜 전송` :  전송 됨
+- `fcm 프로토콜 전송` : 전송 됨
+
+### 3. 프론트 스크립트에서 usePublicVapidKey 사용 했을 경우 (별도로 생성된 VAPID)
+- `webpush 프로토콜 전송` :  전송 됨
+- `fcm 프로토콜 전송` : 전송 안됨 (Token 값이 생성 안됨)
+
+# 로직 관련
+```text
+비 로그인 && 토큰이 없을 경우 
+알림을 받으 시겠습니까? -> 네 -> 시스템: 알림을 받으시겠습니까? -> 네 -> 토큰생성 -> 서버전송
+
+로그인
+토큰이 있는가? -> 네 -> GUID와 토큰을 전송 
+
+토큰 변경 체크 (app id 변경등)
+-> 토큰 쿠키가 있는데, 다르다면 
+
+페이지 진입시 마다, token 쿠키가 있는지 확인 없으면
+    noti permission이 'granted' 인경우
+        token 생성 -> 서버 전송 -> 쿠키 등록 
+    noti permission이 'granted' 가 아니라면
+        pass
+있으면, 
+    쿠키 token과 service worker 쿠키가 동일한지 확인 동일하면
+        패스, 
+    동일하지 않으면, 
+        token 서버전송 -> 쿠키 등록 
+
+```
+
+# onTokenRefresh
+- 언제 FCM토큰이 재생성 되는가!
+- 구현되지 않았다!!!
+- https://github.com/firebase/quickstart-js/issues/217
+- https://stackoverflow.com/questions/42136312/how-i-can-test-firebase-notification-ontokenrefresh-method-call-in-javascript
 
 # Push & Notification 작동 원리 
 [https://w3c.github.io/push-api/#widl-PushSubscription-unsubscribe-Promise-boolean]  
@@ -567,47 +673,6 @@ The user agent connects to the push service used to create push subscriptions(`s
 - 정적 파일이 변경될 때, service worker에서 캐쉬이름을 변경해줘야 된다. 
 - 모바일 디버깅이 힘들다
 - 개발 환경 ( 테스트를 https:// 에서 진행해야 한다. )
-
-# firebase message TIP & TEST
-## usePublicVapidKey 변화에 따른 - getPublicVapidKey_()
-- usePublicVapidKey 사용 안한것과, 사용 한것의 PublickKey는 다르다. (당연한 이야기)
-```js
-// 사용 안했을 경우 
-messaging.getPublicVapidKey_().then(e=>console.log(e))
-// Uint8Array(65) [4, 51, 148, 247, 223, 161, 235, 177, 220, 3, 162, 94, 21, 113, 219, 72, 211, 46, 237, 237, 178, 52, 219, 183, 71, 58, 12, 143, 196, 204, 225, 111, 60, 140, 132, 223, 171, 182, 102, 62, 242, 12, 212, 139, 254, 227, 249, 118, 47, 20, 28, 99, 8, 106, 111, 45, 177, 26, 149, 176, 206, 55, 192, 156, 110]
-
-
-// 사용 했을 경우 (fcm 관리자 페이지에서 제공하는 VAPID)
-messaging.getPublicVapidKey_().then(e=>console.log(e))
-//Uint8Array(65) [4, 224, 135, 161, 79, 216, 155, 203, 202, 27, 153, 163, 192, 133, 115, 53, 52, 225, 63, 250, 233, 114, 58, 200, 236, 45, 165, 136, 189, 236, 98, 17, 169, 2, 223, 165, 120, 63, 85, 223, 232, 32, 81, 162, 45, 143, 152, 46, 21, 110, 102, 228, 145, 48, 173, 233, 159, 10, 123, 127, 166, 221, 137, 34, 177]
-
-
-// 사용 했을 경우 (별도로 생성된 VAPID) 
-//  "publicKey": "BOb7YRPDUwv_i3Hbeccn7Pv7IQ_Rt7t18R6wQ1IvIV1iH0-Cj8lAI2a7Jls6xOzFbdXluL5nrmS-QVwKSK_o9T4",
-//  "privateKey": "ZuJ_7RUpSMZSMp62VV1zDJtZ8mggo_QlTnNBQGWHJQA"
-messaging.getPublicVapidKey_().then(e=>console.log(e))
-// Uint8Array(65) [4, 230, 251, 97, 19, 195, 83, 11, 255, 139, 113, 219, 121, 199, 39, 236, 251, 251, 33, 15, 209, 183, 187, 117, 241, 30, 176, 67, 82, 47, 33, 93, 98, 31, 79, 130, 143, 201, 64, 35, 102, 187, 38, 91, 58, 196, 236, 197, 109, 213, 229, 184, 190, 103, 174, 100, 190, 65, 92, 10, 72, 175, 232, 245, 62]
-```
-
-- usePublicVapidKey 사용 안한것과, 사용 한것의 messaging Token값이 항상 다르다. 
-- 매번 새로 생성하기때문에
-
-## usePublicVapidKey 변화에 따른 - FCM 프로토콜 & webpush 프로토콜  전송
-- `usePublicVapidKey 바꿀때 마다, service-worker 재등록 필요`
-- usePublicVapidKey 바꿀때 subscription은 변경되지 않는다. 
-- firefox 브라우저의 경우 subscription의 endpoint는 항상 `mozila` 이다.
-
-### 1. 프론트 스크립트에서 usePublicVapidKey 사용 안했을 경우 
-- `webpush 프로토콜 전송` :  전송 안됨 (VAPID가 다를 것으로 생각됨)
-- `fcm 프로토콜 전송` : 전송 됨
-
-### 2. 프론트 스크립트에서 usePublicVapidKey 사용 했을 경우 (fcm 관리자 페이지에서 제공하는 VAPID)
-- `webpush 프로토콜 전송` :  전송 됨
-- `fcm 프로토콜 전송` : 전송 됨
-
-### 3. 프론트 스크립트에서 usePublicVapidKey 사용 했을 경우 (별도로 생성된 VAPID)
-- `webpush 프로토콜 전송` :  전송 됨
-- `fcm 프로토콜 전송` : 전송 안됨 (Token 값이 생성 안됨)
 
 
 # 확인해야 할거 

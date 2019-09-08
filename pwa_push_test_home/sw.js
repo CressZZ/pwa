@@ -15,71 +15,79 @@ firebase.initializeApp({
 // messages.
 const messaging = firebase.messaging();
 
-messaging.setBackgroundMessageHandler(function(payload) {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
-  // Customize notification here
-  // const notificationTitle = 'Background Message Title';
-  const notificationTitle = payload.data.title;
+// messaging.setBackgroundMessageHandler(function(payload) {
+//   console.log('[firebase-messaging-sw.js] Received background message ', payload);
+//   // Customize notification here
+//   // const notificationTitle = 'Background Message Title';
+//   const notificationTitle = payload.data.title;
 
-  const notificationOptions = {
-    body: 'Background Message body.',
-    icon: '/firebase-logo.png',
-    data:{
-      url: payload.data.url
+//   const notificationOptions = {
+//     body: 'Background Message body.',
+//     icon: '/firebase-logo.png',
+//     data:{
+//       url: payload.data.url
 
-    }
-  };
-
-  return self.registration.showNotification(notificationTitle, notificationOptions);
-});
-
-self.addEventListener('notificationclick', function(event) {
-  console.log('[Service Worker] Notification click Received.');
-
-  event.notification.close();
-
-  event.waitUntil(
-    clients.openWindow(event.notification.data.url)
-  );
-});
-
-// self.addEventListener('push', function (event) {
-//   console.log('[Service Worker - sw.js] Push Received.');
-//   // console.log(`[Service Worker - sw.js] Push had this data:`,  event.data.json());
-
-//   // console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
-//   // const data = event.data.json().data;
-//   const title =   'sw.js push';
-//   const options = {
-//       // body: `${data.body}`,
-//       icon: `./promo/test/pwa/images/icon.png`,
-//       // badge: `./promo/test/pwa/images/badge.png`,
-//       // image: `./promo/test/pwa/images/bg.jpg`,
-//       // data,
-
+//     }
 //   };
 
-//   event.waitUntil(self.registration.showNotification(title, options));
+//   return self.registration.showNotification(notificationTitle, notificationOptions);
 // });
 
-// self.addEventListener('notificationclick', function (event) {
+// self.addEventListener('notificationclick', function(event) {
 //   console.log('[Service Worker] Notification click Received.');
-//   console.log('[Service Worker] evet.data: ', event.notification.data);
-
 
 //   event.notification.close();
 
-//   event.waitUntil(clients.matchAll({
-//       type: "window"
-//     }).then(function(clientList) {
-//       if (clientList.length > 0) {
-//           clientList[0].navigate(event.notification.data.url)
-//           clientList[0].focus();
-//           return;
-//       }
-
-//       if (clients.openWindow) return clients.openWindow(event.notification.data.url);
-//     }));
-
-
+//   event.waitUntil(
+//     clients.openWindow(event.notification.data.url)
+//   );
 // });
+
+self.addEventListener('push', function (event) {
+  console.log('[Service Worker - sw.js] Push Received.');
+  // console.log(`[Service Worker - sw.js] Push had this data:`,  event.data.json());
+
+  // console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+  // const data = event.data.json().data;
+  const title =   'sw.js push';
+  const options = {
+      // body: `${data.body}`,
+      icon: `./promo/test/pwa/images/icon.png`,
+      // badge: `./promo/test/pwa/images/badge.png`,
+      // image: `./promo/test/pwa/images/bg.jpg`,
+      // data,
+
+  };
+
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('notificationclick', function (event) {
+  console.log('[Service Worker] Notification click Received.');
+  console.log('[Service Worker] evet.data: ', event.notification.data);
+
+
+  event.notification.close();
+
+  event.waitUntil(clients.matchAll({
+      type: "window"
+    }).then(function(clientList) {
+      if (clientList.length > 0) {
+          clientList[0].navigate(event.notification.data.url)
+          clientList[0].focus();
+          return;
+      }
+
+      if (clients.openWindow) return clients.openWindow(event.notification.data.url);
+    }));
+
+
+});
+self.addEventListener('install', async () => {
+  console.log('skip waiting');
+  await self.skipWaiting();
+});
+
+self.addEventListener('pushsubscriptionchange', function() {
+  console.log('pushsubscriptionchange');
+});
