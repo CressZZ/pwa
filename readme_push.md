@@ -7,16 +7,27 @@
 2. PUSH
     1. 개요
     2. PWA중 push를 사용하기 위해 필요한 기술 
-    3. Native Push Service & Friebase Cloude Message
+    3. Push API (Native Push Service) & Friebase Cloude Message
         1. 개요 
-    4. Native Push Service
+    4. Push API (Native Push Service)
     
     5. Friebase Cloude Message
+
+    6. 한계점 (미해결)
+        1. App ID가 변경될때(FCM) Token이 새로 생성되지 않는다.
+            1. 세부 내용
+            2. 임시 해결책
+        2. VAPID가 변경될 경우(PUSH API) Subscription이 새로 생성되지 않는다. 
+            1. 세부 내용
+            2. 임시 해결책
+        3. 결론
+
 
 2. APP INSTALL
     1. 개요
 
 3. TIP & TEST
+
 
 4. [회사업무 관련] - 실제 적용한 내용
     1. Friebase Cloude Message
