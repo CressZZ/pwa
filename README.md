@@ -296,6 +296,9 @@ For Development/testing: If you need this banner to come multiple times for dev/
 - 일단 web 서버에 넣고, `icon`이미지도 web server에 저장 하면 하나의 manifest.json과 icon 파일로 해결 가능 하다.??
 
 
+# 알림 안드로이드 크롬의 경우
+- 디폴트가 소리로만 알림이다. 변경하기 위해서는 설정에서 중요도를 긴급으로 변경해야 합니다. 
+- 인스톨 뒤에 중요도를 긴급으로 변경했음에도 불구하고 다시 디폴트가 소리로만 알림으로 변경된다. 마찬가지로 변경하기 위해서는 설정에서 중요도를 긴급으로 변경해야 합니다. 
 
 # tip
 - `Navigator.serviceWorker.register('sw.js')` 가 없어도, 한번등록된 serviceworker는 내용이 변경되면 업데이트 하려고 한다.
@@ -309,6 +312,11 @@ For Development/testing: If you need this banner to come multiple times for dev/
 ## badge
 - `72px`
 - As with the icon option, there are no real guidelines on what size to use. Digging through Android guidelines the recommended size is 24px multiplied by the device pixel ratio. `Meaning an image of 72px or more should be good (assuming a max device pixel ratio of 3).`
+
+# Splash Image
+- IOS 의 경어 2019년 04월부터  polyfil 형식으로 splash 적용
+- https://stackoverflow.com/questions/55840186/ios-pwa-splash-screen
+
 
 # fcm 과 push api
 ## usePublicVapidKey
