@@ -236,6 +236,7 @@ For Development/testing: If you need this banner to come multiple times for dev/
 - `chrome://flags/#bypass-app-banner-engagement-checks`
 
 
+
 #  Service worker scope
 > Scope is linked with domain/origin. You can not create a service worker that intercepts request for other origins. If you try to register a service worker from origin which is different from origin of service worker file sw.js, then error will be thrown like The origin of the provided scriptURL ('https://cdn.example.com/sw.js') does not match the current origin. [https://itnext.io/service-workers-your-first-step-towards-progressive-web-apps-pwa-e4e11d1a2e85]
 
@@ -373,11 +374,15 @@ messaging.usePublicVapidKey("BKagOny0KF_2pCJQ3m....moL0ewzQ8rZu");
 - `usePublicVapidKey`이 없어도 subscription은 생성되며, fcm 프로토콜을 사용하여 메시지를 보내게 될때, vapid의 pusblic 및 private 값은 필요 없다. 아마도 내부적으로 키/벨류 값을 가지고 있는 것 같다. 
 - 단 
 
-## 여러개 인스톨 할때 (install) => 안드로이드 크롬, 맥 크롬 테스트 완료
+# 여러개 인스톨 할때 (install) => 안드로이드 크롬, 맥 크롬 테스트 완료
 - `manifest.json` 의  `start_url` 이 다르면 여러개 설치 할 수 있다. 
 - 특이한 점으로 하위 `scope`에서 인스톨 하면, 상위 `scope`를 별도로 설치 할수 있지만, 
 - 상위 `scope`를 먼저 인스톨 하고, 하위 `scope`를 설치 하려 하면 설치 표시가 안나온다. 
 -  `start_url`이 `scope` 역할을 하여, `scope`을 벗어 나면, 상단에 스코프 벗어 났다고 표시 된다. 
+
+# manifest.json => start_url
+- 사파리에서 작동함
+
 
 # firebase message TIP & TEST
 ## usePublicVapidKey 변화에 따른 - getPublicVapidKey_()
