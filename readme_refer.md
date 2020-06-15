@@ -334,3 +334,16 @@ Another advantage of specifying the lifespan of a message is that FCM never thro
 
 
 # 2. APP INSTALL 개발 참고내용
+
+## scope 
+- manifest.json에서 `scope` 혹은 `start_url` 멤버로 정의 된 스코프를 벗어나면 상단에 주소 url 이 표기 되는등 정상 적인 화면이 아닌 다른 화면이 보어거나, 브라우저가 실행된다. 
+  
+
+## start_url 과 scope
+- If the scope member is not present in the manifest, it defaults to the parent path of the start_url member. For example, if start_url is /pages/welcome.html, and scope is missing, the navigation scope will be /pages/ on the same origin. If start_url is /pages/ (the trailing slash is important!), the navigation scope will be /pages/.
+- Developers should take care, if they rely on the default behavior, that all of the application's page URLs begin with the parent path of the start URL. To be safe, explicitly specify scope.
+(https://www.w3.org/TR/appmanifest/)
+
+
+- 말인 즉슨 `scope`를 제대로 안적어 주면 `scope`의 디폴트 값은 `start_url`의 디폴트로 정의 해준 값의 `parent path`가 스코프로 정의 된다는 거다. 왠만하면 `scope`를 적어 주라고 하고 있다. 
+- 실제로 내가 적용했을때 `satrt_url: index/?aplication=pwa` 같이 정의 했더니, `https://test.com/page1/test.html` 이 `scope`에서 벗어난것처럼 작동 되었다. 왜냐하면 여기서 `scope`는 `index/` 하위의 path가 될거고, 도메인 하위의 `/page` path는 `scope`에서 벗어난게 되기 때문이다!
