@@ -330,6 +330,8 @@ Another advantage of specifying the lifespan of a message is that FCM never thro
 - argument 중 payload 값은 text 또는 node buffer 값으로 들어가야 한다. 
 >The payload is optional, but if set, will be the data sent with a push message. This must be either a string or a node Buffer. [https://www.npmjs.com/package/web-push]
 
+## GCM VS FCM
+https://developers.google.com/cloud-messaging/faq
 
 
 
