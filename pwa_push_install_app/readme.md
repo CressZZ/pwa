@@ -522,3 +522,7 @@ The user agent connects to the push service used to create push subscriptions(`s
 - html 페이지와 sw.js 파일의 위치가 달라도 되는가?
 
 
+# iso 버그
+- ios에서 a 태그의 href 속성이 도메인 포함 이라면, 같은 scope 라 할지 하도 scope를 벗어난 것처럼 url 바가 생긴다. 
+- 태스트 결과 상대경로일경우에는 해당 이슈가 발생하지 않는다.
+- 일치하지는 않으나 관련이슈로 (https://webcache.googleusercontent.com/search?q=cache:5paJXN_hqtkJ:https://forums.developer.apple.com/thread/123486+&cd=2&hl=ko&ct=clnk&gl=kr)
