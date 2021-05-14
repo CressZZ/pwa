@@ -1,4 +1,4 @@
-let registration = navigator.serviceWorker.register('/service-worker.js');
+let registration = navigator.serviceWorker.register('/pwa/pwa_test/service-worker.js');
 
 
 console.log('a')
