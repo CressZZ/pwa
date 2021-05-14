@@ -5,37 +5,37 @@
     "short_name": "리니지2M 홈",
     "icons": [
       {
-        "src": "/icons/128x.png",
+        "src": "/pwa_test/icons/128x.png",
         "sizes": "128x128",
         "type": "image/png"
       },
       {
-        "src": "/icons/144x.png",
+        "src": "/pwa_test/icons/144x.png",
         "sizes": "144x144",
         "type": "image/png"
       },
       {
-        "src": "/icons/152x.png",
+        "src": "/pwa_test/icons/152x.png",
         "sizes": "152x152",
         "type": "image/png"
       },
       {
-        "src": "/icons/192x.png",
+        "src": "/pwa_test/icons/192x.png",
         "sizes": "192x192",
         "type": "image/png"
       },
       {
-        "src": "/icons/256x.png",
+        "src": "/pwa_test/icons/256x.png",
         "sizes": "256x256",
         "type": "image/png"
       },
       {
-        "src": "/icons/512x.png",
+        "src": "/pwa_test/icons/512x.png",
         "sizes": "512x512",
         "type": "image/png"
       }
     ],
-    "start_url": "index.html?pwafrom=homescreen",
+    "start_url": "/?pwafrom=homescreen",
 	  "scope": "/",
     "display": "standalone",
     "background_color": "#242424",
