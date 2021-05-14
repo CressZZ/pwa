@@ -36,7 +36,7 @@
       }
     ],
     "start_url": "/pwa/pwa_test/?pwafrom=homescreen",
-	  "scope": "/",
+	  "scope": "/pwa/pwa_test/",
     "display": "standalone",
     "background_color": "#242424",
     "theme_color": "#000000"
