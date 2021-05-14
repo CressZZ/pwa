@@ -36,7 +36,7 @@
       }
     ],
     "start_url": "index.html?pwafrom=homescreen",
-	"scope": "http://127.0.0.1:5500/",
+	  "scope": "/",
     "display": "standalone",
     "background_color": "#242424",
     "theme_color": "#000000"
