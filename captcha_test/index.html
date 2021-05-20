@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Test</title>
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <!-- <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback" async defer></script> -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
 </html>
@@ -28,7 +28,12 @@
         return new Promise(res=>res(e))
     }
     $(function(){
-        function onloadCallback(){
+        var googleJS = document.createElement('script');
+        googleJS.type = 'text/javascript';
+        googleJS.src = 'https://www.google.com/recaptcha/api.js?onload=onloadCallback';
+        document.body.appendChild(googleJS);
+
+        window.onloadCallback = function(){
             grecaptcha.render('test', {
                 'sitekey' : '6Lehu9waAAAAAIufX7pPosA6jqZ7XZzejag1qRrZ',
                 'callback' : onSubmit
