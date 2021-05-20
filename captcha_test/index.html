@@ -13,13 +13,16 @@
     <div class="g-recaptcha"
          data-sitekey="6Lehu9waAAAAAIufX7pPosA6jqZ7XZzejag1qRrZ"
 		 data-size="invisible"
-         data-callback=""
+         data-callback="test"
         >
     </div>
     <button onclick="signIn()">SIGN IN</button>
  
 </body>
 <script type="text/javascript">
+    function test(e){
+        return console.log(e)
+    }
     $(function(){
         function onloadCallback(){
             grecaptcha.render('test', {
