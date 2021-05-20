@@ -13,6 +13,7 @@
     <div class="g-recaptcha"
          data-sitekey="6Lehu9waAAAAAIufX7pPosA6jqZ7XZzejag1qRrZ"
 		 data-size="invisible"
+		 data-callback="onSubmit"
         >
     </div>
     <button onclick="signIn()">SIGN IN</button>
@@ -26,7 +27,7 @@
         console.log("Enter onSubmit (grecaptcha callback)");
         if(token != null) {
             console.log("token : " + token);
-            verify(token);
+            // verify(token);
         } else {
             console.log("token is null");
         }
