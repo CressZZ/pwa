@@ -10,12 +10,11 @@
 <h4>Programmatically invoke the challenge</h4>
     <div>ID : <input id="id" type="text" name="id"></div>
     <div>PWD : <input id="password" type="password" name="password"></div><br/>
-    <div 
+    <div class="g-recaptcha"
+         data-sitekey="6Lehu9waAAAAAIufX7pPosA6jqZ7XZzejag1qRrZ"
         >
     </div>
-    <button class="g-recaptcha"
-	data-sitekey="6Lehu9waAAAAAIufX7pPosA6jqZ7XZzejag1qRrZ"
-	>SIGN IN</button>
+    <button onclick="signIn()">SIGN IN</button>
  
 </body>
 <script type="text/javascript">
