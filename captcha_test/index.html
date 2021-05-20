@@ -13,7 +13,7 @@
     <div class="g-recaptcha"
          data-sitekey="6Lehu9waAAAAAIufX7pPosA6jqZ7XZzejag1qRrZ"
 		 data-size="invisible"
-         data-callback="test"
+         data-callback="test2"
         >
     </div>
     <button onclick="signIn()">SIGN IN</button>
@@ -22,6 +22,9 @@
 <script type="text/javascript">
     function test(e){
         return console.log(e)
+    }
+    function test2(e){
+        return new Promise(res=>res(e))
     }
     $(function(){
         function onloadCallback(){
