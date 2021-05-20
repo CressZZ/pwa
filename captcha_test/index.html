@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title>Test</title>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+</html>
+<body>
+<h2>Google reCAPTCHA v2 Invisible Captcha Test</h2>
+<h4>Programmatically invoke the challenge</h4>
+    <div>ID : <input id="id" type="text" name="id"></div>
+    <div>PWD : <input id="password" type="password" name="password"></div><br/>
+    <div class="g-recaptcha"
+         data-sitekey="(/captcha/info로 받은 clientKey)"
+         data-callback="onSubmit"
+         data-size="invisible">
+    </div>
+    <button onclick="signIn()">SIGN IN</button>
+ 
+</body>
+<script type="text/javascript">
+    function signIn() {
+        grecaptcha.execute();
+    }
+    function onSubmit(token) {
+        console.log("Enter onSubmit (grecaptcha callback)");
+        if(token != null) {
+            console.log("token : " + token);
+            verify(token);
+        } else {
+            console.log("token is null");
+        }
+    }
+ 
+    function verify(token) {
+        console.log("Enter verify ([post] /captcha/verify)")
+        var request = {};
+        request.type = "google";
+        request.response = token;
+ 
+        $.ajax({
+            url: "/captcha/verify",
+            type: "POST",
+            data: JSON.stringify(request),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log('ajax call is success')
+                console.log('/captcha/verify response data: ' + JSON.stringify(data))
+                alert(JSON.stringify(data))
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('ajax call is error')
+                console.log('textStatus: ' + textStatus)
+                console.log('errorThrown: ' + errorThrown)
+            }
+        });
+    }
+</script>
