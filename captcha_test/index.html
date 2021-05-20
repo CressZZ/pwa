@@ -82,4 +82,29 @@
         }
     })
     
+    async function captchaExecute() {
+        debugger;
+        try{
+            if(grecaptcha && grecaptcha.getResponse()){
+                return grecaptcha.getResponse();
+            }
+        }catch(e){
+            return new Promise((resolve, reject) => {
+                grecaptcha.ready(() => {
+                  grecaptcha.render('test', {
+                    sitekey: '6Lehu9waAAAAAIufX7pPosA6jqZ7XZzejag1qRrZ',
+                    callback: resolve,
+                    size:'invisible',
+                    'expired-callback': () => {
+                      grecaptcha.reset('test');
+                    },
+                    'error-callback': reject,
+                  });
+                  console.log('aaa!!!!!!!!!')
+                  grecaptcha.execute();
+                });
+              });	
+            } }
+    
+    
 </script>
