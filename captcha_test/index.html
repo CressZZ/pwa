@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Test</title>
-        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
 </html>
@@ -10,12 +10,11 @@
 <h4>Programmatically invoke the challenge</h4>
     <div>ID : <input id="id" type="text" name="id"></div>
     <div>PWD : <input id="password" type="password" name="password"></div><br/>
-    <!-- <div class="g-recaptcha"
+    <div class="g-recaptcha"
          data-sitekey="6Lehu9waAAAAAIufX7pPosA6jqZ7XZzejag1qRrZ"
 		 data-size="invisible"
         >
-    </div> -->
-    <div id="test"></div>
+    </div>
     <button onclick="signIn()">SIGN IN</button>
  
 </body>
