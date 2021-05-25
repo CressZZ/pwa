@@ -1,22 +1,6 @@
-class Recaptchatest {
-	constructor(){
-
-	}
-	promise(){
-		return new Promise(res => res(1))
-	}
-	render(){
-
-	}
-
-	async excute(){
-
-		window.grecaptcha.excute();
-
-
-	}
-}
-
+/***
+ * 문제점: 한번 키를 받고 나서, 시간이 지난후  reset()되면 await promise 가 동작하지 않고(이미 처음에 fullfiled 되었으니) getResponse를 바로 실행해버린다
+ */
 var promise; // key 값을 resolve 하는 promise
 var firstCaptchaKey;  // 처음받은 키값. 이 값의 의미는 grecaptcha가 성공적으로 첫 excute 가 되었다는 것을 의미. 2분뒤면 키 만료
 var captchaKey;
@@ -52,12 +36,17 @@ async function go(){
 }
 
 
-/**?
- * 
+/**
+ * 문제점: 처음 실행시 promise 변수가 undefined 된다.
  */
-var promise  = new Promise(res=>{})
+var promise ;
 var key;
 
+async function go(){
+	grecaptcha.execute();
+	var a = await promise; // 처음 실행시 promise 변수가 undefined 된다.
+	console.log(a)
+}
 function setPromise(key){
 	promise = new Promise(res=>{
 		res(key)
@@ -77,17 +66,13 @@ var test = function(){
 	})
 
 };
+test();
+go()
 
-test(); // 참고 : 한번만 실행 됨. 
 
-// async function execute(){
-// 	grecaptcha.execute(); 
-// 	key = await promise;
-// 	promise  = new Promise(res=>{})
-
-// 	return key; 
-// }
-
+/***
+ * 문제점: 유저가 그림찾기 하고 있으면 타임아웃 걸림
+ */
 async function go(){
 	var key = await execute();
 	console.log(key)
@@ -127,5 +112,4 @@ async function execute(){
 	})
 }
 
-var a = await execute()
-console.log(a)
+go()
