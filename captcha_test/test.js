@@ -113,3 +113,60 @@ async function execute(){
 }
 
 go()
+
+
+/**
+ * 
+ */
+// show captcha
+var d = $('<div>');
+d.addClass('g-recaptcha');
+// d.attr('data-sitekey', '6Lehu9waAAAAAIufX7pPosA6jqZ7XZzejag1qRrZ'); //v2
+d.attr('data-sitekey', '6LfZ8twaAAAAANLIQdd0zoTtPScxmn1xGLLi3U06'); //v3
+d.attr('data-size', 'invisible');
+$('#' + 'test').append(d);
+
+// load google recaptcha js
+var googleJS = document.createElement('script');
+googleJS.type = 'text/javascript';
+googleJS.src = 'https://www.google.com/recaptcha/api.js';
+document.body.appendChild(googleJS);
+
+
+async function execute(){
+	return new Promise((res, rej)=> {
+		window.grecaptcha.execute().then(key=>{
+			// Version 3
+			if(key !== null){
+				console.log('v3!!');
+				res(key);
+			// Version 2
+			}else{
+				let startTime = Date.now(); // 시작한 시간
+
+				let interval = setInterval(()=>{
+					let key = window.grecaptcha.getResponse(); // excute가 완료 되지 않으면 key 를 받아 오지 않는다.
+		
+					let curTime = Date.now(); // 지난 시간
+					if(curTime - startTime > 12000){
+						clearInterval(interval);
+						rej(new Error('구글 리캡챠 v2 타임아웃!'));
+					}
+					if(key){
+						console.log('v2!!');
+						res(key);
+						clearInterval(interval);
+					}
+				},100);
+			}
+		}).catch(err=>rej(err));
+	});
+}
+
+try{
+	var key = await execute();
+	console.log(key)
+}catch(err){
+	console.log(err)
+}
+
